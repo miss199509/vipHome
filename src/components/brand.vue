@@ -1,17 +1,8 @@
 <template>
   <div class="home">
 
-  
-    <headerHtml :index="3"></headerHtml>
+    <headerHtml :index="2"></headerHtml>
     
-    <div class="selectClass">
-      <p class="maxWidth">
-        <a href="javascript:;">四月份上新</a>|
-        <a href="javascript:;">三月份上新</a>|
-        <a href="javascript:;">二月份上新</a>
-      </p>
-    </div>
-
     <div class="">
       <el-carousel :interval="5000" arrow="always">
         <el-carousel-item v-for="item in 4" :key="item">
@@ -22,9 +13,7 @@
     
     <div class="maxWidth">
       <p class="nvaClass">
-        <a href="javascript:;">全部商品</a>>
-        <a href="javascript:;">新品上架</a>>
-        <a href="javascript:;">四月份上新</a>
+        <a href="javascript:;">品牌集</a>
       </p>
       <el-row>
         
@@ -410,18 +399,9 @@ export default {
 .nvaClass a{
   color: #000;
   font-size: 13px;
+  margin: 0px 7px;
 }
 
-.selectClass{
-  padding: 7px 0px;
-  background-color: #e6e6e6;
-    color: #555;
-}
-.selectClass a{
-    font-size: 13px;
-    color: #555;
-    margin: 0px 7px;
-}
 /*宝贝分类*/
 /*.bg-purple {
   background: #d3dce6;

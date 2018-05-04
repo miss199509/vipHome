@@ -11,7 +11,15 @@
           </el-carousel-item>
         </el-carousel>
       </div>
-
+      
+      <div class="maxWidth">
+        <p class="nvaClass">
+          <a href="javascript:;">买家秀</a>
+          <a href="javascript:;">排序：</a>
+          <span>最新</span>
+          <span>人气</span>
+        </p>
+      </div>
     
     <bottomHtml></bottomHtml>
 
@@ -61,7 +69,17 @@ export default {
   background-color: #d3dce6;
 }
 /*轮播结束*/
-
+.nvaClass{
+  padding: 5px 0px;
+  background-color: #e6e6e6;
+  text-indent: 11px;
+  margin-bottom: 7px;
+}
+.nvaClass a,.nvaClass span{
+  color: #000;
+  font-size: 13px;
+  margin: 0px 7px;
+}
 /*热销产品*/
 
 </style>

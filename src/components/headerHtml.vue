@@ -61,13 +61,13 @@ export default {
       navigation:[
         {'name':'首页','boll':false,'href':'index'},
         {'name':'全部商品','boll':false,'href':'home'},
-        {'name':'品牌集','boll':false,'href':'index'},
+        {'name':'品牌集','boll':false,'href':'brand'},
         {'name':'新品上架','boll':false,'href':'newProduct'},
-        {'name':'特惠频道','boll':false,'href':'index'},
-        {'name':'沙发专区','boll':false,'href':'index'},
-        {'name':'买家秀','boll':false,'href':'index'},
-        {'name':'动态咨询','boll':false,'href':'index'},
-        {'name':'线下门店','boll':false,'href':'index'},
+        {'name':'特惠频道','boll':false,'href':'preferential'},
+        {'name':'沙发专区','boll':false,'href':'sofaArea'},
+        {'name':'买家秀','boll':false,'href':'buyer'},
+        {'name':'动态资讯','boll':false,'href':'information'},
+        {'name':'线下门店','boll':false,'href':'underLine'},
         {'name':'关于我们','boll':false,'href':'index'},
       ]
     }

@@ -518,7 +518,7 @@ export default {
   margin: 1px 0px;
 }
 #classification{
-  padding: 0px 30px;
+  padding-right: 30px;
 }
 #classification .borderImg img{
   width: 100%;
