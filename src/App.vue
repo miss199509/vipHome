@@ -28,6 +28,12 @@ export default {
 .floatLeft{
 	float: left;
 }
+.floatRight{
+	float: right;
+}
+.cursor{
+	cursor: pointer;
+}
 a{
 	text-decoration: none;
 }

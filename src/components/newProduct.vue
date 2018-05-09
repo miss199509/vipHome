@@ -418,9 +418,9 @@ export default {
     color: #555;
 }
 .selectClass a{
-    font-size: 13px;
-    color: #555;
-    margin: 0px 7px;
+  font-size: 13px;
+  color: #555;
+  margin: 0px 7px;
 }
 /*宝贝分类*/
 /*.bg-purple {

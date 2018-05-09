@@ -22,6 +22,10 @@ import information from '@/components/information'
 import underLine from '@/components/underLine'
 //品牌集
 import brand from '@/components/brand'
+//关于我们
+import about from '@/components/about'
+//个人中心
+import personal from '@/components/personal'
 
 Vue.use(Router)
 
@@ -81,6 +85,16 @@ export default new Router({
       path: '/brand',
       name: 'brand',
       component: brand
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: about
+    },
+    {
+      path: '/personal',
+      name: 'personal',
+      component: personal
     }
   ]
 })
