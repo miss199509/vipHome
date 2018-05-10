@@ -1,163 +1,178 @@
 <template>
-  <div class="home">
+  <div class="personal">
 
-    <el-row>
-      <el-col :span="24">
-        <div class="grid-content bg-purple-dark">
-          <p class="homeHeade maxWidth">
-            <router-link :to="{name:'index'}">
-              返回首页
-            </router-link>
-            <i>|</i>
-            <span>服务热线：400-186-0055</span>
-            <i>|</i>
-            <a href="javascript:;" @click="signUpEve()">注册</a>
-            <i>|</i>
-            <a href="javascript:;" @click="singInEve()">登陆</a>
+    <headerHtml :index="0"></headerHtml>
+    <p>
+      <img width="100%" src="../assets/index/banner-02.jpg"/>
+    </p>
+
+    <div class="maxWidth">
+      <div class="">
+        <ul class="title">
+          <li>
+            <span>个人</span>
+            <span>中心</span>
+          </li>
+        </ul>
+        
+        <div class="" v-show="personalBoll">
+
+          <div class="personalBox">
+            <h4>基本资料</h4>
+            <ul>
+              <li>
+                <label class="name">账号：</label>
+                18516360572
+                <a href="javascript:;" @click="modifyPasswordEve()">修改密码</a>
+              </li>
+              <li>
+                <label class="name">姓名：</label>
+                <input class="nameInput" type="" name=""/>
+              </li>
+              <li>
+                <label class="name">性别：</label>
+                <div class="">
+                  <el-radio v-model="radio" label="1">男</el-radio>
+                  <el-radio v-model="radio" label="2">女</el-radio>
+                </div>
+              </li>
+              <li>
+                <label class="name">地址：</label>
+                <div class="">
+                  <input class="province nameInput" type="" name=""/>
+                  <span>省/市</span>
+                  <input class="town nameInput" type="" name=""/>
+                  <span>区/镇</span>
+                </div>
+              </li>
+              <li class="street">
+                <label></label>
+                <textarea placeholder="街道..."></textarea>
+              </li>
+            </ul>
+          </div>
+
+          <div class="intentionBox personalBox">
+            <h4>购置意向</h4>
+            <ul>
+              <li>
+                <label class="name">是否有家居购置计划：</label>
+                <div class="">
+                  <el-radio v-model="radio" label="1">有</el-radio>
+                  <el-radio v-model="radio" label="2">否</el-radio>
+                </div>
+              </li>
+              <li>
+                <label class="name">预计购置时间：</label>
+                <div class="">
+                  <el-radio v-model="radio" label="1">15天内</el-radio>
+                  <el-radio v-model="radio" label="2">1个月内</el-radio>
+                  <el-radio v-model="radio" label="2">2个月内</el-radio>
+                  <el-radio v-model="radio" label="2">3个月内</el-radio>
+                  <el-radio v-model="radio" label="2">3个月以上</el-radio>
+                </div>
+              </li>
+              <li>
+                <label class="name">预购品类：</label>
+                <div class="">
+                  <el-checkbox v-model="checked3" label="备选项1" border size="mini"></el-checkbox>
+                  <el-checkbox v-model="checked4" label="备选项2" border size="mini"></el-checkbox>
+                </div>
+              </li>
+            </ul>
+          </div>
+        
+          <p class="submission">
+            <el-button type="primary" size="mini" @click="personalEve()">提交</el-button>
           </p>
         </div>
-      </el-col>
-    </el-row>
-    
-    <div class="maxWidth">
-      <h3 class="title">
-        <img width="130px;" src="../assets/raw_1523942422.png"/>
-        <span>个人中心</span>
-      </h3>
-    </div>
 
-    <div class="maxWidth" v-show="false">
-      <ul class="overflowHidden">
-        <li class="floatLeft">
-          <div class="inputData overflowHidden">
 
-            <div class="">
-              <h4>帐户资料：</h4>
-              <p>
-                账号：18516360577
-                <span class="modifyBottom modifyBottom">修改密码</span>
-              </p>
-            </div>
-            
-            <div class="">
-              <h4>基本资料：</h4>
-              <p>
-                我的姓名：
-                <span>？</span>
-              </p>
-              <p>
-                性别：
-                <span>？</span>
-              </p>
-              <p>
-                居住城市：
-                <span>？</span>
-              </p>
-            </div>
+        <div class="" v-show="modifyPersonalBoll">
 
-            <div class="">
-              <h4>是否有家具购置计划：</h4>
-              <p>
-                我的姓名：
-                <span>？</span>
-              </p>
-              <p>
-                预计购置时间：
-                <span>？</span>
-              </p>
-              <p>
-                预购品类：
-                <span>？</span>
-              </p>
-            </div>
-
-            <span class="modifyBottom floatRight modifyBottom">修改资料</span>
-
-          </div>
-        </li>
-        <li class="floatRight contactStore">
-          <div class="">
-            <h3>400-800-8956<p>7X24小时客服热线</p></h3>
+          <div class="personalBox">
+            <h4>基本资料</h4>
+            <ul>
+              <li>
+                <label class="name">账号：</label>
+                18516360572
+                <a href="javascript:;" @click="modifyPasswordEve()">修改密码</a>
+              </li>
+              <li>
+                <label class="name">姓名：</label>
+                <span>Talk</span>
+              </li>
+              <li>
+                <label class="name">性别：</label>
+                <span>男</span>
+              </li>
+              <li>
+                <label class="name">地址：</label>
+                <span>上海市宝山区沪太路2999号3号楼2楼</span>
+              </li>
+            </ul>
           </div>
 
+          <div class="intentionBox personalBox">
+            <h4>购置意向</h4>
+            <ul>
+              <li>
+                <label class="name">是否有家居购置计划：</label>
+                <span>有</span>
+              </li>
+              <li>
+                <label class="name">预计购置时间：</label>
+                <span>15天</span>
+              </li>
+              <li>
+                <label class="name">预购品类：</label>
+                <span>单椅凳子、床</span>
+              </li>
+            </ul>
+          </div>
+        
+          <div class="submissionBox">
+            <p class="submission">
+              <el-button type="primary" size="mini" @click="modifyPersonalEve()">修改资料</el-button>
+            </p>
+            <p class="newSubmission cursor">
+              <span>去淘宝看看</span>
+            </p>
+            <p class="newSubmission cursor">
+              <span>预约到店</span>
+            </p>
+          </div>
+        </div>
 
-          <p class="shop overflowHidden">
-            <span class="floatLeft">去淘宝店看看</span>
-            <span class="floatRight">预约到店</span>
-          </p>
-        </li>
-      </ul>
-    </div>
 
-    <div class="maxWidth modifyDataBox" v-show="false">
-      <div class="modifyData">
-        <h3>基本资料</h3>
-        <ul>
-          <li>
-            <span class="titleName">我的姓名：</span>
-            <input type="text" name=""/>
-          </li>
-          <li>
-            <span class="titleName">性别：</span>
-            <el-radio v-model="radio" label="1">备选项</el-radio><el-radio v-model="radio" label="2">备选项</el-radio>
-          </li>
-          <li>
-            <span class="titleName">居住城市：</span>
-            <el-select v-model="value" placeholder="请选择" size="mini">
-              <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-            </el-select>
-          </li>
-        </ul>
-      </div>
-      <div class="modifyData">
-        <h3>购置意向</h3>
-        <ul>
-          <li>
-            <span class="titleName">是否有家具购置计划：</span>
-            <el-radio v-model="radio" label="1">备选项</el-radio><el-radio v-model="radio" label="2">备选项</el-radio>
-          </li>
-          <li>
-            <span class="titleName">预计购置时间：</span>
-            <el-radio v-model="radio" label="1">备选项</el-radio><el-radio v-model="radio" label="2">备选项</el-radio>
-          </li>
-          <li>
-            <span class="titleName">预购品类：</span>
+        <div class="modifyPassword" v-show="modifyPasswordBoll">
+          <div class="personalBox">
+            <h4>基本资料>修改密码</h4>
+            <ul>
+              <li>
+                <label class="name">原密码：</label>
+                <input class="nameInput" type="" name=""/>
+              </li>
+              <li>
+                <label class="name">新密码：</label>
+                <input class="nameInput" type="" name=""/>
+              </li>
+              <li>
+                <label class="name">确认新密码：</label>
+                <input class="nameInput" type="" name=""/>
+              </li>
+            </ul>
+            <p class="submission">
+              <el-button type="primary" size="mini" @click="submissionModifyEve()">提交</el-button>
+            </p>
+          </div>
+        </div>
 
-            <el-checkbox v-model="checked3" label="备选项1" size="mini" border></el-checkbox>
-            <el-checkbox v-model="checked4" label="备选项2" size="mini" border></el-checkbox>
 
-          </li>
-        </ul>
-      </div>
       
-      <p class="preservation">
-        <span class="modifyBottom modifyBottom">保存</span>
-      </p>
-      <p class="preservationTips">
-        欢邸国际家居携旗下18品牌，48家线下实体店，欢迎您到各门店品鉴家居
-      </p>
-
+      </div>
     </div>
-
-    <div class="maxWidth modifyPassword">
-      <h3>修改密码</h3>
-      <ul>
-        <li>
-          <label>原密码：</label>
-          <el-input class="inputBox" v-model="input" placeholder="请输入内容" size="small"></el-input>
-        </li>
-        <li>
-          <label>新密码：</label>
-          <el-input class="inputBox" v-model="input" placeholder="请输入内容" size="small"></el-input>
-        </li>
-        <li>
-          <label>确认新密码：</label>
-          <el-input class="inputBox" v-model="input" placeholder="请输入内容" size="small"></el-input>
-        </li>
-      </ul>
-      <p><span class="modifyBottom cursor">确认修改</span></p>
-    </div>
-
+    
     <bottomHtml></bottomHtml>
 
   </div>
@@ -169,30 +184,15 @@ import bottomHtml from '../components/bottomHtml'
 
 
 export default {
-  name: 'index',
+  name: 'personal',
   data () {
     return {
-      input:'',
-      checked3: true,
-      checked4: false,
       radio: '1',
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      value: ''
+      checked3:true,
+      checked4:true,
+      personalBoll:false,
+      modifyPersonalBoll:true,
+      modifyPasswordBoll:false
     }
   },
   components:{
@@ -200,218 +200,144 @@ export default {
     'bottomHtml':bottomHtml
   },
   methods: {
-  },
+    modifyPersonalEve(){
+      this.personalBoll = true;
+      this.modifyPersonalBoll = false;
+    },
+    personalEve(){
+      this.personalBoll = false;
+      this.modifyPersonalBoll = true;
+    },
+    modifyPasswordEve(){
+      this.modifyPasswordBoll = true;
+      this.modifyPersonalBoll = false;
+    },
+    submissionModifyEve(){
+      this.modifyPasswordBoll = false;
+      this.modifyPersonalBoll = true;
+    }
+  }
 
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.el-row {
-  margin-bottom: 20px;
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-.el-col {
-  border-radius: 4px;
-}
-.bg-purple-dark {
-
-}
-.grid-content {
-  border-radius: 4px;
-  min-height: 36px;
-  background-color: #EBEBEB;
-}
-
-.homeHeade{
-  text-align: right;
-  color: #777;
-  font-size: 13px;
-  padding: 7px 0px;
-  background-color: #EBEBEB;
-}
-.homeHeade span{
-}
-.homeHeade i{
-  margin: 0px 5px;
-}
-.homeHeade a{
-  color: #777;
-}
-/*轮播开始*/
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 18px;
-  opacity: 0.75;
-  line-height: 300px;
-  margin: 0;
-  text-align: center;
-}
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n+1) {
-  background-color: #d3dce6;
-}
-/*轮播结束*/
-.nvaClass{
-  padding: 5px 0px;
-  background-color: #e6e6e6;
-  text-indent: 11px;
-  margin-bottom: 7px;
-}
-.nvaClass a,.nvaClass span{
-  color: #000;
-  font-size: 13px;
-  margin: 0px 7px;
-}
-/*个人中心*/
-.title{
-  font-weight: 100;
-  font-size: 27px;
-  padding-left: 7px;
-  margin: 17px 0px;
-}
-.title span{
-  border-left: 2px solid #6f6f6f;
-  margin-left: 9px;
-  padding: 7px 0px;
-  padding-left: 9px;
-  color: #6f6f6f;
-}
-.title img{
-  margin-top: 7px;
-}
-
-/*修改资料*/
-.inputData{
-  color: #616161;
-  margin: 37px;
-}
-.inputData div{
+.personalBox{
   margin: 13px 0px;
 }
-.inputData h4{
-  font-size: 19px;
-  font-weight: 100;
+.title{
+  text-align: center;
 }
-.inputData p{
-  text-indent: 37px;
-  margin: 23px 0px;
-}
-
-
-.modifyBottom{
-  border: 1px solid #777;
-  margin-left: 47px;
-  padding: 4px 15px;
-  font-size: 14px;
-  color: #8c5f5f;
-}
-
-
-.modifyDataBox{
-  margin-top: 100px;
-  padding-left: 100px;
-}
-.modifyData li{
-  margin: 23px 0px;
-  padding-left: 40px;
-}
-.modifyData li .titleName{
+.title li{
+  background-color: #D72825;
   display: inline-block;
-  font-size: 15px;
-  color: #736060;
+  margin: 33px 0px;
+}
+.title span{
+  color: #fff;
+  display: block;
+  padding: 0px 9px;
+  font-size: 23px;
 }
 
-.modifyData h3{
-  font-weight: 100;
-  font-size: 17px;
-  color: #736060;
+.personalBox h4{
+  color: #7A7A7A;
+  border-bottom: 2px solid #D3D3D3;
+  font-size: 14px;
+  padding-bottom: 9px;
+  margin-bottom: 27px;
 }
 
-.preservation{
+
+.personalBox ul{
+  width: 380px;
+  margin: 35px auto;
+}
+.personalBox ul li{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 15px;
+  font-size: 12px;
+}
+.personalBox a{
+  margin-left: 27px;
+  color: #DE5452;
+}
+.personalBox .name{
+  margin-right: 11px;
+  width: 40px;
+}
+.personalBox .nameInput{
+  height: 23px;
+  line-height: 23px;
+  width: 190px;
+  text-indent: 9px;
+}
+
+
+.personalBox span{
+  color: #313131;
+}
+.personalBox .province,.personalBox .town{
+  width: 90px;
+}
+
+
+.street textarea{
+  width: 270px;
+  margin: 0px 51px;
+  text-indent: 13px;
+  padding: 7px 0px;
+}
+
+/*购置意向*/
+.intentionBox{
+
+}
+.intentionBox .name{
+  width: auto;
+}
+.intentionBox ul{
+  width: auto;
+  padding-left: 310px;
+}
+
+
+.submission{
   text-align: center;
-  margin: 110px 0px 33px 0px;
-  padding-bottom: 33px;
-  border-bottom: 1px solid #e8c2c2;
 }
-.preservation span{
-  padding: 5px 27px;
+.submission button{
+  width: 200px;
+  margin: 40px 0px 70px 0px;
 }
 
-.preservationTips{
-  text-align: center;
+
+.submissionBox{
+  margin-top: 50px;
   margin-bottom: 33px;
-  font-size: 14px;
-  color: #7f5c5c;
 }
-/**/
-.contactStore{
-  width: 50%;
+.submissionBox .submission{
+  margin: 7px 0px;
+}
+.submission button{
+  margin: 7px 0px;
+}
+
+.newSubmission{
+  width: 200px;
+  border: 1px solid #000;
+  font-size: 13px;
   text-align: center;
-  border-left: 1px solid #ccc;
-  padding-left: 46px;
-}
-.contactStore h3{
-  font-size: 33px;
-  color: #9c9c9c;
-  border-bottom: 1px solid #999;
-  padding: 33px 0px 40px 0px;
-}
-.contactStore h3 p{
-  font-size: 15px;
-  margin: 15px 0px;
-}
-
-
-
-.shop{
-  margin: 103px 0px;
-/*  position: absolute;
-  bottom: 0px;
-  width: 50%;*/
-}
-.shop span{
-  font-size: 14px;
-  padding: 7px 23px;
-  border: 1px solid #ccc;
+  line-height: 25px;
+  height: 25px;
+  margin: 0px auto 15px auto;
 }
 
 
 /*修改密码*/
-.modifyPassword{
-
+.modifyPassword label.name{
+  width: 80px;
 }
-.modifyPassword h3{
-  font-size: 21px;
-  font-weight: 100;
-  border-bottom: 1px solid #dacccc;
-  padding-bottom: 17px;
-  margin-top: 60px;
-  width: 90%;
-  margin: 60px auto 0px auto;
-}
-.modifyPassword .inputBox{
-  width: 230px;
-}
-.modifyPassword li{
-  margin: 33px 0px;
-  text-align: center;
-}
-.modifyPassword li label{
-  display: inline-block;
-  width: 120px;
-  font-size: 17px;
-  text-align: right;
-}
-.modifyPassword p{
-  text-align: center;
-  margin: 60px 0px;
-}
-
 </style>

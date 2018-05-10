@@ -18,26 +18,25 @@
 
       <div class="searchBox maxWidth">
         <p class="floatLeft">
-          <img width="130px;" src="../assets/raw_1523942422.png"/>
-          <span>
-            家居生活更快乐
-          </span>
+          <img width="170px;" src="../assets/logo-01.jpg"/>
+          <img width="130px;" src="../assets/logo-02.jpg"/>
         </p>
         
         <div class="searchInput">
-          <el-input placeholder="请输入内容" v-model="search" class="input-with-select" size="mini">
-            <el-button slot="append" icon="el-icon-search"></el-button>
-          </el-input>
           <p>
+            <input v-model="search" type="" name="" placeholder="列如：脚蹬 真皮沙发"/>
+            <img width="17px;" class="cursor" src="../assets/index/search.png"/>
+          </p>
+          <!-- <p>
             <span>油蜡皮</span>
             <span>Domicil</span>
             <span>真皮沙发</span>
-          </p>
+          </p> -->
         </div>
 
       </div>
 
-      <nav class="navigation">
+      <nav class="navigation maxWidth">
         <ul>
           <li>
             <a href="javascript:;" v-for="(val,key) in navigation" :class="{nvaActive:val.boll}" @click="nvaEve(val,key)">{{val.name}}</a>
@@ -51,29 +50,31 @@
     <div class="popupBack" v-show="singInBoll">
       <div class="singIn">
         <p class="singTitle">
-          <img width="130px;" src="../assets/raw_1523942422.png"/>
+          <img width="200px;" src="../assets/logo-01.jpg"/>
         </p>
         <ul class="singInput">
+          <li class="">
+            <a href="javascript:;" @click="singInJump()">登陆</a>
+            <a href="javascript:;" @click="signUpJump()">注册</a>
+          </li>
           <li>
             <p>
             <label>账号：</label>
               <input type="" name="" placeholder="输入手机号码"/>
             </p>
           </li>
-          <li>
+          <li class="passwordBox">
             <p>
             <label>密码：</label>
               <input type="" name="" placeholder="输入密码"/>
             </p>
+            <a href="javascript:;">*忘记密码？</a>
           </li>
           <li>
+            <label></label>
             <el-button type="primary" size="mini" class="loginBottom">登陆</el-button>
           </li>
         </ul>
-        <div class="singSet_up">
-          <a href="javascript:;" class="floatLeft">忘记密码</a>
-          <p>没有账号？<a href="javascript:;" @click="signUpJump()">去注册</a></p>
-        </div>
         <div class="singTips">
           <p>
             温馨提示：欢邸国际家居携旗下18品牌，48家线下实体店，欢迎您到各门店品鉴家居
@@ -84,51 +85,52 @@
         </div>
       </div>
     </div>
-
-    <!-- 密码 -->
+  
+    <!-- 注册 -->
     <div class="popupBack" v-show="signUpBoll">
       <div class="singIn signUp">
         <p class="singTitle">
-          <img width="130px;" src="../assets/raw_1523942422.png"/>
-          欢邸国际家居
+          <img width="200px;" src="../assets/logo-01.jpg"/>
         </p>
-        <h2>新用户注册</h2>
         <ul class="singInput">
+          <li class="">
+            <a href="javascript:;" @click="singInJump()">登陆</a>
+            <a href="javascript:;" @click="signUpJump()">注册</a>
+          </li>
           <li>
             <p>
-            <label>账号：</label>
+            <label>手机号码：</label>
               <input type="" name="" placeholder="输入手机号码"/>
             </p>
           </li>
-          <li>
+          <li class="passwordBox">
             <p>
             <label>验证码：</label>
-              <input class="inputCode" type="" name="" placeholder="短信验证码"/>
-              <el-button type="primary" class="code" size="small ">获取验证码</el-button>
+              <input class="codeInput" type="" name="" placeholder="验证码"/>
             </p>
+            <!-- <a href="javascript:;">*忘记密码？</a> -->
+            <el-button class="code" type="primary" size="small">获取验证码</el-button>
           </li>
           <li>
             <p>
-              <label>密码：</label>
-              <input type="" name="" placeholder="输入密码"/>
+            <label>密码：</label>
+              <input type="" name="" placeholder="请输入您的密码"/>
             </p>
           </li>
           <li>
             <p>
             <label>确认密码：</label>
-              <input type="" name="" placeholder="确认密码"/>
+              <input type="" name="" placeholder="请再次输入您的密码"/>
             </p>
           </li>
           <li class="mansion">
-            <el-checkbox v-model="checked">我已阅读并同意 《欢邸用户注册协议》</el-checkbox>
+            <el-checkbox v-model="checked"><span>我已阅读并同意 《欢邸用户注册协议》</span></el-checkbox>
           </li>
           <li>
-            <el-button type="primary" size="mini" class="loginBottom">提交注册</el-button>
+            <label></label>
+            <el-button type="primary" size="mini" class="loginBottom">提交</el-button>
           </li>
         </ul>
-        <div class="singSet_up">
-          <p>没有账号？<a href="javascript:;" @click="singInJump()">去登陆</a></p>
-        </div>
         <div class="singTips">
           <p>
             温馨提示：欢邸国际家居携旗下18品牌，48家线下实体店，欢迎您到各门店品鉴家居
@@ -140,6 +142,7 @@
       </div>
     </div>
 
+    
 
 
 
@@ -153,10 +156,10 @@ export default {
   name: 'headerHtml',
   data () {
     return {
+      search:'',
       signUpBoll:false,
       singInBoll:false,
       checked:false,
-      search:'',
       navigation:[
         {'name':'首页','boll':false,'href':'index'},
         {'name':'全部商品','boll':false,'href':'home'},
@@ -218,15 +221,13 @@ export default {
 .grid-content {
   border-radius: 4px;
   min-height: 36px;
-  background-color: #EBEBEB;
 }
 
 .homeHeade{
   text-align: right;
-  color: #777;
-  font-size: 13px;
+  color: #7A7A7A;
+  font-size: 12px;
   padding: 7px 0px;
-  background-color: #EBEBEB;
 }
 .homeHeade span{
 }
@@ -234,17 +235,38 @@ export default {
   margin: 0px 5px;
 }
 .homeHeade a{
-  color: #777;
+  color: #7A7A7A;
 }
 
 /*搜索*/
 .searchBox{
   display: flex;
-  justify-content: space-evenly;
-  align-items: baseline;
+  justify-content: space-between;
+  align-items: center;
+}
+.searchBox .floatLeft img:last-child{
+  margin-left: 23px;
+}
+
+.searchInput p{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .searchInput span{
   margin-left: 7px;
+}
+.searchInput input{
+  border-radius: 32px;
+  border: 1px solid;
+  height: 22px;
+  line-height: 22px;
+  width: 200px;
+  outline:none;
+  text-indent: 13px;
+  color: #4e3e3e;
+  margin-right: 7px;
+  font-size: 13px;
 }
 
 .el-select .el-input {
@@ -257,29 +279,27 @@ export default {
   width: 300px;
 }
 
-.searchBox span{
-  font-size: 13px;
-  color: rgba(145, 145, 145, 1);
-}
+
 
 /*导航栏*/
 .navigation ul{
   text-align: center;
   margin-top: 23px;
-  background: #EBEBEB;
   height: 35px;
   line-height: 35px;
 }
+.navigation ul li{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .navigation a{
-  margin: 0px 13px;
   color: #000;
   font-size: 15px;
-  width: 77px;
 }
 .navigation .nvaActive{
-  background: #D82325;
   display: inline-block;
-  color: #fff;
+  color: #D93330;
 }
 
 
@@ -306,43 +326,64 @@ export default {
 }
 .singTitle{
   text-align: center;
-  padding: 13px 0px;
+  padding: 45px 0px;
   border-bottom: 1px solid #d6d6d6;
   font-size: 18px;
 }
-.singIn h2{
-  text-align: center;
-  font-weight: 100;
-  margin: 27px auto 13px auto;
-}
+
 
 /*输入框*/
 .singInput{
-  text-align: center;
-  margin-top: 15px;
+  width: 300px;
+  margin: auto;
+  margin-top: 20px;
 }
-.singInput li{
-
+.singInput li:first-child{
+  text-align: center;
+}
+.singInput li:first-child a{
+  color: #ADADAD;
+  font-size: 14px;
+  padding: 0px 33px;
+}
+.singInput li:first-child a:first-child{
+  color: #070707;
 }
 .singInput p{
-  border: 1px solid #d6d6d6;
   display: inline-block;
-  padding: 5px 13px;
-  margin: 7px 0px;
+  margin: 13px 0px;
 }
 .singInput label{
   font-size: 15px;
-  color: #777;
+  color: #000;
+  display: inline-block;
+  width: 50px;
 }
 .singInput input{
-  height: 23px;
-  line-height: 23px;
   font-size: 15px;
-  border: none;
   outline:none;
   color: #666;
+  border: 1px solid #000;
+  text-indent: 9px;
+  height: 30px;
+  line-height: 30px;
+  width: 190px;
+}
+.singInput a{
+  text-decoration: none;
+  font-size: 13px;
+  color: #DF504D;
 }
 
+.passwordBox{
+  position: relative;
+}
+.passwordBox a{
+  position: absolute;
+  top: 50%;
+  right: -23px;
+  transform : translate(0%,-50%);
+}
 /*改变框架按钮颜色*/
 
 
@@ -361,47 +402,63 @@ export default {
   text-align: center;
   color: #6e6e6e;
   padding: 15px 0px;
-  margin-top: 10px;
-  border-top: 1px solid #ccc;
+  margin-top: 45px;
 }
 
 
 /*注册*/
-.signUp p{
-  border: none;
+/*first-child*/
+.signUp .singInput li:first-child a:last-child{
+  color: #070707;
 }
-.signUp input{
-  border: 1px solid #d6d6d6;
-  padding: 5px 13px;
-  border-radius: 3px;
+.signUp .singInput li:first-child a:first-child{
+  color: #ADADAD;
 }
-.signUp label{
-  color: #222;
-  font-size: 17px;
-  display: inline-block;
-  width: 88px;
-  text-align: left;
+.signUp .singInput{
+  width: 350px;
 }
-/*验证码*/
+.signUp .singInput label{
+  width: 80px;
+}
+
 .code{
-  width: 110px;
+  position: absolute;
+  top: 50%;
+  right: 66px;
+  transform: translate(0%,-50%);
 }
-.signUp .inputCode{
-  width: 77px;
+
+
+.signUp .singInput input{
+  width: 197px;
 }
-.signUp .singSet_up p{
+.signUp .singInput .codeInput{
+  width: 100px;
+}
+
+
+.mansion{
   text-align: center;
+  margin: 15px 0px;
 }
 .signUp .mansion label{
-  width: auto;
+  width: 100%;
 }
-.signUp .mansion{
-  margin: 23px 0px;
+.signUp .mansion span{
+  font-size: 12px;
 }
+
+.signUp .loginBottom{
+  width: 200px;
+}
+/*验证码*/
+
+
+
 
 /*登陆按钮*/
 .loginBottom{
-  width: 270px;
+  width: 194px;
   font-size: 16px;
   margin: 5px 0px;
 }

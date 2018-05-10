@@ -11,15 +11,19 @@ export default {
 </script>
 
 <style>
+body{
+	font-family:"Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑,STHeiti,MingLiu
+}
 *{
-  margin:0px;
-  padding:0px;
+	margin:0px;
+	padding:0px;
+	font-family:"Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑,STHeiti,MingLiu
 }
 #app{
 
 }
 .maxWidth{
-	max-width: 1100px;
+	max-width: 990px;
 	margin: auto;
 }
 .overflowHidden{

@@ -1,7 +1,7 @@
 <template>
   <div class="bottomHtml">
   
-    <div class="">
+    <div class="maxWidth">
       <ul>
         <li>
           <p>
@@ -24,15 +24,6 @@
           <p>
             <a href="javascript:;">公司简介</a>
           </p>
-          <p>
-            <a href="javascript:;">联系我们</a>
-          </p>
-          <p>
-            <a href="javascript:;">品牌集</a>
-          </p>
-          <p>
-            <a href="javascript:;">招商加盟</a>
-          </p>
         </li>
         <li>
           <p>
@@ -51,22 +42,15 @@
       </ul>
       <h3>
         400-800-5965
-        <p>
-          7X24小时服务热线
-        </p>
       </h3>
       <ul class="wxinImg">
         <li>
           <img width="90px;" src="../assets/raw_1523956664.jpg"/>
-          <p>欢邸官方微博</p>
+          <p>VIP home欢邸微信公众号</p>
         </li>
         <li>
           <img width="90px;" src="../assets/raw_1523956664.jpg"/>
-          <p>欢邸官方微信公众号</p>
-        </li>
-        <li>
-          <img width="90px;" src="../assets/raw_1523956664.jpg"/>
-          <p>官邸淘宝商城</p>
+          <p>VIP home欢邸淘宝店</p>
         </li>
       </ul>
     </div>
@@ -92,7 +76,7 @@ export default {
 <style scoped>
 
 .bottomHtml{
-  background-color: #262626;
+  background-color: #000;
   color: #fff;
 }
 .bottomHtml ul{
@@ -103,36 +87,43 @@ export default {
 .bottomHtml li{
   margin: 0px 23px;
 }
+.bottomHtml li:first-child{
+  margin: 0px;
+  margin-right: 23px;
+}
 .bottomHtml a{
-  color: #A8A8A8;
+  color: #BBB9B9;
   font-size: 14px;
 }
 
 
 .bottomHtml div{
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: end;
-  padding: 43px 0px;
+  padding: 68px 0px;
+  padding-bottom: 48px;
 }
 .bottomHtml h3{
-  border-right: 1px solid #ccc;
-  border-left: 1px solid #ccc;
-  color: #ededed;
-  padding: 33px 60px;
+  border-right: 1px solid #3F3232;
+  border-left: 1px solid #3F3232;
+  color: #ccc;
+  padding: 45px 60px;
+  font-weight: 100;
 }
 
 
 .Keep_onRecord{
   text-align: center;
-  color: #fff;
-  padding: 11px 0px;
+  color: #B4B1B0;
+  padding-bottom: 11px;
   font-size: 13px;
 }
 
 
 .wxinImg li{
   text-align: center;
+  width: 90px;
 }
 .wxinImg li p{
   font-size: 13px;
