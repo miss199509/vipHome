@@ -170,8 +170,69 @@
 
 
         <!-- 预约到店 -->
-        <div class="">
-          
+        <div class="popupBack">
+          <div class="popupBox">
+            <header>
+              <img src="../assets/logo-01.jpg"/>
+            </header>
+            <div class="make">
+              <div class="">
+                <p class="titleName">您想要预约的门店是：</p>
+                <el-select v-model="value" placeholder="请选择" size="small" class="makeSelect">
+                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </div>
+              <div class="">
+                <p class="titleName">请填写一下信息，以便我们为您提供更好的服务：</p>
+                <ul class="basicData">
+                  <li class="">
+                    <label>您贵姓：</label>
+                    <input class="fullName" type="text"/>
+                    <el-radio v-model="radio" label="1">先生</el-radio>
+                    <el-radio v-model="radio" label="2">女生</el-radio>
+                  </li>
+                  <li class="">
+                    <label>手机号：</label>
+                    <input class="phone" type="text"/>
+                  </li>
+                  <li class="">
+                    <label>您预计：</label>
+                    <input class="month" type="text"/>
+                    <span class="">月</span>
+                    <input class="day" type="text"/>
+                    <span>日</span>
+                    <el-select v-model="value" placeholder="请选择" size="small" class="dataSelect">
+                      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                      </el-option>
+                    </el-select>
+                    <span>到店</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <div class="">
+                <p class="titleName">您计划购选哪些家具（选填）：</p>
+                <div class="">
+                  <el-checkbox v-model="checked3" label="备选项1" border size="small"></el-checkbox>
+                  <el-checkbox v-model="checked4" label="备选项2" border size="small"></el-checkbox>
+                  <el-checkbox v-model="checked3" label="备选项1" border size="small"></el-checkbox>
+                  <el-checkbox v-model="checked4" label="备选项2" border size="small"></el-checkbox>
+                  <el-checkbox v-model="checked3" label="备选项1" border size="small"></el-checkbox>
+                  <el-checkbox v-model="checked4" label="备选项2" border size="small"></el-checkbox>
+                </div>
+              </div>
+
+              <p class="makeSubmissionBox">
+                <el-button class="makeSubmission" type="primary" size="mini">提交</el-button>
+              </p>
+            </div>
+
+            <div class="makeTips">
+              <p>温馨提示：欢邸国际家居携旗下18品牌，48家线下实体店，欢迎您到各门店品鉴家居</p>
+              <p>您也可以拨打7X24小时热线：400-800-8956 与我们取得联系！</p>
+            </div>
+          </div>
         </div>
 
 
@@ -198,7 +259,26 @@ export default {
       checked4:true,
       personalBoll:false,
       modifyPersonalBoll:true,
-      modifyPasswordBoll:false
+      modifyPasswordBoll:false,
+      //城市
+      options: [{
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }],
+      value: '',
+      radio: '1'
     }
   },
   components:{
@@ -345,5 +425,104 @@ export default {
 /*修改密码*/
 .modifyPassword label.name{
   width: 80px;
+}
+
+
+
+
+/*预约到店*/
+.popupBack{
+
+}
+.popupBox{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform : translate(-50%,-50%);
+  background-color: #fff;
+  width: 600px;
+}
+.popupBox header{
+  padding: 40px 0px;
+  text-align: center;
+  border-bottom: 1px solid #F0F0F0;
+}
+.make{
+  padding: 0px 80px;
+  margin-top: 30px;
+}
+
+.makeSelect{
+  width: 100%;
+}
+.titleName{
+  color: #828282;
+  font-size: 14px;
+  margin: 7px 0px;
+}
+.basicData{
+
+}
+.basicData li{
+  padding-left: 30px;
+  margin: 17px 0px;
+}
+.basicData label{
+  color: #2E2E2E;
+  font-size: 14px;
+}
+.basicData input{
+  border: 1px solid #6C6C6C;
+  height: 30px;
+  line-height: 30px;
+}
+.phone{
+  width: 290px;
+}
+.fullName{
+  width: 120px;
+}
+.basicData input{
+  text-indent: 9px;
+}
+
+.dataSelect{
+  width: 125px;
+}
+.basicData span{
+  margin: 0px 3px;
+  font-size: 15px;
+}
+.month{
+  width: 30px;
+}
+.day{
+  width: 30px;
+}
+.el-checkbox.is-bordered+.el-checkbox.is-bordered{
+  margin-left: 0px;
+}
+.el-checkbox.is-bordered{
+  margin: 5px 5px 5px 0px;
+}
+
+
+.makeSubmissionBox{
+  text-align: center;
+  margin: 50px 0px;
+}
+.makeSubmission{
+  width: 200px;
+}
+
+
+.makeTips{
+  margin-top: 20px;
+  margin-bottom: 35px;
+}
+.makeTips p{
+  text-align: center;
+  font-size: 13px;
+  color: #717171;
 }
 </style>

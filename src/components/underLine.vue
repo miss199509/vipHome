@@ -4,13 +4,9 @@
   
     <headerHtml :index="8"></headerHtml>
     
-      <div class="">
-        <el-carousel :interval="5000" arrow="always">
-          <el-carousel-item v-for="item in 4" :key="item">
-            <h3>{{ item }}</h3>
-          </el-carousel-item>
-        </el-carousel>
-      </div>
+      <p>
+        <img width="100%;" src="../assets/brand/banner.jpg"/>
+      </p>
       
       <div class="underLineBox maxWidth">
         <h3>
@@ -29,9 +25,6 @@
                       <img src=""/>
                       VIP HOME真北展区
                     </h2>
-                    <h4>
-                      上海市普陀区真北路1108号红星美凯龙
-                    </h4>
                     <p>
                       营业时间：10.00-17.30（周一至周五）
                     </p>
@@ -72,8 +65,7 @@
       <div class="popupBack" v-show="popupBackBoll">
         <div class="popupBox">
           <header>
-            <img width="130px;" src="../assets/raw_1523942422.png"/>
-            <label>欢邸国际家居</label>
+            <img width="130px;" src="../assets/logo-01.jpg"/>
           </header>
           <!-- 发送短信 -->
           <div class="selectBox" v-show="selectBoxBoll">
@@ -211,30 +203,6 @@ export default {
   },
   methods: {
 
-    open5() {
-      this.$alert('<div class="alerBox">\
-        <p>请输入手机号码：<input id="input" placeholder="请输入内容"/></p>\
-        <h3>以下信息将发送到你的手机：</h3>\
-        <div class=""><p>上海红星美凯龙沪南店【Domicil专卖店】欢迎您的光临</p><p>地址：上海市浦东新区川沙新镇外环以外川沙路4825号B座二层223号展厅</p><p>店内电话：021-88859655</p>\
-        <p>交通线路：上海市浦东新区川沙新镇外环以外川沙路4825号B座二层223号展厅上海市浦东新区川沙新镇外环以外川沙路4825号B座二层223号展厅。</p>\
-        </div>\
-        </div>', '欢邸国际家居', {
-        dangerouslyUseHTMLString: true,
-        confirmButtonText: '提交',
-      }).then(() => {
-          let val = document.getElementById("input").value;
-          console.log(val);
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
-    },
     phoneSend(){
       this.popupBackBoll = true;
       this.selectBoxBoll = true;
@@ -262,52 +230,33 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-/*轮播开始*/
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 18px;
-  opacity: 0.75;
-  line-height: 300px;
-  margin: 0;
-  text-align: center;
-}
 
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n+1) {
-  background-color: #d3dce6;
-}
-/*轮播结束*/
 /*线下门店*/
 .underLineBox{
 
 }
 .underLineBox h3{
-  background-color: #ededed;
-  padding: 11px 23px;
-  font-size: 13px;
+  font-size: 20px;
+  text-align: center;
+  margin: 27px 0px;
+  font-weight: 100;
 }
 
 
 .mapContent{
-  padding: 40px 70px;
-  border: 1px solid #dedede;
+
 }
 
 .map h2{
   font-size: 25px;
   text-align: right;
+  font-weight: 100;
 }
-.map h4{
-  font-size: 16px;
-  color: #503e3e;
-}
+
 .map p{
   margin: 7px 0px;
   color: #a79595;
-  font-size: 13px;
+  font-size: 15px;
   text-align: right;
 }
 .mapContent .map{
@@ -322,16 +271,12 @@ export default {
   margin: 13px 0px;
 }
 .storeList .title{
-  text-align: center;
-  color: #333;
-  font-size: 14px;
-  padding: 5px 0px;
-  /*background-color: #dedede;*/
-  border: 1px solid #dedede;
+  font-size: 15px;
+  padding: 13px 0px;
+  color: #A8A8A8;
 }
 .storeList ul{
   overflow: hidden;
-  margin-top: 33px;
 }
 .storeList li{
   display: flex;
@@ -351,15 +296,7 @@ export default {
 
 
 /*弹出窗*/
-.popupBack{
-  background-color: rgba(0,0,0,0.5);
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 11;
-}
+
 .popupBox{
   position: absolute;
   top: 50%;
@@ -372,10 +309,11 @@ export default {
 .popupBox header{
   text-align: center;
   padding: 13px 0px;
-  border-bottom: 1px solid #dedede;
+  border-bottom: 1px solid #F0F0F0;
 }
-.popupBox header label{
-  font-size: 18px;
+.popupBox header img{
+  width: 230px;
+  margin: 17px 0px;
 }
 
 .selectBox{
@@ -384,6 +322,7 @@ export default {
 }
 .selectBox p{
   margin: 7px 0px;
+  text-align: center;
 }
 .selectInput{
   display: flex;
@@ -404,7 +343,6 @@ export default {
 
 
 .selectTips{
-  border-top: 2px solid #ccc;
   margin: 23px 0px;
   padding-top: 7px;
 }
