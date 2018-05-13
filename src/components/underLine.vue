@@ -73,8 +73,8 @@
               <span>请输入手机号码：</span>
             </p>
             <div class="selectInput">
-              <el-input v-model="input" placeholder="请输入内容" class="input-with-select"></el-input>
-              <el-button type="danger" @click="selectEve()">提交</el-button>
+              <el-input size="small" v-model="input" placeholder="请输入内容" class="input-with-select"></el-input>
+              <el-button class="submission" size="small" type="primary" @click="selectEve()">提交</el-button>
             </div>
             <div class="selectText">
               
@@ -142,7 +142,7 @@
                       <el-checkbox label="备选项2" border></el-checkbox>
                     </el-checkbox-group>
                     <p>
-                      <el-button type="danger" size="small">提交</el-button>
+                      <el-button type="primary" size="small">提交</el-button>
                     </p>
                   </div>
 
@@ -324,16 +324,26 @@ export default {
   margin: 7px 0px;
   text-align: center;
 }
+.selectBox p span{
+  font-size: 15px;
+  color: #555;
+}
 .selectInput{
-  display: flex;
+/*  display: flex;
   justify-content: end;
-  align-items: end;
+  align-items: end;*/
+  padding: 0px 80px;
+}
+.submission{
+  width: 100%;
+  margin: 23px 0px;
 }
 
 .selectText h3{
   font-size: 15px;
   color: #555;
   margin: 13px 0px;
+  text-align: center;
 }
 .selectText div{
   font-size: 14px;
@@ -344,7 +354,7 @@ export default {
 
 .selectTips{
   margin: 23px 0px;
-  padding-top: 7px;
+  padding-top: 15px;
 }
 .selectTips p{
   text-align: center;
@@ -427,8 +437,10 @@ export default {
 /**/
 .selectBottom p{
   text-align: center;
-  border-top: 1px solid #999;
   padding-top: 13px;
   margin-top: 13px;
+}
+.selectBottom p button{
+  width: 170px;
 }
 </style>
