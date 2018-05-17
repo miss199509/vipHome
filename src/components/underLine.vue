@@ -99,7 +99,12 @@
             <div class="makeCenter">
               <p class="makeTitleVal">请填写以下信息，以便我们为您提供更好服务：</p>
               <div class="makeCenterBox">
-                <div><label class="makeName">您贵姓：</label><el-input v-model="input" placeholder="输入您的姓名" size="mini"></el-input></div>
+
+                <div>
+                  <label class="makeName">您贵姓：</label>
+                  <el-input v-model="userName" placeholder="输入您的姓名" size="mini"></el-input>
+                </div>
+                
                 <ul class="overflowHidden">
                   <li class="floatLeft">
                     <label for="one">先生</label>
@@ -125,7 +130,9 @@
 
                 <div class="select">
                   <el-select v-model="value4" clearable placeholder="请选择" size="mini">
-                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                      
+                    </el-option>
                   </el-select>
                 </div>
                 <span>到店</span>
@@ -173,6 +180,7 @@ export default {
   name: 'underLine',
   data () {
     return {
+      userName:'',
       input:'',
       phone:'',
       radio:'1',

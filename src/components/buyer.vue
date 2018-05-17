@@ -12,31 +12,17 @@
 
     <div id="box" style="position: relative;" class="maxWidth">
         
-        <div class="item">
-          <img src="https://bluetoken.io/uploads/picture/201804271156225ae29f6687a9a.png" alt="">
-          <h2>懒……3（匿名）</h2>
-          <h2>产品：DOMICIL 二人位油蜡皮沙发</h2>
-          <p>沙发很好.比在外面买的要厚实，偏硬，整
-体质感也是非常好的。老婆都说我买的很
-划算，好看，性价比很高，大家如果喜欢
-的话可以下手了。……</p>
-        </div>
+        
 
         <div class="item" v-for="(val,key) in buyershowList">
-          <img src="https://bluetoken.io/uploads/picture/201804271156225ae29f6687a9a.png" alt="">
-          <h2>{{val.buyer_name}}</h2>
-          <h2>{{val.buyer_comment}}</h2>
-          <p></p>
-        </div>
-
-        <div class="item" v-for="(val,key) in buyershowList">
-          <img src="https://bluetoken.io/uploads/picture/201804271156225ae29f6687a9a.png" alt="">
-          <h2>懒……3（匿名）</h2>
-          <h2>产品：DOMICIL 二人位油蜡皮沙发</h2>
-          <p>沙发很好.比在外面买的要厚实，偏硬，整
-体质感也是非常好的。老婆都说我买的很
-划算，好看，性价比很高，大家如果喜欢
-的话可以下手了。……</p>
+          <a :href="val.link">
+            <img :src="val.image" alt="">
+            <h2>{{val.buyer_name}}</h2>
+            <h2>{{val.buyer_head_portrait}}</h2>
+            <p>
+              {{val.buyer_comment}}
+            </p>
+          </a>
         </div>
     </div>
 
@@ -64,13 +50,16 @@ export default {
     'bottomHtml':bottomHtml
   },
   mounted(){
+    
     let _this = this;
     axios.post('http://viphome.argu.net/api/buyershow',qs.stringify({popularity:0}))
     .then(function(dataJson){
       if(dataJson.data.result){
         _this.buyershowList = dataJson.data.data;
         console.log(JSON.stringify(_this.buyershowList))
-        _this.waterFall();
+        _this.$nextTick(function () {
+          _this.waterFall();
+        })
       }
     })
     .catch(function(err){
@@ -193,6 +182,7 @@ export default {
   font-size: 16px;
   margin: 7px 0px;
   font-weight: 100;
+  color: #000;
 }
 .item p{
   color: #656565;

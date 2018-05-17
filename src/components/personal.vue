@@ -23,7 +23,7 @@
               <li>
                 <label class="name">账号：</label>
                 18516360572
-                <a href="javascript:;" @click="modifyPasswordEve()">修改密码</a>
+                <!-- <a href="javascript:;" @click="modifyPasswordEve()">修改密码</a> -->
               </li>
               <li>
                 <label class="name">姓名：</label>
@@ -411,6 +411,10 @@ export default {
         //console.log(JSON.stringify(dataJson.data));
         if(dataJson.data.result){
           _this.uesrData = dataJson.data.data;
+          _this.$router.push({ name: 'personal',query: {
+            id:dataJson.data.data.id,
+            userName:dataJson.data.data.name
+          }});
         }
       })
       .catch(function(err){

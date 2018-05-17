@@ -288,7 +288,7 @@ export default {
     .then(function(dataJson){
       if(dataJson.data.result){
         _this.buyerShowList = dataJson.data.data.data;
-        console.log(JSON.stringify(_this.buyerShowList))
+        //console.log(JSON.stringify(_this.buyerShowList))
       }
     })
     .catch(function(err){

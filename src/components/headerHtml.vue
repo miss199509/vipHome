@@ -20,6 +20,10 @@
               <router-link :to="{ name: 'personal',query:{id:$route.query.id,userName:$route.query.userName}}">
                 个人中心
               </router-link>
+              <i>|</i>
+              <router-link :to="{ name: 'index'}">
+                退出
+              </router-link>
             </p>
           </div>
         </el-col>
@@ -77,7 +81,7 @@
             <label>密码：</label>
               <input v-model="upPassword" type="password" name="" placeholder="输入密码"/>
             </p>
-            <a href="javascript:;">*忘记密码？</a>
+            <router-link :to="{ name: 'personal'}">*忘记密码？</router-link>
           </li>
           <li>
             <label></label>
@@ -246,12 +250,29 @@ export default {
         });
         return false;
       }
-      axios.post('http://viphome.argu.net/api/register',qs.stringify({phone:_this.phone,password:_this.password}))
+      if(!this.checked){
+        this.$message({
+          message: '请阅读勾选注册协议！',
+          type: 'warning'
+        });
+        return false;
+      }
+      axios.post('http://viphome.argu.net/api/register',qs.stringify({
+        phone:_this.phone,
+        password:_this.password
+      }))
       .then(function(dataJson){
         console.log(JSON.stringify(dataJson.data));
         if(dataJson.data.result){
           _this.signUpBoll = false;
           _this.singInBoll = true;
+          _this.phone = '';
+          _this.password = '';
+          _this.newPassword = '';
+          _this.$message({
+            message: '恭喜您注册成功！',
+            type: 'warning'
+          }); 
         }
       })
       .catch(function(err){
@@ -263,6 +284,7 @@ export default {
       let _this = this;
       axios.post('http://viphome.argu.net/api/login',qs.stringify({phone:_this.upPhone,password:_this.upPassword}))
       .then(function(dataJson){
+        console.log(dataJson.data.result)
         if(dataJson.data.result){
           console.log(JSON.stringify(dataJson.data.data.name));
           _this.$router.push({ name: _this.navigation[_this.index].href,query: {
