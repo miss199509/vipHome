@@ -3,66 +3,82 @@
 
   
     <headerHtml :index="9"></headerHtml>
-    <div class="selectClass">
-      <p class="maxWidth">
-        <a href="javascript:;" v-for="(val,key) in selectTitleData" :class="{ckTitle:val.boll}" @click="titleEve(val,key)">{{val.name}}</a>
+    
+    <p>
+      <img width="100%;" src="../assets/brand/banner.jpg"/>
+    </p>
+    
+    <div class="maxWidth about">
+      <p class="title">
+        <a href="javascript:;">公司简介</a>
       </p>
+      <div class="">
+        <p>
+          <img width="100%;" src="../assets/about/pic-2.jpg"/>
+        </p>
+        <h3>VIPhome欢邸</h3>
+        <p class="time">
+          <span>2018-5-03</span>
+          <span>摄于总部</span>
+        </p>
+        <div class="article">
+          <p>
+            VIP home欢邸成立于2007年，致力于为中国家庭甄选品质家具。通过整合全球化的设计灵感、生活方式，荟萃世界
+            各地不同国家和不同时期的家居风格，并始终追随国际家居潮流趋势，不断更新多种经典套系，为钟情传统、现代或古典
+            的不同消费者提供针对性的解决方案。在上海一线家具卖场拥有四十多家门店，拥有现代风格、现代实木、欧式新古典、
+            后现代、美式休闲、美式现代、新中式等系列18余种家具品牌。
+          </p>
+          <p>
+            经过10年发展，目前已成为上海家具终端市场，在流通金额、经营面积和员工数量上均排名第一的服务平台，创下同
+            板块近十年成长奇迹。2017年年底，公司确定了“居家生活更欢乐”新的发展目标，立志为中国消费者甄选全球优质家居。
+            在经营层面，欢邸始终把售后率放在第一考核指标，在2017年度的运营监控中，全公司售后率为1.03%，是中国家居流通
+            平台中，售后与服务做的最完善的企业。
+          </p>
+        </div>
+        <div class="tips">
+          <h5><span>愿景：</span>居家生活更欢乐</h5>
+          <h5><span>使命：</span>成为全球优质家居甄选家</h5>
+        </div>
+        <p>
+          <img width="100%" src="../assets/about/pic-3.jpg"/>
+        </p>
+        <p>
+          <img src="../assets/about/pic-4.jpg"/>
+        </p>
+        <p class="articleList">
+          <img width="100%;" src="../assets/about/pic-5.jpg"/>
+        </p>
+      </div>
     </div>
+
     
-    <div class="">
-      <el-carousel :interval="5000" arrow="always">
-        <el-carousel-item v-for="item in 4" :key="item">
-          <h3>{{ item }}</h3>
-        </el-carousel-item>
-      </el-carousel>
+    <div class="brand">
+
+        <img width="100%;" src="../assets/about/pic-6.jpg"/>
+      <!-- <div class="maxWidth">
+        <h3>旗下<br/>品牌</h3>
+        <ul>
+          <li>
+            
+          </li>
+        </ul>
+      </div> -->
     </div>
-    
-    <div class="maxWidth">
 
-      <p class="nvaClass">
-        <a href="javascript:;">{{className}}</a>
-      </p>
-      
-      <ul v-show="selectTitleData[0].boll">000</ul>
 
-      <ul v-show="selectTitleData[1].boll">
-        <li>
-          <div class="">
-            <h3 class="teamTitle">团队合影</h3>
-            <div class="teamPadding">
-              <img width="100%" src="https://modao.cc/uploads3/images/1941/19415329/raw_1524643989.jpeg"/>
-            </div>
-          </div>
-          <div class="">
-            <h3 class="teamTitle">团队成员</h3>
-            <div class="teamPadding">
-              <ul class="member">
-                <li v-for="(val,key) in 4">
-                  <img src="https://modao.cc/uploads3/images/1941/19415962/raw_1524644382.jpeg"/>
-                  <h4>CEO<i>Talk</i></h4>
-                  <p>毕业于浙江大学，缔造中国家居设计流通平台最惊人的成长速度，被业内称为“最不像家居人的家居人”长江商学院工商管理硕士。</p>
-                </li>
-              </ul>
-              <ul class="member">
-                <li v-for="(val,key) in 4">
-                  <img src="https://modao.cc/uploads3/images/1941/19415962/raw_1524644382.jpeg"/>
-                  <h4>CEO<i>Talk</i></h4>
-                  <p>毕业于浙江大学，缔造中国家居设计流通平台最惊人的成长速度，被业内称为“最不像家居人的家居人”长江商学院工商管理硕士。</p>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </li>
-      </ul>
-
-      <ul v-show="selectTitleData[2].boll">111</ul>
-    
+    <div class="maxWidth contact">
+      <img width="100%;" src="../assets/about/pic-3.jpg"/>
+      <div class="">
+        <img width="60px;" class="floatLeft" src="../assets/about/pic-7.jpg"/>
+        <div>
+          <p>公司地址：上海市浦东新区东方路3601号丰华园7号楼302</p>
+          <p>公司总机：<strong>021-51878186</strong><span></span>服务热线：<strong>400-186-0055</strong></p>
+        </div>
+      </div>
     </div>
-    
 
 
-
-    <bottomHtml></bottomHtml>
+    <!-- <bottomHtml></bottomHtml> -->
 
 
 
@@ -78,8 +94,6 @@ export default {
   name: 'index',
   data () {
     return {
-      selectTitleData:[{name:'公司简介',boll:true},{name:'团队风采',boll:false},{name:'联系我们',boll:false}],
-      className:'公司简介'
     }
   },
   components:{
@@ -87,13 +101,6 @@ export default {
     'bottomHtml':bottomHtml
   },
   methods: {
-    titleEve(val,key){
-      for(let i in this.selectTitleData){
-        this.selectTitleData[i].boll = false;
-      }
-      val.boll = true;
-      this.className = val.name;
-    }
   },
 
 }
@@ -101,94 +108,71 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-/*轮播开始*/
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 18px;
-  opacity: 0.75;
-  line-height: 300px;
-  margin: 0;
-  text-align: center;
-}
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n+1) {
-  background-color: #d3dce6;
-}
-/*轮播结束*/
-.nvaClass{
-  padding: 5px 0px;
-  background-color: #e6e6e6;
-  text-indent: 11px;
+.about .title{
+  margin-top: 13px;
   margin-bottom: 7px;
+  text-indent: 66px;
 }
-.nvaClass a,.nvaClass span{
-  color: #000;
-  font-size: 13px;
-  margin: 0px 7px;
+.about .title a{
+  font-size: 15px;
+  color: #D82926;
 }
-/*热销产品*/
-.selectClass{
-  padding: 7px 0px;
-  background-color: #e6e6e6;
-  color: #555;
-  text-align: right;
-}
-.selectClass a{
-  font-size: 13px;
-  color: #555;
-  margin: 0px 7px;
-}
-
-
-/*团队*/
-.teamTitle{
+.about h3{
   text-align: center;
-  font-size: 29px;
-  margin: 20px auto;
-  border-bottom: 1px solid #ccc;
-  padding: 27px 0px;
+  color: #777777;
+  font-size: 33px;
+  margin: 37px 0px;
   font-weight: 100;
 }
-.teamPadding{
+.time{
+  text-align: center;
+  margin-bottom: 37px;
+  color: #888888;
+}
+.time span{
+  margin: 0px 7px;
+  font-size: 14px;
+}
+.article p{
+  font-size: 16px;
+  color: #7A7A7A;
+  text-indent: 33px;
+  margin-bottom: 33px;
+}
+
+.about h5 span{
+  font-size: 16px;
+  font-weight: 100;
+}
+.about h5{
+  font-size: 16px;
+}
+.tips{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 55px;
+}
+.articleList{
+  padding: 0px 55px;
+  margin: 15px 0px;
+}
+
+
+
+.brand{
+}
+
+.contact{
+  margin: 45px auto;
+}
+.contact p{
+  text-align: center;
+  font-size: 15px;
+  margin: 7px 0px;
+}
+.contact span{
   padding: 0px 23px;
 }
-.selectClass .ckTitle{
-  color: #f65e4e;
-}
-/*团队成员*/
-.member{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 23px;
-}
-.member h4{
-  font-size: 19px;
-  font-weight: 100;
-}
-.member i{
-  font-size: 14px;
-  margin: 0px 5px;
-}
-.member li{
-  width: 230px;
-}
-.member li p{
-  font-size: 13px;
-  padding: 7px 0px;
-  margin: 7px 0px;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-  text-indent: 27px;
-  color: #666;
-}
-.member li img{
-  height: 270px;
-  width: 100%;
-}
+
 </style>

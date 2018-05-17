@@ -160,11 +160,14 @@ export default {
 }
 
 .informationList{
-
+  overflow: hidden;
 }
 .informationList li{
   width: 350px;
   margin-top: 30px;
+  float: left;
+  margin-left: 100px;
+
 }
 .informationList img{
   

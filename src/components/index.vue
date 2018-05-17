@@ -14,44 +14,22 @@
           热销推荐
         </h3>
         <ul>
-          <li>
-            <img src="../assets/index/pic-01.jpg"/>
-            <div class="titleBox" v-show="false">
-              <p>
-                <span>
-                  欧莉斯田园风纯棉四件套1.5m全棉花卉单双人1.8米家纺宿舍套件
-                </span>
-                <strong>
-                  6850元
-                </strong>
-              </p>
-            </div>
-          </li>
-          <li>
-            <img src="../assets/index/pic-02.jpg"/>
-            <div class="titleBox" v-show="false">
-              <p>
-                <span>
-                  欧莉斯田园风纯棉四件套1.5m全棉花卉单双人1.8米家纺宿舍套件
-                </span>
-                <strong>
-                  6850元
-                </strong>
-              </p>
-            </div>
-          </li>
-          <li>
-            <img src="../assets/index/pic-03.jpg"/>
-            <div class="titleBox" v-show="false">
-              <p>
-                <span>
-                  欧莉斯田园风纯棉四件套1.5m全棉花卉单双人1.8米家纺宿舍套件
-                </span>
-                <strong>
-                  6850元
-                </strong>
-              </p>
-            </div>
+          <li v-for="(val,key) in hotSaleList">
+            
+            <a :href="val.link">
+              <img :src="val.image"/>
+              <div class="titleBox" v-show="false">
+                <p>
+                  <span>
+                    欧莉斯田园风纯棉四件套1.5m全棉花卉单双人1.8米家纺宿舍套件
+                  </span>
+                  <strong>
+                    6850元
+                  </strong>
+                </p>
+              </div>
+            </a>
+
           </li>
         </ul>
       </div>
@@ -138,24 +116,32 @@
         <h3 class="productTitle">
           买家秀
         </h3>
-        <ul class="buyerShow">
+        <ul class="buyerShow" v-if="buyerShowList[0]!=null">
           <li class="buyer_one">
-            <img src="../assets/index/pic-04.jpg"/>
-            <span class="buyerTitle">评论标题</span>
+            <a :href="buyerShowList[0].link">
+              <img :src="buyerShowList[0].image"/>
+              <span class="buyerTitle">评论标题</span>
+            </a>
           </li>
           <li>
             <p class="buyer_two">
-               <img src="../assets/index/pic-05.jpg"/>
-              <span class="buyerTitle">评论标题</span>
+              <a :href="buyerShowList[1].link">
+                <img :src="buyerShowList[1].image"/>
+                <span class="buyerTitle">评论标题</span>
+              </a>
             </p>
             <div class="buyerShow">
               <p class="buyer_three">
-                <img src="../assets/index/pic-06.jpg"/>
-                <span class="buyerTitle">评论标题</span>
+                <a :href="buyerShowList[2].link">
+                  <img :src="buyerShowList[2].image"/>
+                  <span class="buyerTitle">评论标题</span>
+                </a>
               </p>
               <p class="buyer_four">
-                <img src="../assets/index/pic-07.jpg"/>
-                <span class="buyerTitle">评论标题</span>
+                <a :href="buyerShowList[3].link">
+                  <img :src="buyerShowList[3].image"/>
+                  <span class="buyerTitle">评论标题</span>
+                </a>
               </p>
             </div>
           </li>
@@ -280,19 +266,55 @@
 import headerHtml from '../components/headerHtml'
 import bottomHtml from '../components/bottomHtml'
 
+import axios from 'axios'
+import qs from 'qs'
 
 export default {
   name: 'index',
   data () {
     return {
-
+      buyerShowList:[],
+      hotSaleList:[]
     }
   },
   components:{
     'headerHtml':headerHtml,
     'bottomHtml':bottomHtml
   },
+  mounted(){
+    let _this = this;
+    //买家秀
+    axios.post('http://viphome.argu.net/api/banner',qs.stringify({position:4}))
+    .then(function(dataJson){
+      if(dataJson.data.result){
+        _this.buyerShowList = dataJson.data.data.data;
+        console.log(JSON.stringify(_this.buyerShowList))
+      }
+    })
+    .catch(function(err){
+      alert(err);
+    });
+    //热销推荐
+    axios.post('http://viphome.argu.net/api/banner',qs.stringify({position:6}))
+    .then(function(dataJson){
+      if(dataJson.data.result){
+        _this.hotSaleList = dataJson.data.data.data;
+      }
+    })
+    .catch(function(err){
+      alert(err);
+    });
+    //线下门店
+    axios.post('http://viphome.argu.net/api/banner',qs.stringify({position:2}))
+    .then(function(dataJson){
+      console.log(JSON.stringify(dataJson.data));
+    })
+    .catch(function(err){
+      alert(err);
+    });
+  },
   methods: {
+
   },
 
 }

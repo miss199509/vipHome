@@ -18,7 +18,7 @@
         <div class="" v-show="personalBoll">
 
           <div class="personalBox">
-            <h4>基本资料</h4>
+            <h4><label class="cursor" @click="returnTo()">基本资料</label>>修改资料</h4>
             <ul>
               <li>
                 <label class="name">账号：</label>
@@ -27,27 +27,27 @@
               </li>
               <li>
                 <label class="name">姓名：</label>
-                <input class="nameInput" type="" name=""/>
+                <input class="nameInput" v-model="userName" type="" name=""/>
               </li>
               <li>
                 <label class="name">性别：</label>
                 <div class="">
-                  <el-radio v-model="radio" label="1">男</el-radio>
-                  <el-radio v-model="radio" label="2">女</el-radio>
+                  <el-radio v-model="gender" label="0">男</el-radio>
+                  <el-radio v-model="gender" label="1">女</el-radio>
                 </div>
               </li>
               <li>
                 <label class="name">地址：</label>
                 <div class="">
-                  <input class="province nameInput" type="" name=""/>
+                  <input class="province nameInput" v-model="province" type="" name=""/>
                   <span>省/市</span>
-                  <input class="town nameInput" type="" name=""/>
+                  <input class="town nameInput" v-model="town" type="" name=""/>
                   <span>区/镇</span>
                 </div>
               </li>
               <li class="street">
                 <label></label>
-                <textarea placeholder="街道..."></textarea>
+                <textarea v-model="address" placeholder="街道..."></textarea>
               </li>
             </ul>
           </div>
@@ -58,25 +58,25 @@
               <li>
                 <label class="name">是否有家居购置计划：</label>
                 <div class="">
-                  <el-radio v-model="radio" label="1">有</el-radio>
-                  <el-radio v-model="radio" label="2">否</el-radio>
+                  <el-radio v-model="purchase_plan" label="1">有</el-radio>
+                  <el-radio v-model="purchase_plan" label="0">否</el-radio>
                 </div>
               </li>
               <li>
                 <label class="name">预计购置时间：</label>
                 <div class="">
-                  <el-radio v-model="radio" label="1">15天内</el-radio>
-                  <el-radio v-model="radio" label="2">1个月内</el-radio>
-                  <el-radio v-model="radio" label="2">2个月内</el-radio>
-                  <el-radio v-model="radio" label="2">3个月内</el-radio>
-                  <el-radio v-model="radio" label="2">3个月以上</el-radio>
+                  <el-radio v-model="purchase_time" label="0">15天内</el-radio>
+                  <el-radio v-model="purchase_time" label="1">1个月内</el-radio>
+                  <el-radio v-model="purchase_time" label="2">2个月内</el-radio>
+                  <el-radio v-model="purchase_time" label="3">3个月内</el-radio>
+                  <el-radio v-model="purchase_time" label="4">3个月以上</el-radio>
                 </div>
               </li>
               <li>
                 <label class="name">预购品类：</label>
                 <div class="">
-                  <el-checkbox v-model="checked3" label="备选项1" border size="mini"></el-checkbox>
-                  <el-checkbox v-model="checked4" label="备选项2" border size="mini"></el-checkbox>
+                  <el-checkbox v-model="purchase_category1" label="床" border size="mini"></el-checkbox>
+                  <el-checkbox v-model="purchase_category2" label="衣柜" border size="mini"></el-checkbox>
                 </div>
               </li>
             </ul>
@@ -95,20 +95,20 @@
             <ul>
               <li>
                 <label class="name">账号：</label>
-                18516360572
+                {{uesrData.phone}}
                 <a href="javascript:;" @click="modifyPasswordEve()">修改密码</a>
               </li>
               <li>
                 <label class="name">姓名：</label>
-                <span>Talk</span>
+                <span>{{uesrData.name}}</span>
               </li>
               <li>
                 <label class="name">性别：</label>
-                <span>男</span>
+                <span>{{uesrData.gender?'女':'男'}}</span>
               </li>
               <li>
                 <label class="name">地址：</label>
-                <span>上海市宝山区沪太路2999号3号楼2楼</span>
+                <span>{{uesrData.city}}</span>
               </li>
             </ul>
           </div>
@@ -118,15 +118,15 @@
             <ul>
               <li>
                 <label class="name">是否有家居购置计划：</label>
-                <span>有</span>
+                <span>{{uesrData.purchase_plan?'有':'没有'}}</span>
               </li>
               <li>
                 <label class="name">预计购置时间：</label>
-                <span>15天</span>
+                <span>{{uesrData.purchase_time}}</span>
               </li>
               <li>
                 <label class="name">预购品类：</label>
-                <span>单椅凳子、床</span>
+                <span>{{uesrData.purchase_category}}</span>
               </li>
             </ul>
           </div>
@@ -147,19 +147,19 @@
 
         <div class="modifyPassword" v-show="modifyPasswordBoll">
           <div class="personalBox">
-            <h4>基本资料>修改密码</h4>
+            <h4><label class="cursor" @click="returnTo()">基本资料</label>>修改密码</h4>
             <ul>
               <li>
                 <label class="name">原密码：</label>
-                <input class="nameInput" type="" name=""/>
+                <input v-model="originalPassword" class="nameInput" type="password" name=""/>
               </li>
               <li>
                 <label class="name">新密码：</label>
-                <input class="nameInput" type="" name=""/>
+                <input v-model="password" class="nameInput" type="password" name=""/>
               </li>
               <li>
                 <label class="name">确认新密码：</label>
-                <input class="nameInput" type="" name=""/>
+                <input v-model="newPassword" class="nameInput" type="password" name=""/>
               </li>
             </ul>
             <p class="submission">
@@ -170,7 +170,7 @@
 
 
         <!-- 预约到店 -->
-        <div class="popupBack">
+        <div class="popupBack" v-show="false">
           <div class="popupBox">
             <header>
               <img src="../assets/logo-01.jpg"/>
@@ -249,12 +249,29 @@
 import headerHtml from '../components/headerHtml'
 import bottomHtml from '../components/bottomHtml'
 
-
+import axios from 'axios'
+import qs from 'qs'
 export default {
   name: 'personal',
   data () {
     return {
-      radio: '1',
+      gender:'0',
+      userName:'',
+      province:'',
+      address:'',
+      town:'',
+      purchase_plan:'1',
+      purchase_time:'0',
+      purchaseList:[
+        {name:'15天内'},
+        {name:'1个月内'},
+        {name:'2个月内'},
+        {name:'3个月内'},
+        {name:'3个月以上'}
+      ],
+      purchase_category1:false,
+      purchase_category2:false,
+      radio: '0',
       checked3:true,
       checked4:true,
       personalBoll:false,
@@ -278,12 +295,18 @@ export default {
         label: '北京烤鸭'
       }],
       value: '',
-      radio: '1'
+      uesrData:{},
+      originalPassword:'',
+      password:'',
+      newPassword:''
     }
   },
   components:{
     'headerHtml':headerHtml,
     'bottomHtml':bottomHtml
+  },
+  mounted(){
+    this.uesrDataEve();
   },
   methods: {
     modifyPersonalEve(){
@@ -291,16 +314,108 @@ export default {
       this.modifyPersonalBoll = false;
     },
     personalEve(){
-      this.personalBoll = false;
-      this.modifyPersonalBoll = true;
+      // console.log(this.gender,this.userName,this.purchase_time);
+      // return false;
+      if(this.userName=='' || this.province=='' || this.address=='' || this.town==''){
+        this.$message({
+          message: '填写内容不能为空！',
+          type: 'warning'
+        });
+        return false;
+      }
+      let _this = this;
+      axios.post('http://viphome.argu.net/api/userupdate',qs.stringify({
+        user_id:_this.$route.query.id,
+        name:_this.userName,
+        gender:_this.gender,
+        purchase_plan:_this.purchase_plan,
+        city:_this.province+_this.address+_this.town,
+        purchase_time:_this.purchaseList[_this.purchase_time].name,
+        purchase_category:'床，衣柜'
+      }))
+      .then(function(dataJson){
+        console.log(JSON.stringify(dataJson.data));
+        if(dataJson.data.result){
+          _this.personalBoll = false;
+          _this.modifyPersonalBoll = true;
+          location.reload();
+        }
+      })
+      .catch(function(err){
+        alert(err);
+      });
+
+      // this.personalBoll = false;
+      // this.modifyPersonalBoll = true;
     },
     modifyPasswordEve(){
       this.modifyPasswordBoll = true;
       this.modifyPersonalBoll = false;
     },
     submissionModifyEve(){
+      // this.modifyPasswordBoll = false;
+      // this.modifyPersonalBoll = true;
+      if(this.password!=this.newPassword || this.password.length<6){
+        
+        this.$message({
+          message: '俩次密码输入的不一致，或者密码长度低于六位数！',
+          type: 'warning'
+        });
+
+        return false;
+      }
+      let _this = this;
+      axios.post('http://viphome.argu.net/api/modifyPassword',qs.stringify({
+        id:_this.$route.query.id,
+        originalPassword:_this.originalPassword,
+        password:_this.password
+      }))
+      .then(function(dataJson){
+        console.log(JSON.stringify(dataJson.data));
+        if(dataJson.data.result){
+
+          _this.$message({
+            message: '修改成功',
+            type: 'success'
+          });
+          _this.modifyPasswordBoll = false;
+          _this.modifyPersonalBoll = true;
+          _this.originalPassword = '';
+          _this.newPassword = '';
+          _this.password = '';
+
+        }else{
+          _this.$message({
+            message: '原始密码错误！',
+            type: 'warning'
+          });
+
+        }
+      })
+      .catch(function(err){
+        alert(err);
+      });
+    },
+    returnTo(){
       this.modifyPasswordBoll = false;
       this.modifyPersonalBoll = true;
+      this.personalBoll = false;
+      this.originalPassword = '';
+      this.newPassword = '';
+      this.password = '';
+    },
+    uesrDataEve(){
+      let _this = this;
+      axios.post('http://viphome.argu.net/api/uesrData',qs.stringify({id:_this.$route.query.id}))
+      .then(function(dataJson){
+        //console.log(JSON.stringify(dataJson.data));
+        if(dataJson.data.result){
+          _this.uesrData = dataJson.data.data;
+        }
+      })
+      .catch(function(err){
+        alert(err);
+      });
     }
   }
 

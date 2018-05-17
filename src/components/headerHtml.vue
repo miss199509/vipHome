@@ -5,12 +5,21 @@
       <el-row>
         <el-col :span="24">
           <div class="grid-content bg-purple-dark">
-            <p class="homeHeade maxWidth">
+            <p class="homeHeade maxWidth" v-if="$route.query.id==undefined">
               <span>服务热线：400-186-0055</span>
               <i>|</i>
               <a href="javascript:;" @click="signUpEve()">注册</a>
               <i>|</i>
               <a href="javascript:;" @click="singInEve()">登陆</a>
+            </p>
+            <p class="homeHeade maxWidth" v-else>
+              <span>服务热线：400-186-0055</span>
+              <i>|</i>
+              <span>{{$route.query.userName}}</span>
+              <i>|</i>
+              <router-link :to="{ name: 'personal',query:{id:$route.query.id,userName:$route.query.userName}}">
+                个人中心
+              </router-link>
             </p>
           </div>
         </el-col>
@@ -60,19 +69,19 @@
           <li>
             <p>
             <label>账号：</label>
-              <input type="" name="" placeholder="输入手机号码"/>
+              <input v-model="upPhone" type="" name="" placeholder="输入手机号码"/>
             </p>
           </li>
           <li class="passwordBox">
             <p>
             <label>密码：</label>
-              <input type="" name="" placeholder="输入密码"/>
+              <input v-model="upPassword" type="password" name="" placeholder="输入密码"/>
             </p>
             <a href="javascript:;">*忘记密码？</a>
           </li>
           <li>
             <label></label>
-            <el-button type="primary" size="mini" class="loginBottom">登陆</el-button>
+            <el-button type="primary" size="mini" class="loginBottom" @click="signIn()">登陆</el-button>
           </li>
         </ul>
         <div class="singTips">
@@ -100,7 +109,7 @@
           <li>
             <p>
             <label>手机号码：</label>
-              <input type="" name="" placeholder="输入手机号码"/>
+              <input v-model="phone" type="" name="" placeholder="输入手机号码"/>
             </p>
           </li>
           <li class="passwordBox">
@@ -114,13 +123,13 @@
           <li>
             <p>
             <label>密码：</label>
-              <input type="" name="" placeholder="请输入您的密码"/>
+              <input v-model="password" type="password" name="" placeholder="请输入您的密码"/>
             </p>
           </li>
           <li>
             <p>
             <label>确认密码：</label>
-              <input type="" name="" placeholder="请再次输入您的密码"/>
+              <input v-model="newPassword" type="password" name="" placeholder="请再次输入您的密码"/>
             </p>
           </li>
           <li class="mansion">
@@ -128,7 +137,7 @@
           </li>
           <li>
             <label></label>
-            <el-button type="primary" size="mini" class="loginBottom">提交</el-button>
+            <el-button type="primary" size="mini" class="loginBottom" @click="signUp()">提交</el-button>
           </li>
         </ul>
         <div class="singTips">
@@ -152,6 +161,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+import qs from 'qs'
 export default {
   name: 'headerHtml',
   data () {
@@ -171,7 +182,14 @@ export default {
         {'name':'动态资讯','boll':false,'href':'information'},
         {'name':'线下门店','boll':false,'href':'underLine'},
         {'name':'关于我们','boll':false,'href':'about'},
-      ]
+      ],
+      //注册
+      phone:'',
+      password:'',
+      newPassword:'',
+      //登陆
+      upPhone:'',
+      upPassword:'',
     }
   },
   props:['index'],
@@ -180,8 +198,9 @@ export default {
   },
   methods: {
     nvaEve(val,key){
+      let _this = this;
       console.log(JSON.stringify(val))
-      this.$router.push({ name: val.href});
+      this.$router.push({ name: val.href,query:{id:_this.$route.query.id,userName:_this.$route.query.userName}});
     },
     //注册
     signUpEve(){
@@ -198,6 +217,70 @@ export default {
     singInJump(){
       this.signUpBoll = false;
       this.singInBoll = true;
+    },
+    signUp(){
+      let _this = this;
+      // var phone = document.getElementById('phone').value;
+      // if(!(/^1[34578]\d{9}$/.test(phone))){ 
+      //     alert("手机号码有误，请重填");  
+      //     return false; 
+      // } 
+      let myreg=/^[1][3,4,5,7,8][0-9]{9}$/;  
+      if (!myreg.test(this.phone)){
+        this.$message({
+          message: '请输入正确的手机号码！',
+          type: 'warning'
+        });
+        return false;
+      };
+      if(_this.password<6){
+        this.$message({
+          message: '注册密码不可小于6位数！',
+          type: 'warning'
+        });
+      }
+      if(_this.password!=_this.newPassword){
+        this.$message({
+          message: '俩次密码输入的不一致！',
+          type: 'warning'
+        });
+        return false;
+      }
+      axios.post('http://viphome.argu.net/api/register',qs.stringify({phone:_this.phone,password:_this.password}))
+      .then(function(dataJson){
+        console.log(JSON.stringify(dataJson.data));
+        if(dataJson.data.result){
+          _this.signUpBoll = false;
+          _this.singInBoll = true;
+        }
+      })
+      .catch(function(err){
+        alert(err);
+      });
+
+    },
+    signIn(){
+      let _this = this;
+      axios.post('http://viphome.argu.net/api/login',qs.stringify({phone:_this.upPhone,password:_this.upPassword}))
+      .then(function(dataJson){
+        if(dataJson.data.result){
+          console.log(JSON.stringify(dataJson.data.data.name));
+          _this.$router.push({ name: _this.navigation[_this.index].href,query: {
+            id:dataJson.data.data.id,
+            userName:dataJson.data.data.name
+          }});
+          _this.singInBoll = false;
+
+        }else{
+          _this.$message({
+            message: '账号或密码输入错误！',
+            type: 'warning'
+          });
+        }
+      })
+      .catch(function(err){
+        alert(err);
+      });
     }
   }
 
@@ -296,10 +379,14 @@ export default {
 .navigation a{
   color: #000;
   font-size: 15px;
+  height: 35px;
+  line-height: 35px;
+  width: 130px;
+  display: inline-block;
 }
 .navigation .nvaActive{
-  display: inline-block;
-  color: #D93330;
+  color: #fff;
+  background-color: #000;
 }
 
 
