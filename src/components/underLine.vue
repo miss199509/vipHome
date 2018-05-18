@@ -13,7 +13,7 @@
           线下门店
         </h3>
         <ul class="">
-          <li class="">
+          <li class="underList" v-for="(val,key) in mallsList">
             <div class="mapContent">
 
               <div class="">
@@ -23,33 +23,30 @@
                   <div class="">
                     <h2>
                       <img src=""/>
-                      VIP HOME真北展区
+                      {{val.name}}
                     </h2>
                     <p>
-                      营业时间：10.00-17.30（周一至周五）
+                      营业时间：{{val.opening_hours}}
                     </p>
                     <p>
-                      10.00-18.30（周六至周日）
-                    </p>
-                    <p>
-                      <img src="../assets/banner-02.jpg"/>
+                      <img height="138px;" :src="val.image" alt=""/>
                     </p>
                   </div>
                 </div>
                 
                 <div class="storeList">
                   <p class="title">
-                    真北展区有十二家门店
+                    {{val.name}}
                   </p>
                   <ul>
-                    <li v-for="(val,key) in 9">
-                      <img width="230px;" height="150px;" src="../assets/raw_1523952453.jpg"/>
+                    <li v-for="(i,j) in val.list">
+                      <img width="230px;" height="150px;" :src="i.image"/>
                       <div class="">
                         <img src=""/>
-                        <p>FC店：南馆4楼c1636</p>
-                        <p>门店电话：021-251525248</p>
+                        <p>{{i.name}}：{{i.address}}</p>
+                        <p>门店电话：{{i.telephone}}</p>
                         <el-button size="mini" @click="phoneSend()">发送地址到手机</el-button>
-                        <el-button size="mini" @click="reservations()">预约到门店</el-button>
+                        <el-button size="mini" @click="reservations(val,key,i,j)">预约到门店</el-button>
                       </div>
                     </li>
                   </ul>
@@ -94,7 +91,7 @@
               <p class="makeTitleVal">
                 您将要预约的门店是：
               </p>
-              <h3>上海红星美凯龙沪南店【Domicil专卖店】</h3>
+              <h3>{{reservationsName}}</h3>
             </div>
             <div class="makeCenter">
               <p class="makeTitleVal">请填写以下信息，以便我们为您提供更好服务：</p>
@@ -108,17 +105,17 @@
                 <ul class="overflowHidden">
                   <li class="floatLeft">
                     <label for="one">先生</label>
-                    <input type="radio" id="one" value="先生" v-model="picked">
+                    <input type="radio" id="one" value="1" v-model="picked">
                   </li>
                   <li class="floatLeft">
                     <label for="two">女士</label>
-                    <input type="radio" id="two" value="女士" v-model="picked">
+                    <input type="radio" id="two" value="0" v-model="picked">
                   </li>
                 </ul>
               </div>
               <div class="contactTelephone">
                 <label class="makeName">您的电话：</label>
-                <el-input v-model="phone" placeholder="请输入您的手机号码" size="mini"></el-input>
+                <el-input v-model="telephone" placeholder="请输入您的手机号码" size="mini"></el-input>
               </div>
 
               <div class="selectData">
@@ -129,7 +126,7 @@
                 <span>日</span>
 
                 <div class="select">
-                  <el-select v-model="value4" clearable placeholder="请选择" size="mini">
+                  <el-select v-model="optionsVal" clearable placeholder="请选择" size="mini">
                     <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                       
                     </el-option>
@@ -145,11 +142,11 @@
                   </div>
                   <div class="selectBottom">
                     <el-checkbox-group v-model="checkboxGroup5" size="small">
-                      <el-checkbox label="备选项1" border></el-checkbox>
-                      <el-checkbox label="备选项2" border></el-checkbox>
+                      <el-checkbox class="typeSelectClass" v-for="(val,key) in typeSelectList" :label="val.name" border></el-checkbox>
+                      <!-- <el-checkbox label="备选项2" border></el-checkbox> -->
                     </el-checkbox-group>
                     <p>
-                      <el-button type="primary" size="small">提交</el-button>
+                      <el-button type="primary" size="small" @click="makeSub()">提交</el-button>
                     </p>
                   </div>
 
@@ -174,7 +171,8 @@
 <script>
 import headerHtml from '../components/headerHtml'
 import bottomHtml from '../components/bottomHtml'
-
+import axios from 'axios'
+import qs from 'qs'
 
 export default {
   name: 'underLine',
@@ -183,8 +181,9 @@ export default {
       userName:'',
       input:'',
       phone:'',
+      telephone:'',
       radio:'1',
-      picked:'',
+      picked:'1',
       month:'',
       day:'',
       options: [
@@ -197,11 +196,16 @@ export default {
           label: '下午'
         }
       ],
-      value4: '',
+      optionsVal: '上午',
       checkboxGroup5:[],
       popupBackBoll:false,
       selectBoxBoll:false,
-      makeBoll:false
+      makeBoll:false,
+      mallsList:[],
+      storesList:[],
+      reservationsName:'',
+      reservationsId:'',
+      typeSelectList:[]
 
     }
   },
@@ -209,21 +213,126 @@ export default {
     'headerHtml':headerHtml,
     'bottomHtml':bottomHtml
   },
+  mounted(){
+    let _this = this;
+    axios.post('http://viphome.argu.net/api/malls',qs.stringify({}))
+    .then(function(dataJson){
+      if(dataJson.data.result){
+        //console.log(JSON.stringify(dataJson.data.data.data))
+        _this.mallsList = dataJson.data.data.data;
+        
+        axios.post('http://viphome.argu.net/api/stores',qs.stringify({}))
+        .then(function(dataJson){
+          if(dataJson.data.result){
+            _this.storesList = dataJson.data.data;
+            for(let i in _this.mallsList){
+              _this.$set(_this.mallsList[i],'list',[]);
+              for(let j in _this.storesList){
+                if(_this.mallsList[i].id==_this.storesList[j].mall_id){
+                  _this.mallsList[i].list.push(_this.storesList[j])
+                }
+              }
+            }
+            //console.log(JSON.stringify(_this.mallsList))
+            
+          }
+        })
+        .catch(function(err){
+          alert(err);
+        });
+
+
+      }
+    })
+    .catch(function(err){
+      alert(err);
+    });
+  },
   methods: {
 
     phoneSend(){
       this.popupBackBoll = true;
       this.selectBoxBoll = true;
     },
-    reservations(){
+    reservations(val,key,i,j){
+      console.log(val.id,i.id);
+      this.reservationsName = val.name+'【'+i.name+'】';
+      this.reservationsId = j;
       this.popupBackBoll = true;
       this.makeBoll = true;
+      let _this = this;
+      axios.post('http://viphome.argu.net/api/typeSelect',qs.stringify({id:i.id}))
+      .then(function(dataJson){
+        if(dataJson.data.result){
+          //console.log(JSON.stringify(dataJson.data.data))
+          _this.typeSelectList = dataJson.data.data;
+        }
+      })
+      .catch(function(err){
+        alert(err);
+      });
+
+
+
     },
     selectEve(){
+      let _this = this;
       this.$message({
         type: 'success',
         message: '门店地址等信息已发至您的手机，期待您的光临！'
       });
+      window.setTimeout(function(){
+        location.reload();
+      },3000); 
+
+    },
+    makeSub(){
+      let myreg=/^[1][3,4,5,7,8][0-9]{9}$/;  
+      if(!myreg.test(this.telephone)){
+        this.$message({
+          message: '请输入正确的手机号码！',
+          type: 'warning'
+        });
+        return false;
+      };
+      if(this.userName.length<2){
+        this.$message({
+          message: '请填写您的姓名！',
+          type: 'warning'
+        });
+        return false;
+      };
+
+      let _this = this;
+      console.log(JSON.stringify(this.checkboxGroup5))
+      //return false;
+      axios.post('http://viphome.argu.net/api/reservation',qs.stringify({
+        store:_this.reservationsId,
+        name:_this.userName,
+        gender:_this.picked,
+        telephone:_this.telephone,
+        plan_time:_this.month+'-'+_this.day+'-'+_this.optionsVal,
+        plan_categoray:JSON.stringify(_this.checkboxGroup5)
+      }))
+      .then(function(dataJson){
+        console.log(JSON.stringify(dataJson.data));
+        if(dataJson.data.result){
+          _this.$message({
+            type: 'success',
+            message: '提交成功，稍后客服人员会联系您！'
+          });
+          window.setTimeout(function(){
+            location.reload();
+          },3000); 
+        
+        }
+      })
+      .catch(function(err){
+        alert(err);
+      });
+
+      // this.popupBackBoll = false;
+      // this.makeBoll = false;
     }
 
 
@@ -249,7 +358,9 @@ export default {
   margin: 27px 0px;
   font-weight: 100;
 }
-
+.underList{
+  margin-bottom: 43px;
+}
 
 .mapContent{
 
@@ -266,6 +377,7 @@ export default {
   color: #a79595;
   font-size: 15px;
   text-align: right;
+  width: 290px;
 }
 .mapContent .map{
   display: flex;
@@ -285,6 +397,7 @@ export default {
 }
 .storeList ul{
   overflow: hidden;
+  margin-left: -45px;
 }
 .storeList li{
   display: flex;
@@ -292,7 +405,9 @@ export default {
   align-items: end;
   float: left;
   width: 470px;
-  margin: 9px 3px;
+  margin: 9px 0px;
+  margin-left: 45px;
+  margin-right: 0px;
 }
 .storeList li div{
   margin-left: 13px;
@@ -450,5 +565,8 @@ export default {
 }
 .selectBottom p button{
   width: 170px;
+}
+.typeSelectClass{
+  margin: 7px 0px;  
 }
 </style>

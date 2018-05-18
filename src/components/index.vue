@@ -37,14 +37,16 @@
       <!-- 优惠券 -->
       <div class="coupon">
         <ul>
-          <li v-for="x in 3">
-            <h4>
-              <i>￥</i>200
-            </h4>
-            <div class="">
-              <p>优惠券</p>
-              <p>满500元使用</p>
-            </div>
+          <li v-for="(val,key) in couponList">
+            <a :href="val.href">
+              <h4>
+                <i>￥</i>{{val.name}}
+              </h4>
+              <div class="">
+                <p>优惠券</p>
+                <p>{{val.title}}</p>
+              </div>
+            </a>
           </li>
         </ul>
       </div>
@@ -274,7 +276,8 @@ export default {
   data () {
     return {
       buyerShowList:[],
-      hotSaleList:[]
+      hotSaleList:[],
+      couponList:[]
     }
   },
   components:{
@@ -308,6 +311,15 @@ export default {
     axios.post('http://viphome.argu.net/api/banner',qs.stringify({position:2}))
     .then(function(dataJson){
       console.log(JSON.stringify(dataJson.data));
+    })
+    .catch(function(err){
+      alert(err);
+    });
+    //优惠券
+    axios.post('http://localhost:8089/api/coupon',qs.stringify({}))
+    .then(function(dataJson){
+      console.log(JSON.stringify(dataJson.data.data.data));
+      _this.couponList = dataJson.data.data.data;
     })
     .catch(function(err){
       alert(err);
@@ -403,11 +415,13 @@ export default {
 }
 .coupon li{
   overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   padding: 0px 43px;
   border-left: 1px solid #545454;
+}
+.coupon li a{
+  display: flex;
+  justify-content: center;
+  align-items: center; 
 }
 .coupon li:last-child{
   border-right: 1px solid #545454;

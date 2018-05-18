@@ -68,43 +68,23 @@
 
     <div class="brandContent">
       <ul>
-        <li class="brandContentClass">
-          <img width="100%;" src="../assets/brand/banner-01.jpg"/>
+        <li class="brandContentClass" v-for="(val,key) in brandsList">
+          <img class="banner" width="100%;" :src="val.banner"/>
           <div class="brandIntroduce newBrandIntroduce">
-            <img width="100%;" src="../assets/brand/logo-02.jpg"/>
+            <img width="100%;" :src="val.log"/>
             <img class="slogan" width="113px;" src="../assets/brand/slogan-01.jpg"/>
-            <h3>为舒适而生</h3>
+            <h3>{{val.name}}</h3>
             <p>
-            三个富有创造精神和远见卓识的理想家 ——Brigitta Jaeggle, Armin Eberlein, and Hans Dahme，一起致力于创造可以满足个人愿望的家具产品，在1978年创立了Domicil，以舒适为本，以风格为骨。随着位于德国魏茵斯滕的第一家门店开业以来，Domicil逐渐成为建造梦想之宅的代名词，如今，仍致力于此……
+              {{val.introduction}}
             </p>
-            <img class="commodity" width="100%;" src="../assets/brand/pic-01.jpg"/>
+            <img style="display: none;" class="commodity" width="100%;" src="../assets/brand/pic-01.jpg"/>
           </div>
           <div class="brandContentList">
             <h3><img width="15px;" src="../assets/brand/icon-01.jpg"/>DOMICIL Address</h3>
             <ul>
-              <li>
-                <strong>真北店</strong>
-                <span>普陀区真北路1108号红星美凯龙南馆二楼B8056</span>
-              </li>
-              <li>
-                <strong>青浦店</strong>
-                <span>青浦区赵巷嘉松中路5369号吉盛伟邦国际家具村二期D2W102</span>
-              </li>
-              <li>
-                <strong>汶水店</strong>
-                <span>宝山区汶水路1555号红星美凯龙一楼</span>
-              </li>
-              <li>
-                <strong>盛源大地店</strong>
-                <span>宝山区汶水路1555号红星美凯龙一楼</span>
-              </li>
-              <li>
-                <strong>浦东店</strong>
-                <span>浦东新区临御路518号红星美凯龙三楼B8073-B8075</span>
-              </li>
-              <li>
-                <strong>金桥店</strong>
-                <span>浦东新区金藏路158号红星美凯龙三楼8109-8110</span>
+              <li v-for="(val,key) in val.list">
+                <strong>{{val.name}}</strong>
+                <span>{{val.address}}</span>
               </li>
             </ul>
           </div>
@@ -121,18 +101,52 @@
 <script>
 import headerHtml from '../components/headerHtml'
 import bottomHtml from '../components/bottomHtml'
-
+import axios from 'axios'
+import qs from 'qs'
 
 export default {
   name: 'home',
   data () {
     return {
-
+      brandsList:[],
+      storesList:[]
     }
   },
   components:{
     'headerHtml':headerHtml,
     'bottomHtml':bottomHtml
+  },
+  mounted(){
+    let _this = this;
+    axios.post('http://viphome.argu.net/api/brand',qs.stringify({}))
+    .then(function(dataJson){
+      //console.log(JSON.stringify(dataJson.data.info))
+      if(dataJson.data.result){
+        _this.brandsList = dataJson.data.info;
+        
+        axios.post('http://viphome.argu.net/api/stores/brand',qs.stringify({}))
+        .then(function(dataJson){
+          _this.storesList = dataJson.data.data;
+          for(let key in _this.brandsList){
+            _this.$set(_this.brandsList[key],'list',[]);
+            for(let j in _this.storesList){
+              if(_this.brandsList[key].id==_this.storesList[j].id){
+                  _this.brandsList[key].list.push(_this.storesList[j]);
+              }
+            }
+          }
+          console.log(JSON.stringify(_this.brandsList))
+        })
+        .catch(function(err){
+          alert(err);
+        });
+
+
+      }
+    })
+    .catch(function(err){
+      alert(err);
+    });
   },
   methods: {
 
@@ -202,6 +216,10 @@ export default {
   font-size: 16px;
   margin: 21px 0px 11px 0px;
 }
+.brandContentClass .banner{
+  min-height: 370px;
+  max-height: 500px;
+}
 .brandIntroduce p{
   font-size: 12px;
   height: 100px;
@@ -226,11 +244,11 @@ export default {
   color: #262626;
 }
 .brandContentClass strong{
-  font-size: 16px;
+  font-size: 15px;
   color: #3C3C3C;
 }
 .brandContentClass span{
-  font-size: 14px;
+  font-size: 12px;
   color: #141414;
 }
 
@@ -245,8 +263,8 @@ export default {
 }
 .brandContentClass li{
   float: left;
-  width: 50%;
-  margin: 5px 0px;
+  width: 47%;
+  margin: 5px 10px;
 }
 .brandContentClass{
   overflow: hidden;

@@ -9,19 +9,19 @@
     </p>
     <div class="maxWidth">
       <p class="nav">
-        <a href="javascript:;" v-for="(val,key) in informationClassList" :class="{classNav:val.boll}" @click="classNavEve(val,key)">{{val.name}}</a>
+        <a href="javascript:;" v-for="(val,key) in articeclassList" :class="{classNav:val.boll}" @click="classNavEve(val,key)">{{val.name}}</a>
       </p>
       <!-- 品牌分类 -->
-      <div class="" v-show="informationClassList[0].boll">
+      <div class="" v-show="articeclassList[0].boll" v-if="articeclassList[0]!=null">
         <ul class="informationList">
-          <li v-for="x in 6">
-            <img width="100%" height="230px;" src="../assets/raw_1523952453.jpg"/>
-            <h2>5月家装节O2O-特惠舒美家！</h2>
-            <p>周末的午后，拉上窗帘，备好美酒，佳人相伴，一起感受魔幻光影世界与纯粹的家居设计。这，才是理想生活的正确打开方式。</p>
+          <li v-for="(val,key) in information" @click="informationEve(val,key)">
+            <img width="100%" height="230px;" :src="val.image"/>
+            <h2>{{val.title}}</h2>
+            <p>{{val.introdution}}</p>
             
             <div class="informationTips">
               <p>
-                <span>2018-03-03</span>
+                <span>{{val.create_time}}</span>
                 <span>公司动态</span>
               </p>
               <img src="../assets/icon-5.jpg"/>
@@ -29,29 +29,60 @@
 
           </li>
         </ul>
-        <div class="paging">
+        <div class="paging" style="display: none;">
           <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage3" :page-size="100" layout="prev, pager, next, jumper" :total="1000"></el-pagination>
         </div>
       </div>
       <!-- 行业资讯 -->
-      <div class="articleList" v-show="informationClassList[1].boll">
-        <img width="100%" src="../assets/raw_1523955111.jpg"/>
-        <h1>电商崛起，实体店销售额大不如前</h1>
+      <div class="journalism" v-show="articeclassList[1].boll" v-if="articeclassList[1]!=null">
+        <ul>
+          <li v-for="(val,key) in article" @click="articleEve(val,key)">
+            <img height="123px;" width="123px" :src="val.image"/>
+            <div>
+              <h3>{{val.title}}<span>{{val.create_time}}</span></h3>
+              <p>{{val.introdution}}</p>
+              <p class="overflowHidden">
+                <img class="floatRight" src="../assets/icon-6.jpg"/>
+              </p>
+            </div>
+          </li>
+        </ul>
+        <div class="paging" style="display: none;">
+          <el-pagination @size-change="handleSizeJournalism" @current-change="handleaJournalism" :current-page.sync="journalismPage" :page-size="100" layout="prev, pager, next, jumper" :total="1000"></el-pagination>
+        </div>
+      </div>
+
+
+      <!-- 家居新知 -->
+      <div class="journalism" v-show="articeclassList[2].boll" v-if="articeclassList[2]!=null">
+        <ul>
+          <li v-for="(val,key) in journalism">
+            <img height="123px;" width="123px" :src="val.image"/>
+            <div>
+              <h3>{{val.title}}<span>{{val.create_time}}</span></h3>
+              <p>{{val.introdution}}</p>
+              <p class="overflowHidden">
+                <img class="floatRight" src="../assets/icon-6.jpg"/>
+              </p>
+            </div>
+          </li>
+        </ul>
+        <div class="paging" style="display: none;">
+          <el-pagination @size-change="handleSizeJournalism" @current-change="handleaJournalism" :current-page.sync="journalismPage" :page-size="100" layout="prev, pager, next, jumper" :total="1000"></el-pagination>
+        </div>
+      </div>
+
+      <!-- 文章结构呈现 -->
+      <div class="articleList" v-show="articleBoll">
+        <!-- <img :src="articleText.image"/> -->
+        <h1>{{articleText.title}}</h1>
         <p class="title">
-          <span>2018-03-30</span>
+          <span>{{articleText.create_time}}</span>
           <span>行业资讯</span>
         </p>
-        <p>首先来看一组数据，在由商务部流通业发展司、中国建筑材料流通协会共同发布的全国建材家居景气指数BHI指出，
-2017年1-12月累计销售额为9173.7亿元，同比下降22.60%。2018年1月份全国建材家居景气指数(BHI)为79.82，环比
-下降12.24点，同比上升8.47点。全国规模以上建材家居卖场1月销售额为681.5亿元，环比下降12.55%,同比上涨41.23%。
-　　整体来说，建材家居市场行情持续低迷，综合影响1月全国建材家居市场整体表现也是稳中有降，与去年同期相比市
-场表现相对回暖，规模以上建材家居卖场销售额同比上涨41.23%。</p>
-        <p>首先来看一组数据，在由商务部流通业发展司、中国建筑材料流通协会共同发布的全国建材家居景气指数BHI指出，
-        2017年1-12月累计销售额为9173.7亿元，同比下降22.60%。2018年1月份全国建材家居景气指数(BHI)为79.82，环比
-        下降12.24点，同比上升8.47点。全国规模以上建材家居卖场1月销售额为681.5亿元，环比下降12.55%,同比上涨41.23%。
-        　　整体来说，建材家居市场行情持续低迷，综合影响1月全国建材家居市场整体表现也是稳中有降，与去年同期相比市
-        场表现相对回暖，规模以上建材家居卖场销售额同比上涨41.23%。</p>
-        <ul class="articleSelect">
+        <div class="" v-html="articleText.content" style="color: #7A7A7A;font-size: 14px;text-indent: 27px;line-height: 23px;"></div>
+        <!-- <p>首先来看一组数据，在由商务部流通业发展司</p> -->
+        <ul class="articleSelect" v-show="false">
           <li>
             <a href="javascript:;">上一篇：142平米美式风格 展现出空间贵气而又不失自在与随意的风范</a>
           </li>
@@ -60,31 +91,11 @@
           </li>
         </ul>
 
-        <div class="paging">
+        <div class="paging" style="display: none;">
           <el-pagination @size-change="handleSizeArticle" @current-change="handleaArticle" :current-page.sync="articlePage" :page-size="100" layout="prev, pager, next, jumper" :total="1000"></el-pagination>
         </div>
       </div>
 
-      <!-- 家居新知 -->
-      <div class="journalism" v-show="informationClassList[2].boll">
-        <ul>
-          <li>
-            <img width="123px" src="../assets/raw_1523952453.jpg"/>
-            <div>
-              <h3>新房装修后多久入住？<span>2018-03-30</span></h3>
-              <p>装修在施工时，要使用大量的装饰材料，其中绝大部分是化学合成材料，存在易挥发的成分，因
-            此装修后的房间会有一定的化学气味，刚一完工就入住，对人的身体没有好处，应该晾置几日，
-            待气味基本消除后再入住为好。对于家庭装修来……</p>
-              <p class="overflowHidden">
-                <img class="floatRight" src="../assets/icon-6.jpg"/>
-              </p>
-            </div>
-          </li>
-        </ul>
-        <div class="paging">
-          <el-pagination @size-change="handleSizeJournalism" @current-change="handleaJournalism" :current-page.sync="journalismPage" :page-size="100" layout="prev, pager, next, jumper" :total="1000"></el-pagination>
-        </div>
-      </div>
       
     </div>
 
@@ -98,6 +109,9 @@ import headerHtml from '../components/headerHtml'
 import bottomHtml from '../components/bottomHtml'
 
 
+import axios from 'axios'
+import qs from 'qs'
+
 export default {
   name: 'information',
   data () {
@@ -105,23 +119,90 @@ export default {
       currentPage3: 5,
       articlePage:1,
       journalismPage:1,
-      informationClassList:[
-        {name:'品牌分类',boll:true},
-        {name:'行业资讯',boll:false},
-        {name:'家居新知',boll:false}
-      ]
+      articeclassList:[],
+      article:{},
+      information:{},
+      journalism:{},
+      articleText:'',
+      articleBoll:false
     }
   },
   components:{
     'headerHtml':headerHtml,
     'bottomHtml':bottomHtml
   },
+  mounted(){
+    let _this = this;
+    axios.post('http://viphome.argu.net/api/articeclass',qs.stringify({}))
+    .then(function(dataJson){
+      //console.log(JSON.stringify(dataJson.data.data))
+      if(dataJson.data.result){
+        _this.articeclassList = dataJson.data.data;
+        for(let key in _this.articeclassList){
+          _this.$set(_this.articeclassList[key],'boll',false);
+        };
+        _this.articeclassList[0].boll = true;
+
+
+
+
+        axios.post('http://viphome.argu.net/api/artices',qs.stringify({class_id:_this.articeclassList[0].id}))
+        .then(function(dataJson){
+          if(dataJson.data.result){
+            //console.log(JSON.stringify(dataJson.data.data.data))
+            _this.information =dataJson.data.data.data;
+          }
+        })
+        .catch(function(err){
+          alert(err);
+        });
+        
+        axios.post('http://viphome.argu.net/api/artices',qs.stringify({class_id:_this.articeclassList[1].id}))
+        .then(function(dataJson){
+          if(dataJson.data.result){
+            //console.log(JSON.stringify(dataJson.data.data.data))
+            _this.article =dataJson.data.data.data;
+          }
+        })
+        .catch(function(err){
+          alert(err);
+        });
+
+
+        axios.post('http://viphome.argu.net/api/artices',qs.stringify({class_id:_this.articeclassList[2].id}))
+        .then(function(dataJson){
+          if(dataJson.data.result){
+            console.log(JSON.stringify(dataJson.data.data.data))
+            _this.journalism = dataJson.data.data.data;
+          }
+        })
+        .catch(function(err){
+          alert(err);
+        });
+
+
+
+      }
+    })
+    .catch(function(err){
+      alert(err);
+    });
+
+
+
+
+
+  },
   methods: {
     classNavEve(val,key){
-      for(let i in this.informationClassList){
-        this.informationClassList[i].boll = false;
+      for(let i in this.articeclassList){
+        this.articeclassList[i].boll = false;
       }
       val.boll = true;
+      this.articleBoll = false;
+    },
+    dynamicEve(id){
+      let _this = this;
     },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
@@ -140,6 +221,21 @@ export default {
     },
     handleaJournalism(val){
       console.log(`当前页: ${val}`);
+    },
+    informationEve(val,key){
+      //console.log(JSON.stringify(val))
+      this.articleText = val;
+      this.articleBoll = true;
+      for(let key in this.articeclassList){
+        this.articeclassList[key].boll = false;
+      };
+    },
+    articleEve(val,key){
+      this.articleText = val;
+      this.articleBoll = true;
+      for(let key in this.articeclassList){
+        this.articeclassList[key].boll = false;
+      };
     }
   },
 
@@ -167,7 +263,7 @@ export default {
   margin-top: 30px;
   float: left;
   margin-left: 100px;
-
+  cursor: pointer;
 }
 .informationList img{
   
@@ -205,7 +301,7 @@ export default {
 
 /*行业资讯*/
 .articleList{
-
+  margin-bottom: 33px;
 }
 .articleList h1{
   text-align: center;
@@ -256,9 +352,11 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin: 27px 0px;
+  cursor: pointer;
 }
 .journalism div{
   margin-left: 33px;
+  width: 100%;
 }
 .journalism div h3{
   font-size: 26px;
