@@ -14,7 +14,7 @@
       <!-- 品牌分类 -->
       <div class="" v-show="articeclassList[0].boll" v-if="articeclassList[0]!=null">
         <ul class="informationList">
-          <li v-for="(val,key) in information" @click="informationEve(val,key)">
+          <li v-for="(val,key) in information" @click="articleEve(val,key)">
             <img width="100%" height="230px;" :src="val.image"/>
             <h2>{{val.title}}</h2>
             <p>{{val.introdution}}</p>
@@ -56,7 +56,7 @@
       <!-- 家居新知 -->
       <div class="journalism" v-show="articeclassList[2].boll" v-if="articeclassList[2]!=null">
         <ul>
-          <li v-for="(val,key) in journalism">
+          <li v-for="(val,key) in journalism" @click="articleEve(val,key)">
             <img height="123px;" width="123px" :src="val.image"/>
             <div>
               <h3>{{val.title}}<span>{{val.create_time}}</span></h3>
@@ -221,14 +221,6 @@ export default {
     },
     handleaJournalism(val){
       console.log(`当前页: ${val}`);
-    },
-    informationEve(val,key){
-      //console.log(JSON.stringify(val))
-      this.articleText = val;
-      this.articleBoll = true;
-      for(let key in this.articeclassList){
-        this.articeclassList[key].boll = false;
-      };
     },
     articleEve(val,key){
       this.articleText = val;

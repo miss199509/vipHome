@@ -158,7 +158,7 @@
               <i>共搜索到1347符合条件的商品</i>
               <div class="keyWord">
                 <span>关键词：</span>
-                <el-input placeholder="请输入内容" v-model="search" clearable size="mini"></el-input>
+                <el-input placeholder="请输入内容" v-model="selectSearch" clearable size="mini"></el-input>
               </div>
               <div class="selectPrice">
                 <span>价格区间：</span>
@@ -184,7 +184,7 @@
                 </li>
 
                 <li>
-                  <span>1/4</span>
+                  <span>1/1</span>
                   <a href="javascript:;">上一页</a>
                   <a href="javascript:;">下一页</a>
                 </li>
@@ -199,7 +199,7 @@
                 <a :href="val.taobao">
                   <p class="imgBorder">
                     <img height="270px;" :src="val.image" alt="图片加载失败"/>
-                    <img class="logo" src="../assets/icon-1.jpg"/>
+                    <img v-show="key==0" class="logo" src="../assets/icon-1.jpg"/>
                   </p>
 
                   <h3>
@@ -219,79 +219,6 @@
                 </p>
 
               </div>
-
-      
-              <el-row style="display: none;">
-                <el-col :span="7">
-                  <div class="grid-content">
-                    
-                    <p class="imgBorder">
-                      <img src="../assets/pic-01.jpg"/>
-                      <img class="logo" src="../assets/icon-1.jpg"/>
-                    </p>
-                    <h3>
-                      <strong>￥136000</strong>
-                      <i>
-                        ￥146000
-                      </i>
-                    </h3>
-                    <p class="describe">
-                      欧莉斯田园风纯棉四件套1.5m全棉花卉单双人1.8米家纺宿舍套件
-                    </p>
-                    <p class="sale">
-                      <span>总销售7</span>
-                      <i>|</i>
-                      <span>评论27</span>
-                    </p>
-                  </div>
-                </el-col>
-                <el-col :span="7">
-                  <div class="grid-content">
-                    
-                    <p class="imgBorder">
-                      <img src="../assets/pic-01.jpg"/>
-                      <img class="logo" src="../assets/icon-1.jpg"/>
-                    </p>
-                    <h3>
-                      <strong>￥136000</strong>
-                      <i>
-                        ￥146000
-                      </i>
-                    </h3>
-                    <p class="describe">
-                      欧莉斯田园风纯棉四件套1.5m全棉花卉单双人1.8米家纺宿舍套件
-                    </p>
-                    <p class="sale">
-                      <span>总销售7</span>
-                      <i>|</i>
-                      <span>评论27</span>
-                    </p>
-                  </div>
-                </el-col>
-                <el-col :span="7">
-                  <div class="grid-content">
-                    
-                    <p class="imgBorder">
-                      <img src="../assets/pic-01.jpg"/>
-                      <img class="logo" src="../assets/icon-1.jpg"/>
-                    </p>
-                    <h3>
-                      <strong>￥136000</strong>
-                      <i>
-                        ￥146000
-                      </i>
-                    </h3>
-                    <p class="describe">
-                      欧莉斯田园风纯棉四件套1.5m全棉花卉单双人1.8米家纺宿舍套件
-                    </p>
-                    <p class="sale">
-                      <span>总销售7</span>
-                      <i>|</i>
-                      <span>评论27</span>
-                    </p>
-                  </div>
-                </el-col>
-              </el-row>
 
 
             </div>
@@ -341,6 +268,8 @@ export default {
       categoryNm:'',
       styleNm:'',
       spaceNm:'',
+      selectSearch:'',
+      order_by_field:'popularity',
       sortList:[
         {name:'人气',boll:true},
         {name:'销量',boll:false},
@@ -365,8 +294,8 @@ export default {
     axios.post('http://viphome.argu.net/api/brand',qs.stringify({}))
     .then(function(dataJson){
       if(dataJson.data.result){
-        //console.log(JSON.stringify(dataJson.data.info.data));
-        _this.brandList = dataJson.data.info.data;
+        //console.log(JSON.stringify(dataJson.data.info));
+        _this.brandList = dataJson.data.info;
         for(let key in _this.brandList){
 
           _this.$set(_this.brandList[key],'boll',false)
@@ -429,7 +358,7 @@ export default {
     //商品列表http://localhost:8089/api/products
     axios.post('http://viphome.argu.net/api/products',qs.stringify({}))
     .then(function(dataJson){
-        console.log(JSON.stringify(dataJson.data.categorys.data));
+        //console.log(JSON.stringify(dataJson.data.categorys.data));
 
         _this.styleNm = dataJson.data.styles.data[0].id;
         _this.brandNm = dataJson.data.brands.data[0].id;
@@ -451,7 +380,9 @@ export default {
         }
         _this.categorysList[0].boll = true;
         //商品接口
-        _this.spacebrandEve('http://viphome.argu.net/api/popularitys');
+        //_this.spacebrandEve('http://viphome.argu.net/api/popularitys');
+        console.log(_this.brandNm,_this.categoryNm,_this.styleNm,_this.spaceNm)
+        _this.newSpacebrandEve()
     })
     .catch(function(err){
       alert(err);
@@ -470,41 +401,67 @@ export default {
       console.log(JSON.stringify(i))
     },
     brandEve(val,key){
-      for(let i in this.brandList){
-        this.brandList[i].boll = false;
+
+      if(val.boll==true){
+        val.boll = false;
+        this.brandNm = '';
+      }else{
+        for(let i in this.brandList){
+          this.brandList[i].boll = false;
+        }
+        val.boll = true;
+        this.brandNm = val.id;
       }
-      val.boll = true;
-      this.brandNm = val.id;
-      this.spacebrandEve('http://viphome.argu.net/api/popularitys');
+
+      this.newSpacebrandEve()
     },
     categorysEve(val,key){
-      for(let i in this.categorysList){
-        this.categorysList[i].boll = false;
+
+      if(val.boll==true){
+        val.boll = false;
+        this.categoryNm = '';
+      }else{
+        for(let i in this.categorysList){
+          this.categorysList[i].boll = false;
+        }
+        val.boll = true;
+        this.categoryNm = val.id;
       }
-      val.boll = true;
-      this.categoryNm = val.id;
-      this.spacebrandEve('http://viphome.argu.net/api/popularitys');
+
+
+      this.newSpacebrandEve()
     },
     spaceEve(val,key){
-      for(let i in this.spaceList){
-        this.spaceList[i].boll = false;
+
+      if(val.boll==true){
+        val.boll = false;
+        this.spaceNm = '';
+      }else{
+        for(let i in this.spaceList){
+          this.spaceList[i].boll = false;
+        }
+        val.boll = true;
+        this.spaceNm = val.id;
       }
-      val.boll = true;
-      this.spaceNm = val.id;
-      this.spacebrandEve('http://viphome.argu.net/api/popularitys');
+      this.newSpacebrandEve()
     },
     stylesEve(val,key){
-      for(let i in this.stylesList){
-        this.stylesList[i].boll = false;
+      if(val.boll==true){
+        val.boll = false;
+        this.styleNm = '';
+      }else{
+        for(let i in this.stylesList){
+          this.stylesList[i].boll = false;
+        }
+        val.boll = true;
+        this.styleNm = val.id;
       }
-      val.boll = true;
-      this.styleNm = val.id;
-      this.spacebrandEve('http://viphome.argu.net/api/popularitys');
+      this.newSpacebrandEve()
     },
     spacebrandEve(url){
       let _this = this;
       //按人气排序
-      console.log(_this.brandNm,_this.categoryNm,_this.styleNm,_this.spaceNm)
+      //console.log(_this.brandNm,_this.categoryNm,_this.styleNm,_this.spaceNm)
       axios.post(url,qs.stringify({
         brand_id:_this.brandNm,
         category_id:_this.categoryNm,
@@ -512,7 +469,7 @@ export default {
         space_id:_this.spaceNm
       }))
       .then(function(dataJson){
-        console.log(JSON.stringify(dataJson.data))
+        //console.log(JSON.stringify(dataJson.data))
         if(dataJson.data.result){
           _this.spacebrandList = dataJson.data.info.data;
           _this.lastPage = dataJson.data.info.last_page*100;
@@ -529,21 +486,39 @@ export default {
       let _this = this;
       val.boll = true;
       if(val.name=='价格'){
-        _this.spacebrandEve('http://viphome.argu.net/api/price');
-        // axios.post('http://viphome.argu.net/api/price',qs.stringify({
-        //   brand_id:_this.brandNm,
-        //   category_id:_this.categoryNm,
-        //   style_id:_this.styleNm,
-        //   space_id:_this.spaceNm
-        // }))
-        // .then(function(dataJson){
-        //   console.log(JSON.stringify(dataJson.data))
-        // })
-        // .catch(function(err){
-        //   alert(err);
-        // });
+        this.order_by_field = 'price';
+      }
+      if(val.nam=='人气'){
+        this.order_by_field = 'popularity';
+      }
+      if(val.nam=='销量'){ 
+        this.order_by_field = 'sales';
+      }
+      if(val.nam=='新品'){ 
+        this.order_by_field = 'create_time';
       }
 
+
+    },
+    newSpacebrandEve(){
+
+      let _this = this;
+      console.log(_this.order_by_field)
+      axios.post('http://viphome.argu.net/api/products_v2',qs.stringify({
+        selectSearch:'',
+        brand_id:_this.brandNm,
+        category_id:_this.categoryNm,
+        space_id:_this.spaceNm,
+        style_id:_this.styleNm,
+        order_by_field:_this.order_by_field
+      }))
+      .then(function(dataJson){
+        console.log(JSON.stringify(dataJson.data.data.data))
+        _this.spacebrandList = dataJson.data.data.data;
+      })
+      .catch(function(err){
+        alert(err);
+      });
     }
 
   },
@@ -601,11 +576,11 @@ export default {
   border: 1px solid #000;
 }
 .classification span{
-  text-align: center;
-  width: 60px;
+  width: 85px;
   margin-left: 17px;
   font-size: 13px;
   color: #060606;
+  text-align: -webkit-auto;
 }
 
 /*搜索框*/
