@@ -2,10 +2,10 @@
   <div class="bottomHtml">
   
     <div class="maxWidth">
-      <ul>
+      <ul class="nav">
         <li>
           <p>
-            <a href="javascript:;">动态咨询</a>
+            <a class="title" href="javascript:;">动态咨询</a>
           </p>
           <p>
             <a href="javascript:;">公司动态</a>
@@ -19,24 +19,12 @@
         </li>
         <li>
           <p>
-            <a href="javascript:;">关于我们</a>
-          </p>
-          <p>
-            <a href="javascript:;">公司简介</a>
+            <a class="title" href="javascript:;">关于我们</a>
           </p>
         </li>
         <li>
           <p>
-            <a href="javascript:;">服务支持</a>
-          </p>
-          <p>
-            <a href="javascript:;">购物须知</a>
-          </p>
-          <p>
-            <a href="javascript:;">退货换货</a>
-          </p>
-          <p>
-            <a href="javascript:;">售后服务</a>
+            <a class="title" href="javascript:;">服务支持</a>
           </p>
         </li>
       </ul>
@@ -45,11 +33,11 @@
       </h3>
       <ul class="wxinImg">
         <li>
-          <img width="90px;" src="../assets/raw_1523956664.jpg"/>
+          <img width="120px;" src="../assets/raw_1523956664.jpg"/>
           <p>VIP home欢邸微信公众号</p>
         </li>
         <li>
-          <img width="90px;" src="../assets/raw_1523956664.jpg"/>
+          <img width="120px;" src="../assets/new_raw_1523956664.jpg"/>
           <p>VIP home欢邸淘宝店</p>
         </li>
       </ul>
@@ -90,12 +78,24 @@ export default {
 .bottomHtml li:first-child{
   margin: 0px;
   margin-right: 23px;
+  text-align: center;
+}
+.bottomHtml li:last-of-type{
+  margin-right: 0px;
 }
 .bottomHtml a{
   color: #BBB9B9;
-  font-size: 14px;
+  font-size: 16px;
 }
-
+.bottomHtml .title{
+  font-size: 18px;
+}
+.nav p{
+  margin: 13px 0px;
+}
+.nav li:last-of-type{
+  margin-right: 0px;
+}
 
 .bottomHtml div{
   display: flex;
@@ -108,25 +108,28 @@ export default {
   border-right: 1px solid #3F3232;
   border-left: 1px solid #3F3232;
   color: #ccc;
-  padding: 45px 60px;
+  padding: 66px 60px;
   font-weight: 100;
+  font-size: 23px;
 }
 
 
 .Keep_onRecord{
   text-align: center;
   color: #B4B1B0;
-  padding-bottom: 11px;
-  font-size: 13px;
+  padding-bottom: 30px;
+  font-size: 15px;
 }
 
 
 .wxinImg li{
   text-align: center;
-  width: 90px;
+  width: 106px;
 }
 .wxinImg li p{
-  font-size: 13px;
+  font-size: 15px;
   text-align: center;
+  color: #BBB9B9;
+  margin-top: 7px;
 }
 </style>

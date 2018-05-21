@@ -157,32 +157,32 @@
         <div class="">
           
           <el-row>
-            <el-col :span="3">
+            <el-col :span="4">
               <p class="brand">
                 <img src="../assets/brand/logo-01.jpg"/>
               </p>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <p class="brand">
                 <img src="../assets/brand/logo-02.jpg"/>
               </p>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <p class="brand">
                 <img src="../assets/brand/logo-03.jpg"/>
               </p>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <p class="brand">
                 <img src="../assets/brand/logo-04.jpg"/>
               </p>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <p class="brand">
                 <img src="../assets/brand/logo-05.jpg"/>
               </p>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <p class="brand">
                 <img src="../assets/brand/logo-06.jpg"/>
               </p>
@@ -190,32 +190,32 @@
           </el-row>
 
           <el-row>
-            <el-col :span="3">
+            <el-col :span="4">
               <p class="brand">
                 <img src="../assets/brand/logo-07.jpg"/>
               </p>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <p class="brand">
                 <img src="../assets/brand/logo-08.jpg"/>
               </p>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <p class="brand">
                 <img src="../assets/brand/logo-09.jpg"/>
               </p>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <p class="brand">
                 <img src="../assets/brand/logo-10.jpg"/>
               </p>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <p class="brand">
                 <img src="../assets/brand/logo-11.jpg"/>
               </p>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <p class="brand">
                 <img src="../assets/brand/logo-12.jpg"/>
               </p>
@@ -223,32 +223,32 @@
           </el-row>
 
           <el-row>
-            <el-col :span="3">
+            <el-col :span="4">
               <p class="brand">
                 <img src="../assets/brand/logo-13.jpg"/>
               </p>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <p class="brand">
                 <img src="../assets/brand/logo-14.jpg"/>
               </p>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <p class="brand">
                 <img src="../assets/brand/logo-15.jpg"/>
               </p>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <p class="brand">
                 <img src="../assets/brand/logo-16.jpg"/>
               </p>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <p class="brand">
                 <img src="../assets/brand/logo-17.jpg"/>
               </p>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <p class="brand">
                 <img src="../assets/brand/logo-18.jpg"/>
               </p>
@@ -534,15 +534,18 @@ export default {
   align-items: center;
   margin: 23px 0px;
 }
-.brandBox .el-col-3{
+.brandBox .el-col-4{
   margin: 0px 3px;
 }
 .brandBox .brand{
-  width: 100%;
+  width: 99%;
   height: 100%;
   border-right: 1px solid #B9B9B9;
 }
-.brandBox .el-col-3:last-child .brand {
+.brandBox .el-col-4:last-child .brand {
+  border: none;
+}
+.brandBox .el-col-4:last-of-type .brand {
   border: none;
 }
 .brand img{

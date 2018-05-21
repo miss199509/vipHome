@@ -5,7 +5,7 @@
       
       <headerHtml :index="1"></headerHtml>
 
-      <div class="maxWidth navigation" style="display: none;">
+      <div class="maxWidth navigation">
         <header>
           <strong>所有品牌</strong>
           <strong v-for="(val,key) in spaceList">{{val.name}}</strong>
@@ -113,7 +113,7 @@
                 所有宝贝
               </a>
               <i>></i>
-              <span>Domicil</span>
+              <span>{{brandName}}</span>
             </p>
 
             <nav class="classification">
@@ -184,9 +184,9 @@
                 </li>
 
                 <li>
-                  <span>1/1</span>
-                  <a href="javascript:;">上一页</a>
-                  <a href="javascript:;">下一页</a>
+                  <span>{{pageNum/100}}/{{lastPage/100}}</span>
+                  <a href="javascript:;" @click="firstEve()">上一页</a>
+                  <a href="javascript:;" @click="lastEve()">下一页</a>
                 </li>
               
               </ul>
@@ -213,9 +213,9 @@
                   </p>
                 </a>
                 <p class="sale">
-                  <span>总销售7</span>
+                  <span>总销售{{val.sales}}</span>
                   <i>|</i>
-                  <span>评论27</span>
+                  <span>评论{{val.comment}}</span>
                 </p>
 
               </div>
@@ -224,9 +224,9 @@
             </div>
 
           </div>
-          
           <div class="paging">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage3" :page-size="100" layout="prev, pager, next, jumper" :total="lastPage">
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="100" layout="prev, pager, next, jumper" :total="lastPage">
+            </el-pagination>
             </el-pagination>
           </div>
 
@@ -254,7 +254,7 @@ export default {
   data () {
     return {
       search:'',
-      currentPage3: 1,
+      currentPage: 1,
       brandList:[],
       spaceList:[],
       categoryList:[],
@@ -276,12 +276,14 @@ export default {
         {name:'新品',boll:false},
         {name:'价格',boll:false}   
       ],
-      lastPage:0
+      lastPage:0,
       // newList:[
       //   {name:[{i:'00'},{i:'00'}]},
       //   {name:[{i:'00'},{i:'00'}]},
       //   {name:[{i:'00'},{i:'00'}]}
       // ]
+      brandName:'',
+      pageNum:100
     }
   },
   components:{
@@ -296,6 +298,7 @@ export default {
       if(dataJson.data.result){
         //console.log(JSON.stringify(dataJson.data.info));
         _this.brandList = dataJson.data.info;
+        _this.brandName = _this.brandList[0].name;
         for(let key in _this.brandList){
 
           _this.$set(_this.brandList[key],'boll',false)
@@ -396,15 +399,18 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+      this.newSpacebrandEve(val)
+      this.pageNum = val*100;
     },
     newCategoryEve(i,j){
       console.log(JSON.stringify(i))
     },
     brandEve(val,key){
-
+      this.brandName = val.name;
       if(val.boll==true){
         val.boll = false;
         this.brandNm = '';
+        this.brandName = '';
       }else{
         for(let i in this.brandList){
           this.brandList[i].boll = false;
@@ -472,7 +478,7 @@ export default {
         //console.log(JSON.stringify(dataJson.data))
         if(dataJson.data.result){
           _this.spacebrandList = dataJson.data.info.data;
-          _this.lastPage = dataJson.data.info.last_page*100;
+          //_this.lastPage = dataJson.data.info.last_page*100;
         }
       })
       .catch(function(err){
@@ -500,7 +506,7 @@ export default {
 
 
     },
-    newSpacebrandEve(){
+    newSpacebrandEve(pag=1){
 
       let _this = this;
       console.log(_this.order_by_field)
@@ -510,15 +516,40 @@ export default {
         category_id:_this.categoryNm,
         space_id:_this.spaceNm,
         style_id:_this.styleNm,
-        order_by_field:_this.order_by_field
+        order_by_field:_this.order_by_field,
+        page:pag
       }))
       .then(function(dataJson){
-        console.log(JSON.stringify(dataJson.data.data.data))
+        console.log(JSON.stringify(dataJson.data.data.last_page))
+        _this.lastPage = dataJson.data.data.last_page*100;
         _this.spacebrandList = dataJson.data.data.data;
       })
       .catch(function(err){
         alert(err);
       });
+    },
+    lastEve(){
+      if(this.spacebrandList.length<15){
+        this.$message({
+          message: '已经是最后一页',
+          type: 'warning'
+        }); 
+        return false;
+      }
+      let num = this.pageNum+=100;
+      this.newSpacebrandEve(num/100);
+      console.log(num)
+      this.currentPage = num/100;
+
+    },
+    firstEve(){
+      if(this.pageNum<=100){
+        return false;
+      }
+      let num = this.pageNum-=100;
+      this.newSpacebrandEve(num/100);
+      console.log(num)
+      this.currentPage = num/100;
     }
 
   },
@@ -559,7 +590,7 @@ export default {
 
 /*分类*/
 .classification li{
-  display: flex;
+  display: -webkit-box;
   justify-content: flex-start;
   align-items: center;
   margin: 15px 0px;
@@ -570,7 +601,7 @@ export default {
   color: #000;
   /*border: 1px solid #000;*/
   display: inline-block;
-  padding: 0px 7px;
+  padding: 2px 13px;
 }
 .classification .brandCss{
   border: 1px solid #000;
@@ -578,7 +609,7 @@ export default {
 .classification span{
   width: 85px;
   margin-left: 17px;
-  font-size: 13px;
+  font-size: 15px;
   color: #060606;
   text-align: -webkit-auto;
 }
