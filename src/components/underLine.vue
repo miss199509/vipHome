@@ -8,7 +8,7 @@
         <img width="100%;" src="../assets/brand/banner.jpg"/>
       </p>
       
-      <div class="underLineBox maxWidth">
+      <div class="underLineBox">
         <h3>
           线下门店
         </h3>
@@ -19,17 +19,20 @@
               <div class="">
 
                 <div class="map">
-                  <iframe src="http://lbsyun.baidu.com/jsdemo/demo/a1_2.htm" width="500" height="260" frameborder="0" scrolling="no"></iframe>
+                  
+                  <!-- <iframe src="http://lbsyun.baidu.com/jsdemo/demo/a1_2.htm" width="510" height="290" frameborder="0" scrolling="no"></iframe> -->
+                  <div :id="val.idName" style="height: 290px;width: 510px;"></div>
+
                   <div class="">
                     <h2>
                       <img src=""/>
                       {{val.name}}
                     </h2>
-                    <p>
+                    <p class="address">
                       营业时间：{{val.opening_hours}}
                     </p>
                     <p>
-                      <img height="138px;" :src="val.image" alt=""/>
+                      <img width="345px;" height="165px;" :src="val.image" alt=""/>
                     </p>
                   </div>
                 </div>
@@ -40,13 +43,13 @@
                   </p>
                   <ul>
                     <li v-for="(i,j) in val.list">
-                      <img width="230px;" height="150px;" :src="i.image"/>
+                      <img width="210px;" height="150px;" :src="i.image"/>
                       <div class="">
-                        <img src=""/>
-                        <p>{{i.name}}：{{i.address}}</p>
+                        <!-- <img src=""/> -->
+                        <p>{{i.name}}：{{val.address}}，{{i.address}}</p>
                         <p>门店电话：{{i.telephone}}</p>
-                        <el-button size="mini" @click="phoneSend()">发送地址到手机</el-button>
-                        <el-button size="mini" @click="reservations(val,key,i,j)">预约到门店</el-button>
+                        <el-button class="buttonCss" size="mini" @click="phoneSend(val,key,i,j)">发送地址到手机</el-button>
+                        <el-button class="buttonCss" size="mini" @click="reservations(val,key,i,j)">预约到门店</el-button>
                       </div>
                     </li>
                   </ul>
@@ -63,6 +66,7 @@
         <div class="popupBox">
           <header>
             <img width="130px;" src="../assets/logo-01.jpg"/>
+            <i class="el-icon-close cursor" @click="removePopupEve()"></i>
           </header>
           <!-- 发送短信 -->
           <div class="selectBox" v-show="selectBoxBoll">
@@ -77,9 +81,9 @@
               
               <h3>以下信息将发送到你的手机：</h3>
               <div class="">
-                <p>上海红星美凯龙沪南店【Domicil专卖店】欢迎您的光临</p>
-                <p>地址：上海市浦东新区川沙新镇外环以外川沙路4825号B座二层223号展厅</p>
-                <p>店内电话：021-88859655</p>
+                <p>{{phoneText.name}}</p>
+                <p>地址：{{phoneText.address}}</p>
+                <p>店内电话：{{phoneText.telephone}}</p>
                 <p>交通线路：上海市浦东新区川沙新镇外环以外川沙路4825号B座二层223号展厅。</p>
               </div>
 
@@ -205,7 +209,9 @@ export default {
       storesList:[],
       reservationsName:'',
       reservationsId:'',
-      typeSelectList:[]
+      typeSelectList:[],
+      //发送到手机
+      phoneText:{}
 
     }
   },
@@ -223,17 +229,39 @@ export default {
         
         axios.post('http://viphome.argu.net/api/stores',qs.stringify({}))
         .then(function(dataJson){
+          //console.log(JSON.stringify(dataJson.data))
           if(dataJson.data.result){
             _this.storesList = dataJson.data.data;
             for(let i in _this.mallsList){
               _this.$set(_this.mallsList[i],'list',[]);
+              _this.$set(_this.mallsList[i],'idName','allmap'+i);
+              
+                _this.$nextTick(function () {
+                  // 百度地图API功能
+                  var map = new BMap.Map(_this.mallsList[i].idName);
+                  var point = new BMap.Point(_this.mallsList[i].coordinate);
+                  map.centerAndZoom(point,12);
+                  // 创建地址解析器实例
+                  var myGeo = new BMap.Geocoder();
+                  // 将地址解析结果显示在地图上,并调整地图视野
+                  myGeo.getPoint(_this.mallsList[i].address, function(point){
+                    if (point) {
+                      map.centerAndZoom(point, 16);
+                      map.addOverlay(new BMap.Marker(point));
+                    }else{
+                      alert("您选择地址没有解析到结果!");
+                    }
+                  }, "上海市");
+                })
+
+
               for(let j in _this.storesList){
                 if(_this.mallsList[i].id==_this.storesList[j].mall_id){
                   _this.mallsList[i].list.push(_this.storesList[j])
                 }
               }
             }
-            //console.log(JSON.stringify(_this.mallsList))
+            console.log(JSON.stringify(_this.mallsList))
             
           }
         })
@@ -250,7 +278,10 @@ export default {
   },
   methods: {
 
-    phoneSend(){
+    phoneSend(val,key,i,j){
+      console.log(JSON.stringify(i))
+      i.name = val.name+'【'+i.name+'】';
+      this.phoneText = i;
       this.popupBackBoll = true;
       this.selectBoxBoll = true;
     },
@@ -271,9 +302,11 @@ export default {
       .catch(function(err){
         alert(err);
       });
-
-
-
+    },
+    removePopupEve(){
+      this.popupBackBoll = false;
+      this.selectBoxBoll = false;
+      this.makeBoll = false;
     },
     selectEve(){
       let _this = this;
@@ -346,11 +379,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.el-icon-close{
+  position: absolute;
+  right: 0px;
+  font-size: 35px;
+}
 
 /*线下门店*/
 .underLineBox{
-
+  max-width: 1000px;
+  margin: auto;
 }
 .underLineBox h3{
   font-size: 20px;
@@ -373,11 +411,14 @@ export default {
 }
 
 .map p{
-  margin: 7px 0px;
   color: #a79595;
-  font-size: 15px;
+  font-size: 17px;
   text-align: right;
-  width: 290px;
+}
+.map .address{
+  width: 300px;
+  float: right;
+  margin: 22px 0px;
 }
 .mapContent .map{
   display: flex;
@@ -397,7 +438,7 @@ export default {
 }
 .storeList ul{
   overflow: hidden;
-  margin-left: -45px;
+  margin-left: -55px;
 }
 .storeList li{
   display: flex;
@@ -406,17 +447,20 @@ export default {
   float: left;
   width: 470px;
   margin: 9px 0px;
-  margin-left: 45px;
+  margin-left: 55px;
   margin-right: 0px;
 }
 .storeList li div{
   margin-left: 13px;
 }
 .storeList li p{
-  font-size: 14px;
-  margin: 9px 0px;
+  font-size: 16px;
+  margin: 11px 0px;
 }
-
+.buttonCss{
+  color: #000;
+  font-size: 14px;
+}
 
 /*弹出窗*/
 
@@ -433,10 +477,11 @@ export default {
   text-align: center;
   padding: 13px 0px;
   border-bottom: 1px solid #F0F0F0;
+  position: relative;
+  margin: 17px 0px;
 }
 .popupBox header img{
   width: 230px;
-  margin: 17px 0px;
 }
 
 .selectBox{

@@ -70,7 +70,7 @@
       <ul>
         <li class="brandContentClass" v-for="(val,key) in brandsList">
           <img class="banner" width="100%;" :src="val.banner"/>
-          <div class="brandIntroduce newBrandIntroduce">
+          <div class="brandIntroduce newBrandIntroduce" v-show="false">
             <img width="100%;" :src="val.log"/>
             <img class="slogan" width="113px;" src="../assets/brand/slogan-01.jpg"/>
             <h3>{{val.name}}</h3>
@@ -79,8 +79,8 @@
             </p>
             <img style="display: none;" class="commodity" width="100%;" src="../assets/brand/pic-01.jpg"/>
           </div>
-          <div class="brandContentList">
-            <h3><img width="15px;" src="../assets/brand/icon-01.jpg"/>DOMICIL Address</h3>
+          <div class="brandContentList maxWidth">
+            <h3><img width="15px;" src="../assets/brand/icon-01.jpg"/>线下门店地址</h3>
             <ul>
               <li v-for="(val,key) in val.list">
                 <strong>{{val.name}}</strong>
@@ -275,7 +275,6 @@ export default {
 }
 
 .brandContentList{
-  width: 990px;
   margin: auto;
 }
 </style>

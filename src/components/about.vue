@@ -9,16 +9,16 @@
     </p>
     
     <div class="maxWidth about">
-      <p class="title">
+      <p class="title" v-show="false">
         <a href="javascript:;">公司简介</a>
       </p>
       <div class="">
-        <p>
+        <p v-show="false">
           <img width="100%;" src="../assets/about/pic-2.jpg"/>
         </p>
         <h3>VIPhome欢邸</h3>
-        <p class="time">
-          <span>2018-5-03</span>
+        <p class="time" v-show="false">
+          <span>2018-05-03</span>
           <span>摄于总部</span>
         </p>
         <div class="article">
@@ -78,7 +78,7 @@
     </div>
 
 
-    <!-- <bottomHtml></bottomHtml> -->
+    <bottomHtml></bottomHtml>
 
 
 

@@ -18,7 +18,7 @@
           <a :href="val.link">
             <img :src="val.image" alt="">
             <h2>{{val.buyer_name}}</h2>
-            <h2>{{val.buyer_head_portrait}}</h2>
+            <!-- <h2>{{val.buyer_head_portrait}}</h2> -->
             <p>
               {{val.buyer_comment}}
             </p>

@@ -1,35 +1,11 @@
 <template>
   <div class="home">
 
-    <div style="position: relative;">
+    <div>
       
       <headerHtml :index="4"></headerHtml>
 
-      <div class="maxWidth navigation" style="display: none;">
-        <header>
-          <strong>所有品牌</strong>
-          <strong v-for="(val,key) in spaceList">{{val.name}}</strong>
-        </header>
-        <nav>
-          <ul>
-            <li>
-              <p v-for="(val,key) in brandList">
-                <a href="javascript:;">{{val.name}}</a>
-              </p>
-              <p>
-                <a href="javascript:;">HTL</a>
-              </p>
-            </li>
-          </ul>
-          <ul>
-            <li v-for="(val,key) in newCategoryList">
-              <p v-for="(i,j) in val.list" @click="newCategoryEve(i,j)">
-                <a href="javascript:;">{{i.name}}</a>
-              </p>
-            </li>
-          </ul>
-        </nav>
-      </div>
+      
 
     </div>
 
@@ -80,26 +56,6 @@
                   </p>
                 </li>
               </ul>
-              <!-- <el-collapse v-model="activeName" accordion>
-                <el-collapse-item title="品牌分类" name="1">
-                  <ul class="bannerBox">
-                    <li v-for="(val,key) in brandList">
-                      <a href="javascript:;">{{val.name}}</a>
-                    </li>
-                  </ul>
-                </el-collapse-item>
-                
-
-                <el-collapse-item title="效率 Efficiency" name="3">
-                  <div>简化流程：设计简洁直观的操作流程；</div>
-                  <div>清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；</div>
-                  <div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
-                </el-collapse-item>
-                <el-collapse-item title="可控 Controllability" name="4">
-                  <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
-                  <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
-                </el-collapse-item>
-              </el-collapse> -->
 
             </nav>
 
@@ -121,7 +77,7 @@
                 <li>
                   <span>品牌：</span>
                   <p>
-                    <a href="javascript:;" v-for="(val,key) in brandList" :class="{brandCss:val.boll}" @click="brandEve(val,key)">
+                    <a href="javascript:;" v-for="(val,key) in categoryJson.brands" :class="{brandCss:val.boll}" @click="brandEve(val,key)">
                       {{val.name}}
                     </a>
                   </p>
@@ -129,7 +85,7 @@
                 <li>
                   <span>品类：</span>
                   <p>
-                    <a href="javascript:;" v-for="(val,key) in categorysList" :class="{brandCss:val.boll}" @click="categorysEve(val,key)">
+                    <a href="javascript:;" v-for="(val,key) in categoryJson.categorys" :class="{brandCss:val.boll}" @click="categorysEve(val,key)">
                       {{val.name}}
                     </a>
                   </p>
@@ -137,7 +93,7 @@
                 <li>
                   <span>空间：</span>
                   <p>
-                    <a href="javascript:;" v-for="(val,key) in spaceList" :class="{brandCss:val.boll}" @click="spaceEve(val,key)">
+                    <a href="javascript:;" v-for="(val,key) in categoryJson.spaces" :class="{brandCss:val.boll}" @click="spaceEve(val,key)">
                       {{val.name}}
                     </a>
                   </p>
@@ -145,7 +101,7 @@
                 <li>
                   <span>风格：</span>
                   <p>
-                    <a href="javascript:;" v-for="(val,key) in stylesList" :class="{brandCss:val.boll}" @click="stylesEve(val,key)">
+                    <a href="javascript:;" v-for="(val,key) in categoryJson.styles" :class="{brandCss:val.boll}" @click="stylesEve(val,key)">
                       {{val.name}}
                     </a>
                     
@@ -155,17 +111,17 @@
             </nav>
 
             <div class="commoditySearch">
-              <i>共搜索到1347符合条件的商品</i>
+              <i>共搜索到{{total}}符合条件的商品</i>
               <div class="keyWord">
                 <span>关键词：</span>
-                <el-input placeholder="请输入内容" v-model="selectSearch" clearable size="mini"></el-input>
+                <el-input placeholder="请输入内容" v-model="keyword" clearable size="mini"></el-input>
               </div>
               <div class="selectPrice">
                 <span>价格区间：</span>
-                <el-input placeholder="请输入内容" v-model="search" clearable size="mini"></el-input>
+                <el-input placeholder="请输入内容" v-model="start" clearable size="mini"></el-input>
                 <span>至</span>
-                <el-input placeholder="请输入内容" v-model="search" clearable size="mini"></el-input>
-                <el-button type="primary" icon="el-icon-search" size="mini">搜索</el-button>
+                <el-input placeholder="请输入内容" v-model="end" clearable size="mini"></el-input>
+                <el-button type="primary" icon="el-icon-search" size="mini" @click="searchEve()">搜索</el-button>
               </div>
             </div>
 
@@ -184,9 +140,9 @@
                 </li>
 
                 <li>
-                  <span>1/1</span>
-                  <a href="javascript:;">上一页</a>
-                  <a href="javascript:;">下一页</a>
+                  <span>{{pageNum/100}}/{{lastPage/100}}</span>
+                  <a href="javascript:;" @click="firstEve()">上一页</a>
+                  <a href="javascript:;" @click="lastEve()">下一页</a>
                 </li>
               
               </ul>
@@ -198,7 +154,7 @@
               <div class="grid-content productBox" v-for="(val,key) in spacebrandList">
                 <a :href="val.taobao">
                   <p class="imgBorder">
-                    <img height="270px;" :src="val.image" alt="图片加载失败"/>
+                    <img width="300px" height="300px;" :src="val.image" alt="图片加载失败"/>
                     <img v-show="key==0" class="logo" src="../assets/icon-1.jpg"/>
                   </p>
 
@@ -224,9 +180,9 @@
             </div>
 
           </div>
-          
           <div class="paging">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage3" :page-size="100" layout="prev, pager, next, jumper" :total="lastPage">
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="100" layout="prev, pager, next, jumper" :total="lastPage">
+            </el-pagination>
             </el-pagination>
           </div>
 
@@ -254,21 +210,14 @@ export default {
   data () {
     return {
       search:'',
-      currentPage3: 1,
-      brandList:[],
-      spaceList:[],
-      categoryList:[],
-      newCategoryList:[],
+      currentPage: 1,
       spacebrandList:[],
       activeName:'1',
-      stylesList:[],
-      categorysList:[],
       //参数
       brandNm:'',
       categoryNm:'',
       styleNm:'',
       spaceNm:'',
-      selectSearch:'',
       order_by_field:'popularity',
       sortList:[
         {name:'人气',boll:true},
@@ -282,7 +231,15 @@ export default {
       //   {name:[{i:'00'},{i:'00'}]},
       //   {name:[{i:'00'},{i:'00'}]}
       // ]
-      brandName:''
+      brandName:'',
+      pageNum:100,
+      total:0,
+      // 筛选的起始价格
+      start:'',
+      end:'',
+      //关键字
+      keyword:'',
+      categoryJson:{}
     }
   },
   components:{
@@ -291,64 +248,49 @@ export default {
   },
   mounted(){
     let _this = this;
-    //商品品牌
-    axios.post('http://viphome.argu.net/api/brand',qs.stringify({}))
+    //new
+    axios.post('http://viphome.argu.net/api/category_v2',qs.stringify({}))
     .then(function(dataJson){
-      if(dataJson.data.result){
-        //console.log(JSON.stringify(dataJson.data.info));
-        _this.brandList = dataJson.data.info;
-        _this.brandName = _this.brandList[0].name;
-        for(let key in _this.brandList){
-
-          _this.$set(_this.brandList[key],'boll',false)
-
-        }
-        _this.brandList[0].boll = true;
+      //console.log(JSON.stringify(dataJson.data))
+      for(let key in dataJson.data.styles){
+        _this.$set(dataJson.data.styles[key],'boll',false);
       }
-    })
-    .catch(function(err){
-      alert(err);
-    });
-    //商品类型
-    
-    axios.post('http://viphome.argu.net/api/space',qs.stringify({}))
-    .then(function(dataJson){
-      if(dataJson.data.result){
-        //console.log(JSON.stringify(dataJson.data.info.data));
-        _this.spaceList = dataJson.data.info.data;
-
-        for(let key in _this.spaceList){
-          _this.$set(_this.spaceList[key],'boll',false);
-        }
-        _this.spaceList[0].boll = true;
-
-        
-        //商品品类
-        axios.post('http://viphome.argu.net/api/category',qs.stringify({}))
-        .then(function(dataJson){
-          if(dataJson.data.result){
-            //console.log(JSON.stringify(dataJson.data.info.data));
-            _this.categoryList = dataJson.data.info.data;
-            for(let i in _this.spaceList){
-              _this.newCategoryList.push({list:[]});
-              for(let j in _this.categoryList){
-                if(_this.spaceList[i].id==_this.categoryList[j].parent_id){
-                  _this.newCategoryList[i].list.push(_this.categoryList[j]);
-                };
-              }
-              if(_this.newCategoryList[i].list.length<1){
-                _this.newCategoryList[i].list.push({name:'暂无'})
-              }
-              //console.log(JSON.stringify(_this.newCategoryList))
-            }
-
-          }
-        })
-        .catch(function(err){
-          alert(err);
-        });
-
+      for(let key in dataJson.data.brands){
+        _this.$set(dataJson.data.brands[key],'boll',false);
       }
+      for(let key in dataJson.data.categorys){
+        _this.$set(dataJson.data.categorys[key],'boll',false);
+      }
+      for(let key in dataJson.data.spaces){
+        _this.$set(dataJson.data.spaces[key],'boll',false);
+      }
+      _this.styleNm = _this.$route.query.styles;
+      _this.brandNm = _this.$route.query.brands;
+      _this.categoryNm = _this.$route.query.categorys;
+      _this.spaceNm = _this.$route.query.spaces;
+      
+      for(let key in dataJson.data.styles){
+        if(dataJson.data.styles[key].id==_this.$route.query.styles){
+          dataJson.data.styles[key].boll = true;
+        }
+      }
+      for(let key in dataJson.data.brands){
+        if(dataJson.data.brands[key].id==_this.$route.query.brands){
+          dataJson.data.brands[key].boll = true;
+        }
+      }
+      for(let key in dataJson.data.categorys){
+        if(dataJson.data.categorys[key].id==_this.$route.query.categorys){
+          dataJson.data.categorys[key].boll = true;
+        }
+      }
+      for(let key in dataJson.data.spaces){
+        if(dataJson.data.spaces[key].id==_this.$route.query.spaces){
+          dataJson.data.spaces[key].boll = true;
+        }
+      }
+      _this.newSpacebrandEve();
+      _this.categoryJson = dataJson.data;
     })
     .catch(function(err){
       alert(err);
@@ -356,39 +298,11 @@ export default {
 
 
 
-
-    //商品列表http://localhost:8089/api/products
-    axios.post('http://viphome.argu.net/api/products',qs.stringify({}))
-    .then(function(dataJson){
-        //console.log(JSON.stringify(dataJson.data.categorys.data));
-
-        _this.styleNm = dataJson.data.styles.data[0].id;
-        _this.brandNm = dataJson.data.brands.data[0].id;
-        _this.categoryNm = dataJson.data.categorys.data[0].id;
-        _this.spaceNm = dataJson.data.spaces.data[0].id;
+   
 
 
 
-        _this.stylesList = dataJson.data.styles.data;
-        
-        for(let key in _this.stylesList){
-          _this.$set(_this.stylesList[key],'boll',false);
-        }
-        _this.stylesList[0].boll = true;
 
-        _this.categorysList = dataJson.data.categorys.data;
-        for(let key in _this.categorysList){
-          _this.$set(_this.categorysList[key],'boll',false);
-        }
-        _this.categorysList[0].boll = true;
-        //商品接口
-        //_this.spacebrandEve('http://viphome.argu.net/api/popularitys');
-        console.log(_this.brandNm,_this.categoryNm,_this.styleNm,_this.spaceNm)
-        _this.newSpacebrandEve()
-    })
-    .catch(function(err){
-      alert(err);
-    });
 
 
   },
@@ -398,6 +312,8 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+      this.newSpacebrandEve(val)
+      this.pageNum = val*100;
     },
     newCategoryEve(i,j){
       console.log(JSON.stringify(i))
@@ -409,8 +325,8 @@ export default {
         this.brandNm = '';
         this.brandName = '';
       }else{
-        for(let i in this.brandList){
-          this.brandList[i].boll = false;
+        for(let i in this.categoryJson.brands){
+          this.categoryJson.brands[i].boll = false;
         }
         val.boll = true;
         this.brandNm = val.id;
@@ -424,8 +340,8 @@ export default {
         val.boll = false;
         this.categoryNm = '';
       }else{
-        for(let i in this.categorysList){
-          this.categorysList[i].boll = false;
+        for(let i in this.categoryJson.categorys){
+          this.categoryJson.categorys[i].boll = false;
         }
         val.boll = true;
         this.categoryNm = val.id;
@@ -440,8 +356,8 @@ export default {
         val.boll = false;
         this.spaceNm = '';
       }else{
-        for(let i in this.spaceList){
-          this.spaceList[i].boll = false;
+        for(let i in this.categoryJson.spaces){
+          this.categoryJson.spaces[i].boll = false;
         }
         val.boll = true;
         this.spaceNm = val.id;
@@ -453,35 +369,15 @@ export default {
         val.boll = false;
         this.styleNm = '';
       }else{
-        for(let i in this.stylesList){
-          this.stylesList[i].boll = false;
+        for(let i in this.categoryJson.styles){
+          this.categoryJson.styles[i].boll = false;
         }
         val.boll = true;
         this.styleNm = val.id;
       }
       this.newSpacebrandEve()
     },
-    spacebrandEve(url){
-      let _this = this;
-      //按人气排序
-      //console.log(_this.brandNm,_this.categoryNm,_this.styleNm,_this.spaceNm)
-      axios.post(url,qs.stringify({
-        brand_id:_this.brandNm,
-        category_id:_this.categoryNm,
-        style_id:_this.styleNm,
-        space_id:_this.spaceNm
-      }))
-      .then(function(dataJson){
-        //console.log(JSON.stringify(dataJson.data))
-        if(dataJson.data.result){
-          _this.spacebrandList = dataJson.data.info.data;
-          _this.lastPage = dataJson.data.info.last_page*100;
-        }
-      })
-      .catch(function(err){
-        alert(err);
-      });
-    },
+    
     sortEve(val,key){
       for(let i in this.sortList){
         this.sortList[i].boll = false;
@@ -503,25 +399,59 @@ export default {
 
 
     },
-    newSpacebrandEve(){
+    newSpacebrandEve(pag=1){
 
       let _this = this;
       console.log(_this.order_by_field)
       axios.post('http://viphome.argu.net/api/products_v2',qs.stringify({
-        selectSearch:'',
+        //selectSearch:'',
         brand_id:_this.brandNm,
         category_id:_this.categoryNm,
         space_id:_this.spaceNm,
         style_id:_this.styleNm,
-        order_by_field:_this.order_by_field
+        order_by_field:_this.order_by_field,
+        page:pag,
+        start_price:_this.start,
+        end_price:_this.end,
+        keyword:_this.keyword,
+        filter:'promotion'
       }))
       .then(function(dataJson){
-        console.log(JSON.stringify(dataJson.data.data.data))
+        console.log(JSON.stringify(dataJson.data.data.last_page))
+        _this.lastPage = dataJson.data.data.last_page*100;
+        _this.total = dataJson.data.data.total;
         _this.spacebrandList = dataJson.data.data.data;
       })
       .catch(function(err){
         alert(err);
       });
+    },
+    lastEve(){
+      if(this.spacebrandList.length<15){
+        this.$message({
+          message: '已经是最后一页',
+          type: 'warning'
+        }); 
+        return false;
+      }
+      let num = this.pageNum+=100;
+      this.newSpacebrandEve(num/100);
+      console.log(num)
+      this.currentPage = num/100;
+
+    },
+    firstEve(){
+      if(this.pageNum<=100){
+        return false;
+      }
+      let num = this.pageNum-=100;
+      this.newSpacebrandEve(num/100);
+      console.log(num)
+      this.currentPage = num/100;
+    },
+    //价格筛选
+    searchEve(){
+      this.newSpacebrandEve();
     }
 
   },
@@ -535,7 +465,7 @@ export default {
 
 .ificationBox{
   margin-top: 11px;
-  max-width: 1100px;
+  max-width: 1200px;
 }
 
 /*宝贝分类*/
@@ -562,7 +492,7 @@ export default {
 
 /*分类*/
 .classification li{
-  display: flex;
+  display: -webkit-box;
   justify-content: flex-start;
   align-items: center;
   margin: 15px 0px;
@@ -573,7 +503,7 @@ export default {
   color: #000;
   /*border: 1px solid #000;*/
   display: inline-block;
-  padding: 0px 7px;
+  padding: 2px 13px;
 }
 .classification .brandCss{
   border: 1px solid #000;
@@ -581,7 +511,7 @@ export default {
 .classification span{
   width: 85px;
   margin-left: 17px;
-  font-size: 13px;
+  font-size: 15px;
   color: #060606;
   text-align: -webkit-auto;
 }
@@ -647,12 +577,12 @@ export default {
 }
 .commodityList{
   overflow: hidden;
-  margin-left: -45px;
+  margin-left: -22px;
 }
 .productBox{
-  width: 260px;
+  width: 302px;
   float: left;
-  margin-left: 45px;
+  margin-left: 22px;
   height: 400px;
 }
 .commodityList .imgBorder{
@@ -660,7 +590,6 @@ export default {
   position: relative;
 }
 .commodityList .imgBorder img{
-  width: 100%;
   display: block;
 }
 .commodityList .imgBorder .logo{
@@ -793,46 +722,5 @@ export default {
 
 
 
-/*导航栏*/
-.navigation header{
-  color: #fff;
-  padding: 9px 0px;
-  overflow: hidden;
-}
-.navigation strong{
-  width: 160px;
-  text-align: center;
-  color: #878787;
-  float: left;
-}
-.navigation{
-  position: absolute;
-  width: 100%;
-  z-index: 1;
-  left: 50%;
-  transform: translate(-50%,0%);
-  background-color: rgba(0,0,0,0.9);
-  overflow: hidden;
-}
-.navigation a{
-  text-decoration: none;
-  color: #fff;
-}
 
-.navigation ul{
-  overflow: hidden;
-  float: left;
-  border-right: 1px solid #fff;
-}
-.navigation li{
-  font-size: 15px;
-  float: left;
-  width: 160px;
-}
-.navigation li p{
-  width: 160px;
-  text-align: center;
-  height: 33px;
-  line-height: 33px;
-}
 </style>

@@ -4,9 +4,17 @@
   
     <headerHtml :index="0"></headerHtml>
     
-    <p>
+    <!-- <p>
       <img width="100%" src="../assets/banner.jpg"/>
-    </p>
+    </p> -->
+    
+    <el-carousel :interval="5000" arrow="always" class="always" height="649px">
+      <el-carousel-item v-for="(val,key) in broadcastList" :key="key">
+        <img :src="val.image"/>
+      </el-carousel-item>
+    </el-carousel>
+
+
 
     <div class="maxWidth">
       <div class="hotSale">
@@ -277,7 +285,8 @@ export default {
     return {
       buyerShowList:[],
       hotSaleList:[],
-      couponList:[]
+      couponList:[],
+      broadcastList:[]
     }
   },
   components:{
@@ -307,18 +316,18 @@ export default {
     .catch(function(err){
       alert(err);
     });
-    //线下门店
-    axios.post('http://viphome.argu.net/api/banner',qs.stringify({position:2}))
+    //列表
+    axios.post('http://viphome.argu.net/api/banner',qs.stringify({position:1}))
     .then(function(dataJson){
-      console.log(JSON.stringify(dataJson.data));
+      _this.broadcastList = dataJson.data.data.data;
     })
     .catch(function(err){
       alert(err);
     });
     //优惠券
-    axios.post('http://localhost:8089/api/coupon',qs.stringify({}))
+    axios.post('http://viphome.argu.net/api/coupon',qs.stringify({}))
     .then(function(dataJson){
-      console.log(JSON.stringify(dataJson.data.data.data));
+      //console.log(JSON.stringify(dataJson.data.data.data));
       _this.couponList = dataJson.data.data.data;
     })
     .catch(function(err){
@@ -334,7 +343,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 /*轮播开始*/
 .el-carousel__item h3 {
   color: #475669;
@@ -373,7 +381,8 @@ export default {
   margin: 0px 5px;
 }
 .hotSale li img{
-  width: 300px;
+  width: 393px;
+  height: 393px;
   display: block;
 }
 .titleBox{
@@ -415,7 +424,7 @@ export default {
 }
 .coupon li{
   overflow: hidden;
-  padding: 0px 43px;
+  padding: 0px 70px;
   border-left: 1px solid #545454;
 }
 .coupon li a{
@@ -490,8 +499,8 @@ export default {
   display: none;
 }
 .buyer_one img{
-  width: 510px;
-  height: 420px;
+  width: 715px;
+  height: 450px;
   display: block;
 }
 
@@ -500,16 +509,16 @@ export default {
   position: relative;
 }
 .buyer_two img{
-  width: 100%;
-  height: 240px;
+  width: 480px;
+  height: 245px;
   display: block;
 }
 .buyer_three{
   position: relative;
 }
 .buyer_three img{
-  width: 230px;
-  height: 170px;
+  width: 235px;
+  height: 200px;
   display: block;
 }
 .buyer_four{
@@ -517,8 +526,8 @@ export default {
   position: relative;
 }
 .buyer_four img{
-  width: 230px;
-  height: 170px;
+  width: 235px;
+  height: 200px;
   display: block;
 }
 

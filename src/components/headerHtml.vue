@@ -32,7 +32,7 @@
       <div class="searchBox maxWidth">
         <p class="floatLeft">
           <img width="170px;" src="../assets/logo-01.jpg"/>
-          <img width="130px;" src="../assets/logo-02.jpg"/>
+          <img width="170px;" src="../assets/logo-02.jpg"/>
         </p>
         
         <div class="searchInput">
@@ -49,12 +49,52 @@
 
       </div>
 
-      <nav class="navigation maxWidth">
-        <ul>
-          <li>
-            <a href="javascript:;" v-for="(val,key) in navigation" :class="{nvaActive:val.boll}" @click="nvaEve(val,key)">{{val.name}}</a>
+      <nav class="maxWidth">
+        <ul class="navigationNav">
+          <li @mouseout="mouseoutEve()">
+            <a @mouseover="mouseoverEve(val,key)" href="javascript:;" v-for="(val,key) in navigation" :class="{nvaActive:val.boll}" @click="nvaEve(val,key)">
+              {{val.name}}
+            </a>
           </li>
         </ul>
+        
+
+
+        <div class="maxWidth navigationBox" v-show="navigationBoll" v-if="products.brands!=null">
+          <header>
+            <strong>所有品牌</strong>
+            <strong v-for="(val,key) in spaceList">{{val.name}}</strong>
+          </header>
+          <nav>
+            <ul>
+              <li>
+                <p v-for="(val,key) in products.brands" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveBrands(val,key)" @click="hrefHome(val,key)">
+                  <a href="javascript:;">{{val.name}}</a>
+                </p>
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <p v-for="(val,key) in products.categorys" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveCategorys(val,key)" @click="hrefHome(val,key)">
+                  <a href="javascript:;">{{val.name}}</a>
+                </p>
+              </li>
+              <li>
+                <p v-for="(val,key) in products.spaces" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveSpaces(val,key)" @click="hrefHome(val,key)">
+                  <a href="javascript:;">{{val.name}}</a>
+                </p>
+              </li>
+              <li>
+                <p v-for="(val,key) in products.styles" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveStyles(val,key)" @click="hrefHome(val,key)">
+                  <a href="javascript:;">{{val.name}}</a>
+                </p>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+
+
       </nav>
     </header>
 
@@ -64,6 +104,7 @@
       <div class="singIn">
         <p class="singTitle">
           <img width="200px;" src="../assets/logo-01.jpg"/>
+          <i class="el-icon-close cursor" @click="singInBoll = !singInBoll"></i>
         </p>
         <ul class="singInput">
           <li class="">
@@ -104,6 +145,7 @@
       <div class="singIn signUp">
         <p class="singTitle">
           <img width="200px;" src="../assets/logo-01.jpg"/>
+          <i class="el-icon-close cursor" @click="signUpBoll = !signUpBoll"></i>
         </p>
         <ul class="singInput">
           <li class="">
@@ -194,16 +236,50 @@ export default {
       //登陆
       upPhone:'',
       upPassword:'',
+      spaceList:[{name:'品类'},{name:'空间'},{name:'风格'}],
+      products:{},
+      navigationBoll:false
     }
   },
   props:['index'],
   mounted(){
     this.navigation[this.index].boll = true;
+    let _this = this;
+
+
+
+    //全部商品列表
+
+    axios.post('http://viphome.argu.net/api/category_v2',qs.stringify({}))
+    .then(function(dataJson){
+        
+        _this.products = dataJson.data;
+        for(let i in _this.products.brands){
+          _this.$set(_this.products.brands[i],'boll',false);
+        }
+        for(let i in _this.products.categorys){
+          _this.$set(_this.products.categorys[i],'boll',false);
+        }
+        for(let i in _this.products.spaces){
+          _this.$set(_this.products.spaces[i],'boll',false);
+        }
+        for(let i in _this.products.styles){
+          _this.$set(_this.products.styles[i],'boll',false);
+        }
+        //console.log(JSON.stringify(dataJson.data));
+
+    })
+    .catch(function(err){
+      alert(err);
+    });
+
+
+
   },
   methods: {
     nvaEve(val,key){
       let _this = this;
-      console.log(JSON.stringify(val))
+      //console.log(JSON.stringify(val))
       this.$router.push({ name: val.href,query:{id:_this.$route.query.id,userName:_this.$route.query.userName}});
     },
     //注册
@@ -303,6 +379,85 @@ export default {
       .catch(function(err){
         alert(err);
       });
+    },
+    mouseoverEve(val,key){
+      if(this.index==key){
+        return false;
+      }
+      //console.log(key);
+      if(key==1){
+        this.navigationBoll = true;
+      }else{
+        this.navigationBoll = false;
+      };
+
+      for(let i in this.navigation){
+        this.navigation[i].boll = false;
+      };
+      val.boll = true;
+    },
+    mouseoutEve(){
+      for(let key in this.navigation){
+        this.navigation[key].boll = false;
+      }
+      this.navigation[this.index].boll = true;
+    },
+    //滑近
+    mouseoverEveBrands(val,key){
+      for(let i in this.products.brands){
+        this.products.brands[i].boll = false;
+      }
+      val.boll = true;
+    },
+    mouseoverEveCategorys(val,key){
+      for(let i in this.products.categorys){
+        this.products.categorys[i].boll = false;
+      }
+      val.boll = true;
+    },
+    mouseoverEveSpaces(val,key){
+      for(let i in this.products.spaces){
+        this.products.spaces[i].boll = false;
+      }
+      val.boll = true;
+    },
+    mouseoverEveStyles(val,key){
+      for(let i in this.products.styles){
+          this.products.styles[i].boll = false;
+      }
+      val.boll = true;
+    },
+    //点击跳转
+    hrefHome(){
+      let brands=-1,categorys=-1,spaces=-1,styles=-1;
+      for(let i in this.products.brands){
+        if(this.products.brands[i].boll){
+          brands = this.products.brands[i].id;
+        }
+      }
+      for(let i in this.products.categorys){
+        if(this.products.categorys[i].boll){
+          categorys = this.products.categorys[i].id;
+        }
+      }
+      for(let i in this.products.spaces){
+        if(this.products.spaces[i].boll){
+          spaces = this.products.spaces[i].id;
+        }
+      }
+      for(let i in this.products.styles){
+        if(this.products.styles[i].boll){
+          styles = this.products.styles[i].id;
+        }
+      }
+      console.log(brands,categorys,spaces,styles);
+      this.$router.push({ name:'home',query: {
+        brands:brands,
+        categorys:categorys,
+        spaces:spaces,
+        styles:styles,
+      }});
+
     }
   }
 
@@ -327,6 +482,12 @@ export default {
   border-radius: 4px;
   min-height: 36px;
 }
+.el-icon-close{
+  font-size: 35px;
+  position: absolute;
+  right: 0px;
+}
+
 
 .homeHeade{
   text-align: right;
@@ -387,18 +548,18 @@ export default {
 
 
 /*导航栏*/
-.navigation ul{
+.navigationNav{
   text-align: center;
   margin-top: 23px;
   height: 35px;
   line-height: 35px;
 }
-.navigation ul li{
+.navigationNav li{
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.navigation a{
+.navigationNav a{
   color: #000;
   font-size: 15px;
   height: 35px;
@@ -406,7 +567,7 @@ export default {
   width: 130px;
   display: inline-block;
 }
-.navigation .nvaActive{
+.navigationNav .nvaActive{
   color: #fff;
   background-color: #000;
 }
@@ -438,6 +599,7 @@ export default {
   padding: 45px 0px;
   border-bottom: 1px solid #d6d6d6;
   font-size: 18px;
+  position: relative;
 }
 
 
@@ -572,5 +734,51 @@ export default {
   margin: 5px 0px;
 }
 
+/*导航栏*/
+.navigationBox header{
+  color: #fff;
+  padding: 9px 0px;
+  overflow: hidden;
+}
+.navigationBox strong{
+  width: 160px;
+  text-align: center;
+  color: #878787;
+  float: left;
+}
+.navigationBox{
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+  left: 50%;
+  transform: translate(-50%,0%);
+  background-color: rgba(0,0,0,0.9);
+  overflow: hidden;
+  z-index: 111;
+  padding-bottom: 7px;
+}
+.navigationBox a{
+  text-decoration: none;
+  color: #fff;
+}
 
+.navigationBox ul{
+  overflow: hidden;
+  float: left;
+  border-right: 1px solid #414141;
+}
+.navigationBox li{
+  font-size: 15px;
+  float: left;
+  width: 160px;
+}
+.navigationBox li p{
+  width: 160px;
+  text-align: center;
+  height: 33px;
+  line-height: 33px;
+}
+.brandsClass{
+  background-color: #414141;
+}
 </style>

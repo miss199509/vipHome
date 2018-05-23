@@ -23,7 +23,7 @@ body{
 
 }
 .maxWidth{
-	max-width: 990px;
+	max-width: 1200px;
 	margin: auto;
 }
 .overflowHidden{

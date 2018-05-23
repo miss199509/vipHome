@@ -7,7 +7,7 @@
     <p>
       <img width="100%;" src="../assets/brand/banner.jpg"/>
     </p>
-    <div class="maxWidth">
+    <div class="maxWidth" style="width: 1000px;">
       <p class="nav">
         <a href="javascript:;" v-for="(val,key) in articeclassList" :class="{classNav:val.boll}" @click="classNavEve(val,key)">{{val.name}}</a>
       </p>
@@ -15,7 +15,7 @@
       <div class="" v-show="articeclassList[0].boll" v-if="articeclassList[0]!=null">
         <ul class="informationList">
           <li v-for="(val,key) in information" @click="articleEve(val,key)">
-            <img width="100%" height="230px;" :src="val.image"/>
+            <img width="465px" height="300px;" :src="val.image"/>
             <h2>{{val.title}}</h2>
             <p>{{val.introdution}}</p>
             
@@ -24,7 +24,7 @@
                 <span>{{val.create_time}}</span>
                 <span>公司动态</span>
               </p>
-              <img src="../assets/icon-5.jpg"/>
+              <img src="../assets/eye.jpg"/>
             </div>
 
           </li>
@@ -37,12 +37,12 @@
       <div class="journalism" v-show="articeclassList[1].boll" v-if="articeclassList[1]!=null">
         <ul>
           <li v-for="(val,key) in article" @click="articleEve(val,key)">
-            <img height="123px;" width="123px" :src="val.image"/>
+            <img height="150px;" width="150px" :src="val.image"/>
             <div>
               <h3>{{val.title}}<span>{{val.create_time}}</span></h3>
               <p>{{val.introdution}}</p>
               <p class="overflowHidden">
-                <img class="floatRight" src="../assets/icon-6.jpg"/>
+                <img class="floatRight" src="../assets/eye.jpg"/>
               </p>
             </div>
           </li>
@@ -62,7 +62,7 @@
               <h3>{{val.title}}<span>{{val.create_time}}</span></h3>
               <p>{{val.introdution}}</p>
               <p class="overflowHidden">
-                <img class="floatRight" src="../assets/icon-6.jpg"/>
+                <img class="floatRight" src="../assets/eye.jpg"/>
               </p>
             </div>
           </li>
@@ -249,12 +249,13 @@ export default {
 
 .informationList{
   overflow: hidden;
+  margin-left: -70px;
 }
 .informationList li{
-  width: 350px;
+  width: 465px;
   margin-top: 30px;
   float: left;
-  margin-left: 100px;
+  margin-left: 70px;
   cursor: pointer;
 }
 .informationList img{
