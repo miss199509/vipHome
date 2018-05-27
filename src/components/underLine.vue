@@ -21,7 +21,7 @@
                 <div class="map">
                   
                   <!-- <iframe src="http://lbsyun.baidu.com/jsdemo/demo/a1_2.htm" width="510" height="290" frameborder="0" scrolling="no"></iframe> -->
-                  <div :id="val.idName" style="height: 290px;width: 510px;"></div>
+                  <div :id="val.idName" class="mapSelect"></div>
 
                   <div class="">
                     <h2>
@@ -32,7 +32,7 @@
                       营业时间：{{val.opening_hours}}
                     </p>
                     <p>
-                      <img width="345px;" height="165px;" :src="val.image" alt=""/>
+                      <img class="bannerImg" width="345px;" height="165px;" :src="val.image" alt=""/>
                     </p>
                   </div>
                 </div>
@@ -43,7 +43,9 @@
                   </p>
                   <ul>
                     <li v-for="(i,j) in val.list">
-                      <img width="210px;" height="150px;" :src="i.image"/>
+                      <p class="imgBox">
+                        <img width="210px;" height="150px;" :src="i.image"/>
+                      </p>
                       <div class="">
                         <!-- <img src=""/> -->
                         <p>{{i.name}}：{{val.address}}，{{i.address}}</p>
@@ -63,7 +65,7 @@
       
       <!-- 弹窗 -->
       <div class="popupBack" v-show="popupBackBoll">
-        <div class="popupBox">
+        <div class="popupBox" :style="{height:height_+'px'}">
           <header>
             <img width="130px;" src="../assets/logo-01.jpg"/>
             <i class="el-icon-close cursor" @click="removePopupEve()"></i>
@@ -101,7 +103,7 @@
               <p class="makeTitleVal">请填写以下信息，以便我们为您提供更好服务：</p>
               <div class="makeCenterBox">
 
-                <div>
+                <div class="userName">
                   <label class="makeName">您贵姓：</label>
                   <el-input v-model="userName" placeholder="输入您的姓名" size="mini"></el-input>
                 </div>
@@ -211,7 +213,8 @@ export default {
       reservationsId:'',
       typeSelectList:[],
       //发送到手机
-      phoneText:{}
+      phoneText:{},
+      height_:0
 
     }
   },
@@ -220,6 +223,7 @@ export default {
     'bottomHtml':bottomHtml
   },
   mounted(){
+    this.height_ = document.documentElement.clientHeight;
     let _this = this;
     axios.post('http://viphome.argu.net/api/malls',qs.stringify({}))
     .then(function(dataJson){
@@ -420,6 +424,10 @@ export default {
   float: right;
   margin: 22px 0px;
 }
+.map .mapSelect{
+  height: 290px;
+  width: 510px;
+}
 .mapContent .map{
   display: flex;
   justify-content: space-between;
@@ -456,6 +464,12 @@ export default {
 .storeList li p{
   font-size: 16px;
   margin: 11px 0px;
+}
+.storeList li .imgBox{
+ 
+}
+.imgBox img{
+  width: 210px;
 }
 .buttonCss{
   color: #000;
@@ -613,5 +627,90 @@ export default {
 }
 .typeSelectClass{
   margin: 7px 0px;  
+}
+
+
+
+@media screen and (max-width: 800px){
+  .mapContent .map{
+    display: block;
+  }
+  .map .mapSelect{
+    width: 100%;
+  }
+  .underLineBox{
+    padding: 0px 11px;
+  }
+  .map h2{
+    margin-top: 22px;
+  }
+  .storeList .title{
+    font-size: 20px;
+  }
+
+  .storeList ul{
+    margin: 0px;
+  }
+  .storeList li{
+    width: 100%;
+    display: block;
+    padding: 0px;
+    margin: 0px 0px 23px 0px;
+  }
+  .underLineBox h3{
+    font-size: 27px;
+  }
+
+  .popupBox{
+    width: 100%;
+    padding: 0px 11px;
+    overflow: auto;
+  }
+  .makeCenter{
+    padding: 0px 11px;
+  }
+
+
+  .selectInput{
+    padding: 0px;
+  }
+  .selectBox{
+    padding: 0px 11px;
+  }
+  .bannerImg{
+    width: 100%;
+  }
+  .selectTips{
+    padding: 11px 15px;
+  }
+  .popupBox header img{
+    width: 130px;
+  }
+  .el-icon-close{
+    right: 11px;
+    font-size: 22px;
+  }
+  .makeTitle h3{
+    width: auto;
+  }
+}
+
+
+@media screen and (max-width: 370px){
+  .makeCenterBox{
+    display: block;
+  }
+  .makeCenterBox .userName{
+    margin-bottom: 7px;
+  }
+  .selectData .select{
+    width: 80px;
+  }
+  .contactTelephone .el-input{
+    width: 170px;
+  }
+  .selectData .el-input{
+    margin-bottom: 7px;
+  }
 }
 </style>

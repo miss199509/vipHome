@@ -7,7 +7,7 @@
     <p>
       <img width="100%;" src="../assets/brand/banner.jpg"/>
     </p>
-    <div class="maxWidth" style="width: 1000px;">
+    <div class="maxWidth informationBox">
       <p class="nav">
         <a href="javascript:;" v-for="(val,key) in articeclassList" :class="{classNav:val.boll}" @click="classNavEve(val,key)">{{val.name}}</a>
       </p>
@@ -57,7 +57,7 @@
       <div class="journalism" v-show="articeclassList[2].boll" v-if="articeclassList[2]!=null">
         <ul>
           <li v-for="(val,key) in journalism" @click="articleEve(val,key)">
-            <img height="123px;" width="123px" :src="val.image"/>
+            <img height="150px;" width="150px" :src="val.image"/>
             <div>
               <h3>{{val.title}}<span>{{val.create_time}}</span></h3>
               <p>{{val.introdution}}</p>
@@ -236,6 +236,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.informationBox{
+  width: 1000px;
+}
 .nav{
   border-bottom: 1px solid #978F8F;
   margin-top: 13px;
@@ -364,5 +367,45 @@ export default {
   font-size: 14px;
   color: #7D7D7D;
   margin-top: 9px;
+}
+@media screen and (max-width: 800px){
+  .informationBox{
+    width: 100%;
+  }
+  .informationList,.journalism{
+    margin: 0px;
+    padding: 0px 11px;
+  }
+  .informationList li{
+    width: 100%;
+    margin: 7px 0px;
+  }
+  .nav a{
+    margin: 0px 23px;
+    font-size: 17px;
+  }
+  .nav{
+    padding-bottom: 9px;
+  }
+  .informationList img:nth-child(1){
+    width: 100%;
+    height: auto;
+  }
+  .informationTips span{
+    font-size: 16px;
+  }
+  .journalism div img:nth-child(1){
+    float: none;
+  }
+  .journalism div h3{
+    font-size: 23px;
+  }
+  .journalism h3 span{
+    font-size: 16px;
+    margin: 9px 0px;
+  }
+  .articleList{
+    padding: 0px 11px;
+  }
 }
 </style>

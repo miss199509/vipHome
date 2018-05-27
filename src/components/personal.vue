@@ -7,7 +7,7 @@
     </p>
 
     <div class="maxWidth">
-      <div class="">
+      <div class="personalHtml">
         <ul class="title">
           <li>
             <span>个人</span>
@@ -62,7 +62,7 @@
                   <el-radio v-model="purchase_plan" label="0">否</el-radio>
                 </div>
               </li>
-              <li>
+              <li class="prepurchase">
                 <label class="name">预计购置时间：</label>
                 <div class="">
                   <el-radio v-model="purchase_time" label="0">15天内</el-radio>
@@ -643,5 +643,26 @@ export default {
   text-align: center;
   font-size: 13px;
   color: #717171;
+}
+
+
+
+@media screen and (max-width: 800px){
+  .intentionBox ul{
+    padding-left: 0px;
+  }
+  .personalHtml{
+    padding: 0px 11px;
+    overflow: hidden;
+  }
+  .personalBox .nameInput{
+    border: 1px solid #000;
+  }
+  .personalBox ul .prepurchase{
+    display: block;
+  }
+  .personalBox div label{
+    margin: 7px 5px;
+  }
 }
 </style>

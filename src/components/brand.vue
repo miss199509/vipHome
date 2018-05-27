@@ -34,7 +34,7 @@
             </p>
           </div>
         </li>
-        <li>
+        <li class="brandImg">
           <img class="brandHeaderLog" src="../assets/brand/icon-00.jpg"/>
         </li>
         <li>
@@ -276,5 +276,27 @@ export default {
 
 .brandContentList{
   margin: auto;
+}
+
+@media screen and (max-width: 800px){
+  .brandContentClass li{
+    width: 100%;
+    margin: 7px 0px;
+  }
+  .brandContentList{
+    padding: 0px 11px;
+  }
+  .brandHeaderBox ul{
+    display: block;
+  }
+  .brandHeaderBox{
+    padding: 0px 11px;
+  }
+  .brandImg{
+    text-align: center;
+  }
+  .brandContentClass .banner{
+    min-height: auto;
+  }
 }
 </style>

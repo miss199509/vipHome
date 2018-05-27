@@ -8,7 +8,13 @@
       <img width="100%" src="../assets/banner.jpg"/>
     </p> -->
     
-    <el-carousel :interval="5000" arrow="always" class="always" height="649px">
+    <el-carousel :interval="5000" arrow="always" class="always pcAlways" height="649px">
+      <el-carousel-item v-for="(val,key) in broadcastList" :key="key">
+        <img :src="val.image"/>
+      </el-carousel-item>
+    </el-carousel>
+
+    <el-carousel :interval="5000" arrow="always" class="always webAlways" height="300px">
       <el-carousel-item v-for="(val,key) in broadcastList" :key="key">
         <img :src="val.image"/>
       </el-carousel-item>
@@ -560,5 +566,68 @@ export default {
 .brand img{
   width: 100%;
   display: block;
+}
+
+
+.webAlways{
+  display: none;
+}
+
+
+@media screen and (max-width: 800px){
+  .pcAlways{
+    display: none;
+  }
+  .webAlways{
+    display: block;
+  }
+  .webAlways img{
+    height: 300px;
+  }
+  .coupon li{
+    padding: 0px 11px;
+    border: none;
+  }
+  .coupon h4{
+    overflow: inherit;
+  }
+  .coupon li:last-child{
+    border: none;
+  }
+  .hotSale ul{
+    display: block;
+  }
+  .hotSale li img{
+    width: 100%;
+    height: auto;
+  }
+  .thisProduct h3{
+    top: 11px;
+    right: 0px;
+    font-size: 27px;
+  }
+  .thisProduct a img:last-child{
+    height: auto;
+  }
+  .thisProduct a img{
+    height: 230px;
+  }
+
+  .buyerShow{
+    display: block;
+  }
+  .buyer_one img,.buyer_two img,.buyer_three img,.buyer_four img{
+    width: 100%;
+    height: auto;
+  }
+  .buyer_one{
+    margin-right: 0px;
+  }
+  .buyer_four{
+    margin-left: 0px;
+  }
+  .buyer_two{
+    margin-bottom: 0px;
+  }
 }
 </style>

@@ -5,7 +5,7 @@
       <ul class="nav">
         <li>
           <p>
-            <a class="title" href="javascript:;">动态咨询</a>
+            <a class="title" href="javascript:;">动态资讯</a>
           </p>
           <p>
             <a href="javascript:;">公司动态</a>
@@ -131,5 +131,12 @@ export default {
   text-align: center;
   color: #BBB9B9;
   margin-top: 7px;
+}
+
+
+@media screen and (max-width: 800px){
+  .bottomHtml{
+    display: none;
+  }
 }
 </style>

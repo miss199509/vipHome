@@ -1,209 +1,258 @@
 <template>
   <div class="headerHtml">
+    <div class="pcHeader">
+      <header>
+        <el-row>
+          <el-col :span="24">
+            <div class="grid-content bg-purple-dark">
+              <p class="homeHeade maxWidth" v-if="$route.query.id==undefined">
+                <span>服务热线：400-186-0055</span>
+                <i>|</i>
+                <a href="javascript:;" @click="signUpEve()">注册</a>
+                <i>|</i>
+                <a href="javascript:;" @click="singInEve()">登陆</a>
+              </p>
+              <p class="homeHeade maxWidth" v-else>
+                <span>服务热线：400-186-0055</span>
+                <i>|</i>
+                <span>{{$route.query.userName}}</span>
+                <i>|</i>
+                <router-link :to="{ name: 'personal',query:{id:$route.query.id,userName:$route.query.userName}}">
+                  个人中心
+                </router-link>
+                <i>|</i>
+                <router-link :to="{ name: 'index'}">
+                  退出
+                </router-link>
+              </p>
+            </div>
+          </el-col>
+        </el-row>
 
-    <header>
-      <el-row>
-        <el-col :span="24">
-          <div class="grid-content bg-purple-dark">
-            <p class="homeHeade maxWidth" v-if="$route.query.id==undefined">
-              <span>服务热线：400-186-0055</span>
-              <i>|</i>
-              <a href="javascript:;" @click="signUpEve()">注册</a>
-              <i>|</i>
-              <a href="javascript:;" @click="singInEve()">登陆</a>
+        <div class="searchBox maxWidth">
+          <p class="floatLeft">
+            <img width="170px;" src="../assets/logo-01.jpg"/>
+            <img width="170px;" src="../assets/logo-02.jpg"/>
+          </p>
+          
+          <div class="searchInput">
+            <p>
+              <input v-model="search" type="" name="" placeholder="列如：脚蹬 真皮沙发"/>
+              <img width="17px;" class="cursor" src="../assets/index/search.png"/>
             </p>
-            <p class="homeHeade maxWidth" v-else>
-              <span>服务热线：400-186-0055</span>
-              <i>|</i>
-              <span>{{$route.query.userName}}</span>
-              <i>|</i>
-              <router-link :to="{ name: 'personal',query:{id:$route.query.id,userName:$route.query.userName}}">
-                个人中心
-              </router-link>
-              <i>|</i>
-              <router-link :to="{ name: 'index'}">
-                退出
-              </router-link>
+            <!-- <p>
+              <span>油蜡皮</span>
+              <span>Domicil</span>
+              <span>真皮沙发</span>
+            </p> -->
+          </div>
+
+        </div>
+
+        <nav class="maxWidth">
+          <ul class="navigationNav">
+            <li @mouseout="mouseoutEve()">
+              <a @mouseover="mouseoverEve(val,key)" href="javascript:;" v-for="(val,key) in navigation" :class="{nvaActive:val.boll}" @click="nvaEve(val,key)">
+                {{val.name}}
+              </a>
+            </li>
+          </ul>
+          
+
+
+          <div class="maxWidth navigationBox" v-show="navigationBoll" v-if="products.brands!=null">
+            <header>
+              <strong>所有品牌</strong>
+              <strong v-for="(val,key) in spaceList">{{val.name}}</strong>
+            </header>
+            <nav>
+              <ul>
+                <li>
+                  <p v-for="(val,key) in products.brands" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveBrands(val,key)" @click="hrefHome(val,key)">
+                    <a href="javascript:;">{{val.name}}</a>
+                  </p>
+                </li>
+              </ul>
+              <ul>
+                <li>
+                  <p v-for="(val,key) in products.categorys" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveCategorys(val,key)" @click="hrefHome(val,key)">
+                    <a href="javascript:;">{{val.name}}</a>
+                  </p>
+                </li>
+                <li>
+                  <p v-for="(val,key) in products.spaces" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveSpaces(val,key)" @click="hrefHome(val,key)">
+                    <a href="javascript:;">{{val.name}}</a>
+                  </p>
+                </li>
+                <li>
+                  <p v-for="(val,key) in products.styles" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveStyles(val,key)" @click="hrefHome(val,key)">
+                    <a href="javascript:;">{{val.name}}</a>
+                  </p>
+                </li>
+              </ul>
+            </nav>
+          </div>
+
+
+
+        </nav>
+      </header>
+
+
+      <!-- 登陆 -->
+      <div class="popupBack" v-show="singInBoll">
+        <div class="singIn">
+          <p class="singTitle">
+            <img width="200px;" src="../assets/logo-01.jpg"/>
+            <i class="el-icon-close cursor" @click="singInBoll = !singInBoll"></i>
+          </p>
+          <ul class="singInput">
+            <li class="">
+              <a href="javascript:;" @click="singInJump()">登陆</a>
+              <a href="javascript:;" @click="signUpJump()">注册</a>
+            </li>
+            <li>
+              <p>
+              <label>账号：</label>
+                <input v-model="upPhone" type="" name="" placeholder="输入手机号码"/>
+              </p>
+            </li>
+            <li class="passwordBox">
+              <p>
+              <label>密码：</label>
+                <input v-model="upPassword" type="password" name="" placeholder="输入密码"/>
+              </p>
+              <router-link :to="{ name: 'personal'}">*忘记密码？</router-link>
+            </li>
+            <li>
+              <label></label>
+              <el-button type="primary" size="mini" class="loginBottom" @click="signIn()">登陆</el-button>
+            </li>
+          </ul>
+          <div class="singTips">
+            <p>
+              温馨提示：欢邸国际家居携旗下18品牌，48家线下实体店，欢迎您到各门店品鉴家居
+            </p>
+            <p>
+              您也可以拨打7X24小时热线：400-800-8956 与我们取得联系！
             </p>
           </div>
-        </el-col>
-      </el-row>
-
-      <div class="searchBox maxWidth">
-        <p class="floatLeft">
-          <img width="170px;" src="../assets/logo-01.jpg"/>
-          <img width="170px;" src="../assets/logo-02.jpg"/>
-        </p>
-        
-        <div class="searchInput">
-          <p>
-            <input v-model="search" type="" name="" placeholder="列如：脚蹬 真皮沙发"/>
-            <img width="17px;" class="cursor" src="../assets/index/search.png"/>
-          </p>
-          <!-- <p>
-            <span>油蜡皮</span>
-            <span>Domicil</span>
-            <span>真皮沙发</span>
-          </p> -->
-        </div>
-
-      </div>
-
-      <nav class="maxWidth">
-        <ul class="navigationNav">
-          <li @mouseout="mouseoutEve()">
-            <a @mouseover="mouseoverEve(val,key)" href="javascript:;" v-for="(val,key) in navigation" :class="{nvaActive:val.boll}" @click="nvaEve(val,key)">
-              {{val.name}}
-            </a>
-          </li>
-        </ul>
-        
-
-
-        <div class="maxWidth navigationBox" v-show="navigationBoll" v-if="products.brands!=null">
-          <header>
-            <strong>所有品牌</strong>
-            <strong v-for="(val,key) in spaceList">{{val.name}}</strong>
-          </header>
-          <nav>
-            <ul>
-              <li>
-                <p v-for="(val,key) in products.brands" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveBrands(val,key)" @click="hrefHome(val,key)">
-                  <a href="javascript:;">{{val.name}}</a>
-                </p>
-              </li>
-            </ul>
-            <ul>
-              <li>
-                <p v-for="(val,key) in products.categorys" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveCategorys(val,key)" @click="hrefHome(val,key)">
-                  <a href="javascript:;">{{val.name}}</a>
-                </p>
-              </li>
-              <li>
-                <p v-for="(val,key) in products.spaces" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveSpaces(val,key)" @click="hrefHome(val,key)">
-                  <a href="javascript:;">{{val.name}}</a>
-                </p>
-              </li>
-              <li>
-                <p v-for="(val,key) in products.styles" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveStyles(val,key)" @click="hrefHome(val,key)">
-                  <a href="javascript:;">{{val.name}}</a>
-                </p>
-              </li>
-            </ul>
-          </nav>
-        </div>
-
-
-
-      </nav>
-    </header>
-
-
-    <!-- 登陆 -->
-    <div class="popupBack" v-show="singInBoll">
-      <div class="singIn">
-        <p class="singTitle">
-          <img width="200px;" src="../assets/logo-01.jpg"/>
-          <i class="el-icon-close cursor" @click="singInBoll = !singInBoll"></i>
-        </p>
-        <ul class="singInput">
-          <li class="">
-            <a href="javascript:;" @click="singInJump()">登陆</a>
-            <a href="javascript:;" @click="signUpJump()">注册</a>
-          </li>
-          <li>
-            <p>
-            <label>账号：</label>
-              <input v-model="upPhone" type="" name="" placeholder="输入手机号码"/>
-            </p>
-          </li>
-          <li class="passwordBox">
-            <p>
-            <label>密码：</label>
-              <input v-model="upPassword" type="password" name="" placeholder="输入密码"/>
-            </p>
-            <router-link :to="{ name: 'personal'}">*忘记密码？</router-link>
-          </li>
-          <li>
-            <label></label>
-            <el-button type="primary" size="mini" class="loginBottom" @click="signIn()">登陆</el-button>
-          </li>
-        </ul>
-        <div class="singTips">
-          <p>
-            温馨提示：欢邸国际家居携旗下18品牌，48家线下实体店，欢迎您到各门店品鉴家居
-          </p>
-          <p>
-            您也可以拨打7X24小时热线：400-800-8956 与我们取得联系！
-          </p>
         </div>
       </div>
-    </div>
-  
-    <!-- 注册 -->
-    <div class="popupBack" v-show="signUpBoll">
-      <div class="singIn signUp">
-        <p class="singTitle">
-          <img width="200px;" src="../assets/logo-01.jpg"/>
-          <i class="el-icon-close cursor" @click="signUpBoll = !signUpBoll"></i>
-        </p>
-        <ul class="singInput">
-          <li class="">
-            <a href="javascript:;" @click="singInJump()">登陆</a>
-            <a href="javascript:;" @click="signUpJump()">注册</a>
-          </li>
-          <li>
-            <p>
-            <label>手机号码：</label>
-              <input v-model="phone" type="" name="" placeholder="输入手机号码"/>
-            </p>
-          </li>
-          <li class="passwordBox">
-            <p>
-            <label>验证码：</label>
-              <input class="codeInput" type="" name="" placeholder="验证码"/>
-            </p>
-            <!-- <a href="javascript:;">*忘记密码？</a> -->
-            <el-button class="code" type="primary" size="small">获取验证码</el-button>
-          </li>
-          <li>
-            <p>
-            <label>密码：</label>
-              <input v-model="password" type="password" name="" placeholder="请输入您的密码"/>
-            </p>
-          </li>
-          <li>
-            <p>
-            <label>确认密码：</label>
-              <input v-model="newPassword" type="password" name="" placeholder="请再次输入您的密码"/>
-            </p>
-          </li>
-          <li class="mansion">
-            <el-checkbox v-model="checked"><span>我已阅读并同意 《欢邸用户注册协议》</span></el-checkbox>
-          </li>
-          <li>
-            <label></label>
-            <el-button type="primary" size="mini" class="loginBottom" @click="signUp()">提交</el-button>
-          </li>
-        </ul>
-        <div class="singTips">
-          <p>
-            温馨提示：欢邸国际家居携旗下18品牌，48家线下实体店，欢迎您到各门店品鉴家居
-          </p>
-          <p>
-            您也可以拨打7X24小时热线：400-800-8956 与我们取得联系！
-          </p>
-        </div>
-      </div>
-    </div>
-
     
+      <!-- 注册 -->
+      <div class="popupBack" v-show="signUpBoll">
+        <div class="singIn signUp">
+          <p class="singTitle">
+            <img width="200px;" src="../assets/logo-01.jpg"/>
+            <i class="el-icon-close cursor" @click="signUpBoll = !signUpBoll"></i>
+          </p>
+          <ul class="singInput">
+            <li class="">
+              <a href="javascript:;" @click="singInJump()">登陆</a>
+              <a href="javascript:;" @click="signUpJump()">注册</a>
+            </li>
+            <li>
+              <p>
+              <label>手机号码：</label>
+                <input v-model="phone" type="" name="" placeholder="输入手机号码"/>
+              </p>
+            </li>
+            <li class="passwordBox">
+              <p>
+              <label>验证码：</label>
+                <input class="codeInput" type="" name="" placeholder="验证码"/>
+              </p>
+              <!-- <a href="javascript:;">*忘记密码？</a> -->
+              <el-button class="code" type="primary" size="small">获取验证码</el-button>
+            </li>
+            <li>
+              <p>
+              <label>密码：</label>
+                <input v-model="password" type="password" name="" placeholder="请输入您的密码"/>
+              </p>
+            </li>
+            <li>
+              <p>
+              <label>确认密码：</label>
+                <input v-model="newPassword" type="password" name="" placeholder="请再次输入您的密码"/>
+              </p>
+            </li>
+            <li class="mansion">
+              <el-checkbox v-model="checked"><span>我已阅读并同意 《欢邸用户注册协议》</span></el-checkbox>
+            </li>
+            <li>
+              <label></label>
+              <el-button type="primary" size="mini" class="loginBottom" @click="signUp()">提交</el-button>
+            </li>
+          </ul>
+          <div class="singTips">
+            <p>
+              温馨提示：欢邸国际家居携旗下18品牌，48家线下实体店，欢迎您到各门店品鉴家居
+            </p>
+            <p>
+              您也可以拨打7X24小时热线：400-800-8956 与我们取得联系！
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <div class="webHeader">
+      <header>
+        <p class="logImg">
+          <img width="270px;" src="../assets/logo-01.jpg"/>
+        </p>
+        <p class="logImg">
+          <img width="230px;" src="../assets/logo-02.jpg"/>
+        </p>
+      </header>
+      <nav>
+        <p class="webFunction">
+          <router-link :to="{ name: 'index',query:{id:$route.query.id,userName:$route.query.userName}}">
+            <img width="45px;" src="../assets/icon-home.jpg"/>
+          </router-link>
+          <router-link :to="{ name: 'singIn',query:{sing:0}}" v-if="$route.query.id==undefined">
+            登录
+          </router-link>
 
+          <router-link v-else :to="{ name: 'personal',query:{id:$route.query.id,userName:$route.query.userName}}">
+            个人中心
+          </router-link>
 
+          <span>|</span>
+          <router-link :to="{ name: 'singIn',query:{sing:1}}" v-if="$route.query.id==undefined">
+            注册
+          </router-link>
+          <router-link v-else :to="{ name: 'index',query:{}}">
+            登出
+          </router-link>
+          <img @click="navigationClassBoll=!navigationClassBoll" width="45px;" src="../assets/icon-more.jpg"/>
+        </p>
+        <ul>
+          <li>
+            <a href="javascript:;" v-for="(val,key) in navigationNew" @click="nvaEve(val,key)">{{val.name}}</a>
+          </li>
+        </ul>
+        <div class="navigationClass" v-show="navigationClassBoll">
+          <ul>
+            <li>
+              <el-input class="searchCommodity" placeholder="搜索商品" size="medium" suffix-icon="el-icon-search" v-model="searchCommodity">
+              </el-input>
+            </li>
+            <li v-for="(val,key) in navigation" :class="{nvaActive:val.boll}" >
+              <p @click="nvaEve(val,key)">{{val.name}}</p>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
 
 
   </div>
+
+  
+
 </template>
 
 <script>
@@ -213,6 +262,7 @@ export default {
   name: 'headerHtml',
   data () {
     return {
+      searchCommodity:'',
       search:'',
       signUpBoll:false,
       singInBoll:false,
@@ -229,6 +279,12 @@ export default {
         {'name':'线下门店','boll':false,'href':'underLine'},
         {'name':'关于我们','boll':false,'href':'about'},
       ],
+      navigationNew:[
+        {'name':'全部商品','boll':false,'href':'home'},
+        {'name':'品牌集','boll':false,'href':'brand'},
+        {'name':'沙发专区','boll':false,'href':'sofaArea'},
+        {'name':'线下门店','boll':false,'href':'underLine'}
+      ],
       //注册
       phone:'',
       password:'',
@@ -238,7 +294,8 @@ export default {
       upPassword:'',
       spaceList:[{name:'品类'},{name:'空间'},{name:'风格'}],
       products:{},
-      navigationBoll:false
+      navigationBoll:false,
+      navigationClassBoll:false
     }
   },
   props:['index'],
@@ -590,7 +647,7 @@ export default {
   left: 50%;
   transform: translate(-50%,-50%);
   background-color: #fff;
-  width: 500px;
+  max-width: 500px;
   padding: 0px 30px;
   z-index: 11;
 }
@@ -780,5 +837,75 @@ export default {
 }
 .brandsClass{
   background-color: #414141;
+}
+
+.webHeader{
+  display: none;
+}
+.webHeader header{
+  padding: 11px;
+}
+
+.logImg{
+  text-align: center;
+  margin: 11px 0px;
+}
+
+
+.webHeader ul{
+  background-color: #3b3b3b;
+}
+.webHeader ul li{
+  padding: 11px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.webHeader li a{
+  color: #fff;
+  font-size: 16px;
+}
+.webHeader nav{
+}
+.webHeader nav p{
+  padding: 0px 11px;
+  margin-bottom: 11px;
+}
+
+.navigationClass{
+  background-color: #3b3b3b;
+}
+.webHeader .navigationClass li{
+  text-align: center;
+  padding: 11px 33px;
+}
+.navigationClass p{
+  font-size: 17px;
+  color: #fff;
+}
+.navigationClass .nvaActive p{
+  color: #f54e4e;
+}
+.webFunction{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.webFunction a:nth-child(2){
+  color: #000;
+  font-size: 17px;
+}
+.webFunction a:nth-child(4){
+  color: #000;
+  font-size: 17px;
+}
+
+@media screen and (max-width: 800px){
+  .pcHeader{
+    display: none;
+  }
+  .webHeader{
+    display: block;
+  }
 }
 </style>

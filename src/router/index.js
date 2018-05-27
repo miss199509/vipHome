@@ -26,6 +26,8 @@ import brand from '@/components/brand'
 import about from '@/components/about'
 //个人中心
 import personal from '@/components/personal'
+//web登录
+import singIn from '@/components/singIn'
 
 Vue.use(Router)
 
@@ -95,6 +97,11 @@ export default new Router({
       path: '/personal',
       name: 'personal',
       component: personal
+    },
+    {
+      path: '/singIn',
+      name: 'singIn',
+      component: singIn
     }
   ]
 })

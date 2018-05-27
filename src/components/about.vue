@@ -1,7 +1,6 @@
 <template>
   <div class="home">
 
-  
     <headerHtml :index="9"></headerHtml>
     
     <p>
@@ -72,7 +71,11 @@
         <img width="60px;" class="floatLeft" src="../assets/about/pic-7.jpg"/>
         <div>
           <p>公司地址：上海市浦东新区东方路3601号丰华园7号楼302</p>
-          <p>公司总机：<strong>021-51878186</strong><span></span>服务热线：<strong>400-186-0055</strong></p>
+          <p>
+            <strong>公司总机：021-51878186</strong>
+            <span></span>
+            <strong>服务热线：400-186-0055</strong>
+          </p>
         </div>
       </div>
     </div>
@@ -173,6 +176,37 @@ export default {
 }
 .contact span{
   padding: 0px 23px;
+}
+
+
+@media screen and (max-width: 800px){
+  .tips{
+    display: block;
+    margin-bottom: 20px;
+  }
+  .about h5{
+    margin: 10px;
+  }
+  .about{
+    padding: 0px 11px;
+  }
+  .contact{
+    padding: 0px 11px;
+  }
+  .contact div img{
+    float: none;
+    display: block;
+  }
+  .contact p strong{
+    display: block;
+    margin: 7px 0px;
+  }
+  .contact span{
+    padding: 0px;
+  }
+  .contact p{
+    margin: 15px 0px;
+  }
 }
 
 </style>

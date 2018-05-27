@@ -1,8 +1,9 @@
 <template>
   <div class="home">
 
-  
-    <headerHtml :index="6"></headerHtml>
+    <div class="headerHtml">
+      <headerHtml :index="6"></headerHtml>
+    </div>
     
       
     <p>
@@ -18,7 +19,7 @@
           <a :href="val.link">
             <img :src="val.image" alt="">
             <h2>{{val.buyer_name}}</h2>
-            <!-- <h2>{{val.buyer_head_portrait}}</h2> -->
+            <h2><span>{{val.product_name}}：</span>{{val.product_no}}</h2>
             <p>
               {{val.buyer_comment}}
             </p>
@@ -74,7 +75,7 @@ export default {
       var items = box.children;
       console.log(items)
       // 定义每一列之间的间隙 为10像素
-      var gap = 90;
+      var gap = 70;
       var gapHeight = 60;
 
       // 1- 确定列数  = 页面的宽度 / 图片的宽度
@@ -164,6 +165,7 @@ export default {
 /*热销产品*/
 #box{
   height: -webkit-fill-available;
+  margin-left: 175px;
 }
 .item img {
   width: 100%;
@@ -176,7 +178,8 @@ export default {
 .item {
   box-shadow: 2px 2px 2px #999;
   position: absolute;
-  width:270px;
+  width:260px;
+  padding: 3px 11px;
 }
 .item h2{
   font-size: 16px;
@@ -184,9 +187,30 @@ export default {
   font-weight: 100;
   color: #000;
 }
+
 .item p{
   color: #656565;
   font-size: 14px;
-  margin: 45px 0px;
+  margin: 17px 0px;
+}
+
+
+@media screen and (max-width: 960px){
+  .item{
+    position: initial;
+    width: 100%;
+    padding: 11px 0px;
+    margin: 11px 0px;
+  }
+  #box{
+    padding: 0px 11px;
+    margin: 0px;
+  }
+  .item p{
+    padding: 0px 5px;
+  }
+  .item h2{
+    text-indent: 11px;
+  }
 }
 </style>
