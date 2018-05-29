@@ -129,13 +129,14 @@
               <ul>
                 
                 <li class="sort">
-                  <strong>排序：</strong>
+                    <strong>排序：</strong>
 
-                  <p v-for="(val,key) in sortList" @click="sortEve(val,key)">
-                    <span>{{val.name}}</span>
-                    <img v-if="val.boll" src="../assets/icon-4.jpg"/>
-                    <img v-else src="../assets/icon-3.jpg"/>
-                  </p>
+                    <p v-for="(val,key) in sortList" @click="sortEve(val,key)">
+                      <span>{{val.name}}</span>
+                      <img v-if="val.boll" src="../assets/icon-4.jpg"/>
+                      <img v-else src="../assets/icon-3.jpg"/>
+                    </p>
+                    <a href="javascript:;" @click="webCommodityListBoll=!webCommodityListBoll">筛选</a>
 
                 </li>
 
@@ -148,33 +149,87 @@
               </ul>
             </div>
 
+            <div class="popupBack" v-show="webCommodityListBoll"></div>
+            <div class="webCommodityList" v-show="webCommodityListBoll">
+              <ul :style="{height:height_-35+'px'}">
+                <li>
+                  <h5>价格区间：</h5>
+                  <el-input class="inputSelect" placeholder="最低价" v-model="start" clearable size="mini">
+                  </el-input>
+                  <span>-</span>
+                  <el-input class="inputSelect" placeholder="最高价" v-model="end" clearable size="mini">
+                  </el-input>
+                </li>
+                <li>
+                  <h5>品牌：</h5>
+                  <p>
+                    <a href="javascript:;" v-for="(val,key) in categoryJson.brands" :class="{brandCss:val.boll}" @click="brandEve(val,key)">
+                      {{val.name}}
+                    </a>
+                  </p>
+                </li>
+                <li>
+                  <h5>品类：</h5>
+                  <p>
+                    <a href="javascript:;" v-for="(val,key) in categoryJson.categorys" :class="{brandCss:val.boll}" @click="categorysEve(val,key)">
+                      {{val.name}}
+                    </a>
+                  </p>
+                </li>
+                <li>
+                  <h5>空间：</h5>
+                  <p>
+                    <a href="javascript:;" v-for="(val,key) in categoryJson.spaces" :class="{brandCss:val.boll}" @click="spaceEve(val,key)">
+                      {{val.name}}
+                    </a>
+                  </p>
+                </li>
+                <li>
+                  <h5>风格：</h5>
+                  <p>
+                    <a href="javascript:;" v-for="(val,key) in categoryJson.styles" :class="{brandCss:val.boll}" @click="stylesEve(val,key)">
+                      {{val.name}}
+                    </a>
+                    
+                  </p>
+                </li>
+              </ul>
+              <el-button @click="searchEve()" class="webPrimary" type="primary" size="small">
+                确定
+              </el-button>
+            </div>
+
             <!-- 商品列表 -->
             <div class="commodityList">
-              
-              <div class="grid-content productBox" v-for="(val,key) in spacebrandList">
-                <a :href="val.taobao">
-                  <p class="imgBorder">
-                    <img width="300px" height="300px;" :src="val.image" alt="图片加载失败"/>
-                    <img v-show="key==0" class="logo" src="../assets/icon-1.jpg"/>
-                  </p>
+              <p class="tipsList" v-show="spacebrandList.length==0">暂无数据</p>
+              <div class="overflowHidden">
+                <div class="grid-content productBox" v-for="(val,key) in spacebrandList">
+                  <div>
+                    <a :href="val.taobao">
+                      <p class="imgBorder">
+                        <img width="300px" :src="val.image" alt="图片加载失败"/>
+                        <img v-show="val.hot" class="logo" src="../assets/icon-1.jpg"/>
+                      </p>
 
-                  <h3>
-                    <strong>￥{{val.price}}</strong>
-                    <i>
-                      ￥{{val.discount_price}}
-                    </i>
-                  </h3>
-                  <p class="describe">
-                    {{val.title}}
-                  </p>
-                </a>
-                <p class="sale">
-                  <span>总销售{{val.sales}}</span>
-                  <i>|</i>
-                  <span>评论{{val.comment}}</span>
-                </p>
-
+                      <h3>
+                        <strong>￥{{val.price}}</strong>
+                        <i>
+                          ￥{{val.discount_price}}
+                        </i>
+                      </h3>
+                      <p class="describe">
+                        {{val.title}}
+                      </p>
+                      <p class="sale">
+                        <span>总销售{{val.sales}}</span>
+                        <i>|</i>
+                        <span>评论{{val.comment}}</span>
+                      </p>
+                    </a>
+                  </div>
+                </div>
               </div>
+              <p class="tipsList" v-show="webTipsList">暂无更多数据</p>
 
 
             </div>
@@ -239,7 +294,14 @@ export default {
       end:'',
       //关键字
       keyword:'',
-      categoryJson:{}
+      categoryJson:{},
+      scroll: 0,
+      webCommodityListBoll:false,
+      height_:0,
+      //web
+      numWebSelect:1,
+      numWebSelectBoll:false,
+      webTipsList:false
     }
   },
   components:{
@@ -247,6 +309,8 @@ export default {
     'bottomHtml':bottomHtml
   },
   mounted(){
+    this.height_ = document.documentElement.clientHeight;
+    window.addEventListener('scroll', this.menu);
     let _this = this;
     //new
     axios.post('http://viphome.argu.net/api/category_v2',qs.stringify({}))
@@ -291,6 +355,7 @@ export default {
       }
       _this.newSpacebrandEve();
       _this.categoryJson = dataJson.data;
+
     })
     .catch(function(err){
       alert(err);
@@ -307,12 +372,28 @@ export default {
 
   },
   methods: {
+    menu() {
+      if(document.body.clientWidth>960){
+        return false;
+      };
+      if(this.numWebSelectBoll){
+        return false;
+      }
+      let _this = this;
+      this.scroll = document.body.scrollTop;
+      //console.log(document.body.offsetHeight,document.documentElement.clientHeight==this.scroll)
+      if(document.body.offsetHeight-document.documentElement.clientHeight==this.scroll){
+        let num = this.numWebSelect+=1;
+        console.log(num);
+        this.webNewSpacebrandEve(num);
+      }
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
-      this.newSpacebrandEve(val)
+      this.newSpacebrandEve(val);
       this.pageNum = val*100;
     },
     newCategoryEve(i,j){
@@ -396,7 +477,7 @@ export default {
       if(val.nam=='新品'){ 
         this.order_by_field = 'create_time';
       }
-
+      this.newSpacebrandEve();
 
     },
     newSpacebrandEve(pag=1){
@@ -419,7 +500,43 @@ export default {
         console.log(JSON.stringify(dataJson.data.data.last_page))
         _this.lastPage = dataJson.data.data.last_page*100;
         _this.total = dataJson.data.data.total;
+        //console.log(JSON.stringify(_this.spacebrandList))
         _this.spacebrandList = dataJson.data.data.data;
+        _this.webTipsList = false;
+        _this.numWebSelect = 1;
+        _this.numWebSelectBoll = false
+      })
+      .catch(function(err){
+        alert(err);
+      });
+    },
+    webNewSpacebrandEve(pag=1){
+
+      let _this = this;
+      console.log(_this.order_by_field)
+      axios.post('http://viphome.argu.net/api/products_v2',qs.stringify({
+        //selectSearch:'',
+        brand_id:_this.brandNm,
+        category_id:_this.categoryNm,
+        space_id:_this.spaceNm,
+        style_id:_this.styleNm,
+        order_by_field:_this.order_by_field,
+        page:pag,
+        start_price:_this.start,
+        end_price:_this.end,
+        keyword:_this.keyword
+      }))
+      .then(function(dataJson){
+        console.log(JSON.stringify(dataJson.data.data.data))
+
+        if(dataJson.data.data.data.length==0){
+          _this.numWebSelectBoll = true;
+          _this.webTipsList = true;
+        }
+        for(let key in dataJson.data.data.data){
+          _this.spacebrandList.push(dataJson.data.data.data[key]);
+        }
+
       })
       .catch(function(err){
         alert(err);
@@ -451,6 +568,7 @@ export default {
     //价格筛选
     searchEve(){
       this.newSpacebrandEve();
+      this.webCommodityListBoll = false;
     }
 
   },
@@ -491,10 +609,13 @@ export default {
 
 /*分类*/
 .classification li{
-  display: -webkit-box;
+  display: flex;
   justify-content: flex-start;
   align-items: center;
   margin: 15px 0px;
+}
+.classification p{
+  width: 100%;
 }
 .classification a{
   font-size: 15px;
@@ -564,6 +685,12 @@ export default {
   cursor: pointer;
 }
 
+.sort a{
+  color: red;
+  font-size: 15px;
+  display: none;
+}
+
 /*商品列表*/
 /*.commodityList .el-row{
   display: flex;
@@ -582,7 +709,7 @@ export default {
   width: 302px;
   float: left;
   margin-left: 22px;
-  height: 420px;
+  margin-bottom: 7px;
 }
 .commodityList .imgBorder{
   border: 1px solid #ccc;
@@ -613,14 +740,24 @@ export default {
   color: #d72326;
   font-size: 13px;
   margin-bottom: 9px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .commodityList .sale{
   font-size: 12px;
+  color: #000;
 }
 .commodityList .sale i{
   margin: 0px 5px;
 }
+.commodityList .tipsList{
+  text-align: center;
+  font-size: 13px;
+  color: #999;
+  margin: 11px 0px;
 
+}
 /*边分类*/
 .classificationList{
   border-top: 2px solid #000;
@@ -677,45 +814,99 @@ export default {
 
 
 
+
+/*web筛选框*/
+.webCommodityList{
+  position: fixed;
+  right: 0px;
+  background-color: #fff;
+  height: 100%;
+  top: 0px;
+  z-index: 12;
+  width: 230px;
+  padding: 0px 11px;
+}
+.webCommodityList ul{
+  overflow: auto;
+}
+.webCommodityList h5{
+  font-size: 14px;
+  padding: 7px 0px;
+}
+.webCommodityList a{
+  font-size: 13px;
+  color: #444;
+  background-color: #e2e2e2;
+  display: inline-block;
+  width: 100px;
+  text-align: center;
+  margin: 5px 7px;
+  height: 27px;
+  line-height: 27px;
+  border-radius: 30px;
+}
+.webCommodityList .brandCss{
+  border: 1px solid red;
+  color: red;
+  box-sizing:border-box;
+}
+.inputSelect{
+  width: 97px;
+}
+
+.webPrimary{
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 110px;
+  font-size: 15px;
+}
 @media screen and (max-width: 960px){
-  #classification{
-    display: none;  
-  }
-  .home header{
+  .el-col-5,.commoditySearch,.classification,.category,.selectCommodity ul li:nth-child(2),.paging{
     display: none;
   }
-  .classification{
-    display: none;
+  .el-col-19{
+    width: 100%;
   }
-  .category{
-    display: none;
+  .productBox{
+    margin: 11px 0px;
+    width: 50%;
   }
-  .keyWord{
-    display: none;
+  .commodityList{
+    margin: 0px;
+    padding: 0px 11px;
   }
-  .commoditySearch{
-    display: none;
+  .imgBorder{
+    width: 100%;
   }
-  .selectCommodity{
-    display: none;
+  .commodityList .imgBorder img{
+    width: 100%;
   }
-  .paging{
-    display: none;
+  .productBox div:nth-child(1){
+    padding: 0px 11px;
   }
 
-  .commodityList .el-col{
-    width: 50%;
-    float: left;
+  .selectCommodity ul{
+    display: block;
+    padding: 0px 11px;
   }
-  .el-col{
-    float: none;
-    margin: auto;
-    width: 100%;
-    padding: 0px 3px;
-  }
-  .commodityList .el-row{
+
+  .sort a{
     display: block;
   }
+  .sort strong{
+    display: none;
+  }
+  .sort{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sort p{
+    margin: 0px;
+  }
+
 }
 
 

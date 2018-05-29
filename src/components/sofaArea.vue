@@ -373,6 +373,9 @@ export default {
   },
   methods: {
     menu() {
+      if(document.body.clientWidth>960){
+        return false;
+      };
       if(this.numWebSelectBoll){
         return false;
       }
