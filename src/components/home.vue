@@ -874,7 +874,6 @@ export default {
   }
   .commodityList{
     margin: 0px;
-    padding: 0px 11px;
   }
   .imgBorder{
     width: 100%;
@@ -905,6 +904,12 @@ export default {
 
   .sort p{
     margin: 0px;
+  }
+  .commodityList h3{
+    margin: 3px 0px;
+  }
+  .commodityList .describe{
+    margin-bottom: 3px;
   }
 
 }

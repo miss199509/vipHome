@@ -297,6 +297,9 @@ export default {
   }
   .brandContentClass .banner{
     min-height: auto;
+    max-height: auto;
+    width: auto;
+    height: 300px;
   }
 }
 </style>

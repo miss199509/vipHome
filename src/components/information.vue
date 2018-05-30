@@ -392,20 +392,27 @@ export default {
     height: auto;
   }
   .informationTips span{
-    font-size: 16px;
+    font-size: 13px;
   }
   .journalism div img:nth-child(1){
     float: none;
   }
   .journalism div h3{
-    font-size: 23px;
+    font-size: 15px;
   }
   .journalism h3 span{
-    font-size: 16px;
+    font-size: 13px;
     margin: 9px 0px;
   }
   .articleList{
     padding: 0px 11px;
+  }
+  .informationList h2{
+    font-size: 15px;
+    margin: 7px 0px;
+  }
+  .informationTips{
+    margin: 7px 0px;
   }
 }
 </style>

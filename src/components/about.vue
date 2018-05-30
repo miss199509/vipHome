@@ -207,6 +207,9 @@ export default {
   .contact p{
     margin: 15px 0px;
   }
+  .articleList{
+    padding: 0px;
+  }
 }
 
 </style>

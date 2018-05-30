@@ -27,7 +27,28 @@
         <h3 class="productTitle">
           热销推荐
         </h3>
-        <ul>
+        <div class="hotSaleListWeb">
+          <ul :style="{width:hotSale_+'px'}">
+            <li v-for="(val,key) in hotSaleList" :style="{width:val.width_+'px'}">
+              
+              <a :href="val.link">
+                <img :src="val.image"/>
+                <div class="titleBox" v-show="false">
+                  <p>
+                    <span>
+                      欧莉斯田园风纯棉四件套1.5m全棉花卉单双人1.8米家纺宿舍套件
+                    </span>
+                    <strong>
+                      6850元
+                    </strong>
+                  </p>
+                </div>
+              </a>
+
+            </li>
+          </ul>
+        </div>
+        <ul class="hotSaleListPc">
           <li v-for="(val,key) in hotSaleList">
             
             <a :href="val.link">
@@ -79,7 +100,8 @@
       <ul>
         <li>
           <a href="javascript:;">
-            <img width="100%;" src="../assets/index/banner-02.jpg"/>
+            <img v-if="width_>=400" width="100%;" src="../assets/index/banner-02.jpg"/>
+            <img v-else width="100%;" src="../assets/index/web_banner-02.jpg"/>
           </a>
         </li>
         <li>
@@ -139,7 +161,7 @@
               <span class="buyerTitle">评论标题</span>
             </a>
           </li>
-          <li>
+          <li class="overflowHidden">
             <p class="buyer_two">
               <a :href="buyerShowList[1].link">
                 <img :src="buyerShowList[1].image"/>
@@ -169,7 +191,6 @@
           合作品牌
         </h3>
         <div class="">
-          
           <el-row>
             <el-col :span="4">
               <p class="brand">
@@ -289,6 +310,8 @@ export default {
   name: 'index',
   data () {
     return {
+      width_:0,
+      hotSale_:0,
       buyerShowList:[],
       hotSaleList:[],
       couponList:[],
@@ -300,6 +323,7 @@ export default {
     'bottomHtml':bottomHtml
   },
   mounted(){
+    this.width_ = document.body.clientWidth/2;
     let _this = this;
     //买家秀
     axios.post('http://viphome.argu.net/api/banner',qs.stringify({position:4}))
@@ -317,6 +341,11 @@ export default {
     .then(function(dataJson){
       if(dataJson.data.result){
         _this.hotSaleList = dataJson.data.data.data;
+        _this.hotSale_ = dataJson.data.data.data.length*_this.width_;
+        for(let key in _this.hotSaleList){
+          _this.hotSaleList[key]['width_'] = _this.width_;
+        }
+        //console.log(JSON.stringify(_this.hotSaleList))
       }
     })
     .catch(function(err){
@@ -569,10 +598,14 @@ export default {
 }
 
 
-.webAlways{
+.webAlways,.hotSale .hotSaleListWeb{
   display: none;
 }
 
+
+#demo1,#demo2{
+  display:inline
+}
 
 @media screen and (max-width: 800px){
   .pcAlways{
@@ -583,6 +616,10 @@ export default {
   }
   .webAlways img{
     height: 300px;
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform : translate(-50%,0%);
   }
   .coupon li{
     padding: 0px 11px;
@@ -620,6 +657,21 @@ export default {
     width: 100%;
     height: auto;
   }
+  .buyer_one img{
+    margin-bottom: 2%;
+  }
+  .buyer_two img{
+    width: 49%;
+    float: left;
+  }
+  .buyer_four img{
+    display: none;
+  }
+  .buyer_three img{
+    width: 49%;
+    float: right;
+  }
+
   .buyer_one{
     margin-right: 0px;
   }
@@ -628,6 +680,27 @@ export default {
   }
   .buyer_two{
     margin-bottom: 0px;
+  }
+  .coupon ul{
+    display: block;
+  }
+
+  .hotSale li{
+    margin: 0px;
+    float: left;
+  }
+  .hotSale .hotSaleListWeb{
+    display: block;
+    overflow: hidden;
+
+    margin: 0px auto;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+
+  .hotSale .hotSaleListPc{
+    display: none;
   }
 }
 </style>

@@ -29,7 +29,7 @@
         </li>
       </ul>
       <h3>
-        400-800-5965
+        400-186-0055
       </h3>
       <ul class="wxinImg">
         <li>
@@ -135,8 +135,27 @@ export default {
 
 
 @media screen and (max-width: 800px){
-  .bottomHtml{
+  /*.bottomHtml{
     display: none;
+  }*/
+  .bottomHtml div{
+    display: block;
+    padding: 23px 0px;
+  }
+  .bottomHtml .nav{
+    display: block;
+    display: none;
+  }
+  .bottomHtml h3{
+    padding: 0px;
+    text-align: center;
+    margin: 7px 0px;
+  }
+  .bottomHtml .wxinImg{
+    justify-content: center;
+  }
+  .Keep_onRecord{
+    font-size: 13px;
   }
 }
 </style>
