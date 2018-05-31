@@ -82,7 +82,7 @@
         </p>
         <div class="" v-html="articleText.content" style="color: #7A7A7A;font-size: 14px;text-indent: 27px;line-height: 23px;"></div>
         <!-- <p>首先来看一组数据，在由商务部流通业发展司</p> -->
-        <ul class="articleSelect" v-show="false">
+        <ul class="articleSelect">
           <li>
             <a href="javascript:;">上一篇：142平米美式风格 展现出空间贵气而又不失自在与随意的风范</a>
           </li>
@@ -132,6 +132,10 @@ export default {
     'bottomHtml':bottomHtml
   },
   mounted(){
+    // console.log(this.$route.query.uid)
+    // if(this.$route.query.uid==1){
+    //   this.articeclassList[1].boll = true;
+    // }
     let _this = this;
     axios.post('http://viphome.argu.net/api/articeclass',qs.stringify({}))
     .then(function(dataJson){
@@ -141,7 +145,11 @@ export default {
         for(let key in _this.articeclassList){
           _this.$set(_this.articeclassList[key],'boll',false);
         };
-        _this.articeclassList[0].boll = true;
+        if(_this.$route.query.uid==undefined){
+          _this.articeclassList[0].boll = true;
+        }else{
+          _this.articeclassList[_this.$route.query.uid].boll = true;
+        }
 
 
 
@@ -172,7 +180,7 @@ export default {
         axios.post('http://viphome.argu.net/api/artices',qs.stringify({class_id:_this.articeclassList[2].id}))
         .then(function(dataJson){
           if(dataJson.data.result){
-            console.log(JSON.stringify(dataJson.data.data.data))
+            //console.log(JSON.stringify(dataJson.data.data.data))
             _this.journalism = dataJson.data.data.data;
           }
         })
@@ -223,6 +231,7 @@ export default {
       console.log(`当前页: ${val}`);
     },
     articleEve(val,key){
+      console.log(val.id)
       this.articleText = val;
       this.articleBoll = true;
       for(let key in this.articeclassList){

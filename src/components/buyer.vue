@@ -165,7 +165,6 @@ export default {
 /*热销产品*/
 #box{
   height: -webkit-fill-available;
-  margin-left: 175px;
 }
 .item img {
   width: 100%;

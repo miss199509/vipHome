@@ -5,21 +5,25 @@
       <ul class="nav">
         <li>
           <p>
-            <a class="title" href="javascript:;">动态资讯</a>
+            <router-link class="title" :to="{ name: 'information',query:{id:$route.query.id,userName:$route.query.userName}}">
+              动态资讯
+            </router-link>
           </p>
           <p>
-            <a href="javascript:;">公司动态</a>
+            <router-link class="title" :to="{ name: 'information',query:{id:$route.query.id,userName:$route.query.userName,uid:0}}">公司动态</router-link>
           </p>
           <p>
-            <a href="javascript:;">行业资讯</a>
+            <router-link class="title" :to="{ name: 'information',query:{id:$route.query.id,userName:$route.query.userName,uid:1}}">行业资讯</router-link>
           </p>
           <p>
-            <a href="javascript:;">家居新知</a>
+            <router-link class="title" :to="{ name: 'information',query:{id:$route.query.id,userName:$route.query.userName,uid:2}}">家居新知</router-link>
           </p>
         </li>
         <li>
           <p>
-            <a class="title" href="javascript:;">关于我们</a>
+            <router-link class="title" :to="{ name: 'about',query:{id:$route.query.id,userName:$route.query.userName}}">
+              关于我们
+            </router-link>
           </p>
         </li>
         <li>

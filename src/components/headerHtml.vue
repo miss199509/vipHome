@@ -336,8 +336,11 @@ export default {
   methods: {
     nvaEve(val,key){
       let _this = this;
-      //console.log(JSON.stringify(val))
+      console.log(JSON.stringify(val.name))
       this.$router.push({ name: val.href,query:{id:_this.$route.query.id,userName:_this.$route.query.userName}});
+      if(val.name=='买家秀'){
+        location.reload();
+      }
     },
     //注册
     signUpEve(){
@@ -395,7 +398,7 @@ export default {
         password:_this.password
       }))
       .then(function(dataJson){
-        console.log(JSON.stringify(dataJson.data));
+        //console.log(JSON.stringify(dataJson.data));
         if(dataJson.data.result){
           _this.signUpBoll = false;
           _this.singInBoll = true;
@@ -461,6 +464,15 @@ export default {
     },
     //滑近
     mouseoverEveBrands(val,key){
+      for(let i in this.products.categorys){
+        this.products.categorys[i].boll = false;
+      }
+      for(let i in this.products.spaces){
+        this.products.spaces[i].boll = false;
+      }
+      for(let i in this.products.styles){
+          this.products.styles[i].boll = false;
+      }
       for(let i in this.products.brands){
         this.products.brands[i].boll = false;
       }
@@ -470,17 +482,44 @@ export default {
       for(let i in this.products.categorys){
         this.products.categorys[i].boll = false;
       }
+      for(let i in this.products.spaces){
+        this.products.spaces[i].boll = false;
+      }
+      for(let i in this.products.styles){
+          this.products.styles[i].boll = false;
+      }
+      for(let i in this.products.brands){
+        this.products.brands[i].boll = false;
+      }
       val.boll = true;
     },
     mouseoverEveSpaces(val,key){
+      for(let i in this.products.categorys){
+        this.products.categorys[i].boll = false;
+      }
       for(let i in this.products.spaces){
         this.products.spaces[i].boll = false;
+      }
+      for(let i in this.products.styles){
+          this.products.styles[i].boll = false;
+      }
+      for(let i in this.products.brands){
+        this.products.brands[i].boll = false;
       }
       val.boll = true;
     },
     mouseoverEveStyles(val,key){
+      for(let i in this.products.categorys){
+        this.products.categorys[i].boll = false;
+      }
+      for(let i in this.products.spaces){
+        this.products.spaces[i].boll = false;
+      }
       for(let i in this.products.styles){
           this.products.styles[i].boll = false;
+      }
+      for(let i in this.products.brands){
+        this.products.brands[i].boll = false;
       }
       val.boll = true;
     },

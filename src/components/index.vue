@@ -73,7 +73,7 @@
       <div class="coupon">
         <ul>
           <li v-for="(val,key) in couponList">
-            <a :href="val.href">
+            <a :href="val.link">
               <h4>
                 <i>￥</i>{{val.name}}
               </h4>
@@ -190,7 +190,123 @@
         <h3 class="productTitle">
           合作品牌
         </h3>
-        <div class="">
+        <div class="brandBoxWeb">
+          
+          <el-row>
+            <el-col :span="8">
+              <p class="brand">
+                <img src="../assets/brand/logo-01.jpg"/>
+              </p>
+            </el-col>
+            <el-col :span="8">
+              <p class="brand">
+                <img src="../assets/brand/logo-02.jpg"/>
+              </p>
+            </el-col>
+            <el-col :span="8">
+              <p class="brand">
+                <img src="../assets/brand/logo-03.jpg"/>
+              </p>
+            </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="8">
+              <p class="brand">
+                <img src="../assets/brand/logo-04.jpg"/>
+              </p>
+            </el-col>
+            <el-col :span="8">
+              <p class="brand">
+                <img src="../assets/brand/logo-05.jpg"/>
+              </p>
+            </el-col>
+            <el-col :span="8">
+              <p class="brand">
+                <img src="../assets/brand/logo-06.jpg"/>
+              </p>
+            </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="8">
+              <p class="brand">
+                <img src="../assets/brand/logo-07.jpg"/>
+              </p>
+            </el-col>
+            <el-col :span="8">
+              <p class="brand">
+                <img src="../assets/brand/logo-08.jpg"/>
+              </p>
+            </el-col>
+            <el-col :span="8">
+              <p class="brand">
+                <img src="../assets/brand/logo-09.jpg"/>
+              </p>
+            </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="8">
+              <p class="brand">
+                <img src="../assets/brand/logo-10.jpg"/>
+              </p>
+            </el-col>
+            <el-col :span="8">
+              <p class="brand">
+                <img src="../assets/brand/logo-11.jpg"/>
+              </p>
+            </el-col>
+            <el-col :span="8">
+              <p class="brand">
+                <img src="../assets/brand/logo-12.jpg"/>
+              </p>
+            </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="8">
+              <p class="brand">
+                <img src="../assets/brand/logo-13.jpg"/>
+              </p>
+            </el-col>
+            <el-col :span="8">
+              <p class="brand">
+                <img src="../assets/brand/logo-14.jpg"/>
+              </p>
+            </el-col>
+            <el-col :span="8">
+              <p class="brand">
+                <img src="../assets/brand/logo-15.jpg"/>
+              </p>
+            </el-col>
+          </el-row>
+          <el-row>
+            
+            <el-col :span="8">
+              <p class="brand">
+                <img src="../assets/brand/logo-16.jpg"/>
+              </p>
+            </el-col>
+            <el-col :span="8">
+              <p class="brand">
+                <img src="../assets/brand/logo-17.jpg"/>
+              </p>
+            </el-col>
+            <el-col :span="8">
+              <p class="brand">
+                <img src="../assets/brand/logo-18.jpg"/>
+              </p>
+            </el-col>
+
+          </el-row>
+
+
+
+        </div>
+
+        <div class="brandBoxPc">
+          
           <el-row>
             <el-col :span="4">
               <p class="brand">
@@ -325,6 +441,16 @@ export default {
   mounted(){
     this.width_ = document.body.clientWidth/2;
     let _this = this;
+    
+    axios.post('http://viphome.argu.net/api/products',qs.stringify({}))
+    .then(function(dataJson){
+      //console.log(JSON.stringify(dataJson.data))
+      
+    })
+    .catch(function(err){
+      alert(err);
+    });
+
     //买家秀
     axios.post('http://viphome.argu.net/api/banner',qs.stringify({position:4}))
     .then(function(dataJson){
@@ -586,7 +712,7 @@ export default {
   height: 100%;
   border-right: 1px solid #B9B9B9;
 }
-.brandBox .el-col-4:last-child .brand {
+.brandBox .el-col-4:last-child .brand,.brandBox .el-col-8:last-child .brand {
   border: none;
 }
 .brandBox .el-col-4:last-of-type .brand {
@@ -605,6 +731,10 @@ export default {
 
 #demo1,#demo2{
   display:inline
+}
+
+.brandBoxWeb{
+  display: none;
 }
 
 @media screen and (max-width: 800px){
@@ -700,6 +830,12 @@ export default {
 
 
   .hotSale .hotSaleListPc{
+    display: none;
+  }
+  .brandBoxWeb{
+    display: block;
+  }
+  .brandBoxPc{
     display: none;
   }
 }

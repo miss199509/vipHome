@@ -65,7 +65,7 @@
         <el-col :span="19">
           <div class="grid-content bg-purple-light">
             <p class="category">
-              <a href="javascript:;">
+              <a href="javascript:;" @click="allEve()">
                 所有宝贝
               </a>
               <i>></i>
@@ -541,6 +541,30 @@ export default {
       .catch(function(err){
         alert(err);
       });
+    },
+    allEve(){
+      for(let i in this.categoryJson.spaces){
+        this.categoryJson.spaces[i].boll = false;
+      }
+      for(let i in this.categoryJson.categorys){
+        this.categoryJson.categorys[i].boll = false;
+      }
+      for(let i in this.categoryJson.brands){
+        this.categoryJson.brands[i].boll = false;
+      }
+      for(let i in this.categoryJson.styles){
+        this.categoryJson.styles[i].boll = false;
+      }
+      this.brandNm = '';
+      this.categoryNm = '';
+      this.spaceNm = '';
+      this.styleNm
+      this.order_by_field = '';
+      this.start = '';
+      this.end = '';
+      this.keyword = '';
+      this.webNewSpacebrandEve(1);
+      this.newSpacebrandEve(1);
     },
     lastEve(){
       if(this.spacebrandList.length<15){

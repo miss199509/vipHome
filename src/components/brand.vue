@@ -216,10 +216,7 @@ export default {
   font-size: 16px;
   margin: 21px 0px 11px 0px;
 }
-.brandContentClass .banner{
-  min-height: 370px;
-  max-height: 500px;
-}
+
 .brandIntroduce p{
   font-size: 12px;
   height: 100px;

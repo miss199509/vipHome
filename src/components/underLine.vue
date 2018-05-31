@@ -65,7 +65,7 @@
       
       <!-- 弹窗 -->
       <div class="popupBack" v-show="popupBackBoll">
-        <div class="popupBox" :style="{height:height_+'px'}">
+        <div class="popupBox" :style="{height:height_}">
           <header>
             <img width="130px;" src="../assets/logo-01.jpg"/>
             <i class="el-icon-close cursor" @click="removePopupEve()"></i>
@@ -105,7 +105,7 @@
 
                 <div class="userName">
                   <label class="makeName">您贵姓：</label>
-                  <el-input v-model="userName" placeholder="输入您的姓名" size="mini"></el-input>
+                  <el-input v-model="userName" placeholder="请输入您的姓氏" size="mini"></el-input>
                 </div>
                 
                 <ul class="overflowHidden">
@@ -162,7 +162,7 @@
 
           <div class="selectTips">
             <p>温馨提示：欢邸国际家居携旗下18品牌，48家线下实体店，欢迎您到各门店品鉴家居</p>
-            <p>您也可以拨打7X24小时热线：400-800-8956 与我们取得联系！</p>
+            <p>您也可以拨打7X24小时热线：400-186-0055 与我们取得联系！</p>
           </div>
         
         </div>
@@ -223,7 +223,12 @@ export default {
     'bottomHtml':bottomHtml
   },
   mounted(){
-    this.height_ = document.documentElement.clientHeight;
+    console.log(document.documentElement.clientWidth)
+    if(document.documentElement.clientWidth<800){
+      this.height_ = document.documentElement.clientHeight+'px';
+    }else{
+      this.height_ = 'auto'
+    }
     let _this = this;
     axios.post('http://viphome.argu.net/api/malls',qs.stringify({}))
     .then(function(dataJson){
