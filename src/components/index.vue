@@ -28,23 +28,21 @@
           热销推荐
         </h3>
 
-        <div id="scroll_div" class="scroll_div">
+        <div id="scroll_div" class="scroll_div hotSaleListWeb">
             <div id="scroll_begin">
-                <ul>
-                    <li><a href="#"><img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3198611610,3108821463&fm=27&gp=0.jpg"></a></li>
-                    <li><a href="#"><img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3198611610,3108821463&fm=27&gp=0.jpg"></a></li>
-                    <li><a href="#"><img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3198611610,3108821463&fm=27&gp=0.jpg"></a></li>
-                    <li><a href="#"><img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3198611610,3108821463&fm=27&gp=0.jpg"></a></li>
-                    <li><a href="#"><img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3198611610,3108821463&fm=27&gp=0.jpg"></a></li>
-                    <li><a href="#"><img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3198611610,3108821463&fm=27&gp=0.jpg"></a></li>
-                    <li><a href="#"><img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3198611610,3108821463&fm=27&gp=0.jpg"></a></li>
-                </ul>
+                <div>
+                    <p v-for="(val,key) in hotSaleList">
+                    <a :href="val.link">
+                      <img :src="val.image">
+                    </a>
+                    </p>
+                </div>
             </div>
             <div id="scroll_end"></div>
         </div>
 
 
-        <div class="hotSaleListWeb">
+        <!-- <div class="hotSaleListWeb">
           <ul :style="{width:hotSale_+'px'}">
             <li v-for="(val,key) in hotSaleList" :style="{width:val.width_+'px'}">
               
@@ -64,7 +62,7 @@
 
             </li>
           </ul>
-        </div>
+        </div> -->
         <ul class="hotSaleListPc">
           <li v-for="(val,key) in hotSaleList">
             
@@ -488,6 +486,9 @@ export default {
         for(let key in _this.hotSaleList){
           _this.hotSaleList[key]['width_'] = _this.width_;
         }
+        _this.$nextTick(function () {
+          _this.scrollImgLeft();
+        })
         //console.log(JSON.stringify(_this.hotSaleList))
       }
     })
@@ -511,12 +512,12 @@ export default {
     .catch(function(err){
       alert(err);
     });
-    this.scrollImgLeft();
+    //this.scrollImgLeft();
   },
   methods: {
     scrollImgLeft(){
       let _this = this;
-      var speed=10;
+      var speed=20;
       var scroll_begin = document.getElementById("scroll_begin");
       var scroll_end = document.getElementById("scroll_end");
       var scroll_div = document.getElementById("scroll_div");
@@ -889,17 +890,15 @@ export default {
 
 .scroll_div {
     width:100%;
-    height:400px;
     margin:0 0;
     overflow: hidden;
     white-space: nowrap;
     background:#ffffff;
   }
   .scroll_div img {
-    width:100%;
-    height:400px;
+    width:50%;
   }
-  #scroll_begin, #scroll_end, #scroll_begin ul, #scroll_end ul, #scroll_begin ul li, #scroll_end ul li{
+  #scroll_begin, #scroll_end, #scroll_begin div, #scroll_end div, #scroll_begin div p, #scroll_end div p{
     display:inline;
   }/*设置ul和li横排*/
 </style>
