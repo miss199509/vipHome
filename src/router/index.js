@@ -28,6 +28,7 @@ import about from '@/components/about'
 import personal from '@/components/personal'
 //web登录
 import singIn from '@/components/singIn'
+import talk from '@/components/talk'
 
 Vue.use(Router)
 
@@ -102,6 +103,11 @@ export default new Router({
       path: '/singIn',
       name: 'singIn',
       component: singIn
+    },
+    {
+      path: '/talk',
+      name: 'talk',
+      component: talk
     }
   ]
 })
