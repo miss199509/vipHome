@@ -282,6 +282,10 @@ export default {
   }
   .brandContentList{
     padding: 0px 11px;
+    margin-top: 213px;
+  }
+  .brandContentClass h3{
+    margin: 0px;
   }
   .brandHeaderBox ul{
     display: block;
@@ -293,10 +297,13 @@ export default {
     text-align: center;
   }
   .brandContentClass .banner{
-    min-height: auto;
-    max-height: auto;
     width: auto;
-    height: 300px;
+    height: 200px;
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    -webkit-transform: translate(-50%,0%);
+    transform: translate(-50%,0%);
   }
 }
 </style>

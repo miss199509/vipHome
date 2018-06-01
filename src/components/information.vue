@@ -1,7 +1,9 @@
 <template>
   <div class="information">
 
-  
+    
+
+    
     <headerHtml :index="7"></headerHtml>
     
     <p>
@@ -98,7 +100,7 @@
 
       
     </div>
-
+    
     <bottomHtml></bottomHtml>
 
   </div>
@@ -132,6 +134,36 @@ export default {
     'bottomHtml':bottomHtml
   },
   mounted(){
+
+    this.$nextTick(function(){
+    window._bd_share_config = {
+        common : {
+          bdText : '自定义分享内容', 
+          bdDesc : '自定义分享摘要', 
+          bdUrl : '自定义分享url地址',   
+          bdPic : '自定义分享图片'
+        },
+        share : [{
+          "bdSize" : 16
+        }],
+        slide : [{     
+          bdImg : 0,
+          bdPos : "right",
+          bdTop : 100
+        }],
+        image : [{
+          viewType : 'list',
+          viewPos : 'top',
+          viewColor : 'black',
+          viewSize : '16',
+          viewList : ['qzone','tsina','huaban','tqq','renren']
+        }],
+        selectShare : [{
+          "bdselectMiniList" : ['qzone','tqq','kaixin001','bdxc','tqf']
+        }]
+      }
+    })
+
     // console.log(this.$route.query.uid)
     // if(this.$route.query.uid==1){
     //   this.articeclassList[1].boll = true;

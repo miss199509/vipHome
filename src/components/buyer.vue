@@ -50,14 +50,14 @@ export default {
     'headerHtml':headerHtml,
     'bottomHtml':bottomHtml
   },
-  mounted(){
+  created(){
     
     let _this = this;
     axios.post('http://viphome.argu.net/api/buyershow',qs.stringify({popularity:0}))
     .then(function(dataJson){
       if(dataJson.data.result){
         _this.buyershowList = dataJson.data.data;
-        console.log(JSON.stringify(_this.buyershowList))
+        //console.log(JSON.stringify(_this.buyershowList))
         _this.$nextTick(function () {
           _this.waterFall();
         })
@@ -165,11 +165,11 @@ export default {
 /*热销产品*/
 #box{
   height: -webkit-fill-available;
+  width: 1000px;
 }
 .item img {
   width: 100%;
   display: block;
-  max-height:300px;
 }
 .box{
   position: relative;

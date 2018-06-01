@@ -51,8 +51,8 @@
 
         <nav class="maxWidth">
           <ul class="navigationNav">
-            <li @mouseout="mouseoutEve()">
-              <a @mouseover="mouseoverEve(val,key)" href="javascript:;" v-for="(val,key) in navigation" :class="{nvaActive:val.boll}" @click="nvaEve(val,key)">
+            <li>
+              <a @mouseover="mouseoverEve(val,key)" @mouseout="mouseoutEve(val,key)" href="javascript:;" v-for="(val,key) in navigation" :class="{nvaActive:val.boll}" @click="nvaEve(val,key)">
                 {{val.name}}
               </a>
             </li>
@@ -60,7 +60,7 @@
           
 
 
-          <div class="maxWidth navigationBox" v-show="navigationBoll" v-if="products.brands!=null">
+          <div class="maxWidth navigationBox" v-show="navigationBoll" v-if="products.brands!=null" @mouseout="navigationEve()">
             <header>
               <strong>所有品牌</strong>
               <strong v-for="(val,key) in spaceList">{{val.name}}</strong>
@@ -68,24 +68,24 @@
             <nav>
               <ul>
                 <li>
-                  <p v-for="(val,key) in products.brands" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveBrands(val,key)" @click="hrefHome(val,key)">
+                  <p v-for="(val,key) in products.brands" class="cursor" :class="{brandsClass:val.boll}" @mouseover.stop="mouseoverEveBrands(val,key)" @click="hrefHome(val,key)">
                     <a href="javascript:;">{{val.name}}</a>
                   </p>
                 </li>
               </ul>
               <ul>
                 <li>
-                  <p v-for="(val,key) in products.categorys" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveCategorys(val,key)" @click="hrefHome(val,key)">
+                  <p v-for="(val,key) in products.categorys" class="cursor" :class="{brandsClass:val.boll}" @mouseover.stop="mouseoverEveCategorys(val,key)" @click="hrefHome(val,key)">
                     <a href="javascript:;">{{val.name}}</a>
                   </p>
                 </li>
                 <li>
-                  <p v-for="(val,key) in products.spaces" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveSpaces(val,key)" @click="hrefHome(val,key)">
+                  <p v-for="(val,key) in products.spaces" class="cursor" :class="{brandsClass:val.boll}" @mouseover.stop="mouseoverEveSpaces(val,key)" @click="hrefHome(val,key)">
                     <a href="javascript:;">{{val.name}}</a>
                   </p>
                 </li>
                 <li>
-                  <p v-for="(val,key) in products.styles" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveStyles(val,key)" @click="hrefHome(val,key)">
+                  <p v-for="(val,key) in products.styles" class="cursor" :class="{brandsClass:val.boll}" @mouseover.stop="mouseoverEveStyles(val,key)" @click="hrefHome(val,key)">
                     <a href="javascript:;">{{val.name}}</a>
                   </p>
                 </li>
@@ -338,7 +338,7 @@ export default {
       let _this = this;
       console.log(JSON.stringify(val.name))
       this.$router.push({ name: val.href,query:{id:_this.$route.query.id,userName:_this.$route.query.userName}});
-      if(val.name=='买家秀'){
+      if(val.name=='动态资讯'){
         location.reload();
       }
     },
@@ -442,9 +442,9 @@ export default {
     },
     mouseoverEve(val,key){
       if(this.index==key){
+        this.navigationBoll = false;
         return false;
       }
-      //console.log(key);
       if(key==1){
         this.navigationBoll = true;
       }else{
@@ -456,11 +456,17 @@ export default {
       };
       val.boll = true;
     },
-    mouseoutEve(){
+    mouseoutEve(val,key){
       for(let key in this.navigation){
         this.navigation[key].boll = false;
       }
-      this.navigation[this.index].boll = true;
+      if(key!=1){
+        this.navigationBoll = false;
+        this.navigation[this.index].boll = true;
+        console.log(this.index)
+      }else{
+        this.navigation[key].boll = true;
+      }
     },
     //滑近
     mouseoverEveBrands(val,key){
@@ -554,6 +560,9 @@ export default {
         styles:styles,
       }});
 
+    },
+    navigationEve(){
+      console.log('出去')
     }
   }
 

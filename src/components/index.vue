@@ -28,21 +28,9 @@
           热销推荐
         </h3>
 
-        <div id="scroll_div" class="scroll_div hotSaleListWeb">
-            <div id="scroll_begin">
-                <div>
-                    <p v-for="(val,key) in hotSaleList">
-                    <a :href="val.link">
-                      <img :src="val.image">
-                    </a>
-                    </p>
-                </div>
-            </div>
-            <div id="scroll_end"></div>
-        </div>
 
 
-        <!-- <div class="hotSaleListWeb">
+        <div class="hotSaleListWeb">
           <ul :style="{width:hotSale_+'px'}">
             <li v-for="(val,key) in hotSaleList" :style="{width:val.width_+'px'}">
               
@@ -62,7 +50,7 @@
 
             </li>
           </ul>
-        </div> -->
+        </div>
         <ul class="hotSaleListPc">
           <li v-for="(val,key) in hotSaleList">
             
@@ -119,44 +107,11 @@
             <img v-else width="100%;" src="../assets/index/web_banner-02.jpg"/>
           </a>
         </li>
-        <li>
-          <a href="javascript:;">
-            <img width="100%;" src="../assets/index/banner-03.jpg"/>
+        <li v-for="(val,key) in thisProductList">
+          <a :href="val.link" @click="myMarEve(val)">
+            <img width="100%;" :src="val.image"/>
             <h3 class="productLog_two">
-              DOMICIL
-            </h3>
-          </a>
-        </li>
-        <li>
-          <a href="javascript:;">
-            <img width="100%;" src="../assets/index/banner-04.jpg"/>
-            <h3 class="productLog_two">
-              HTC
-            </h3>
-          </a>
-        </li>
-        <li>
-          <a href="javascript:;">
-            <img width="100%;" src="../assets/index/banner-05.jpg"/>
-            <h3 class="productLog_two">
-              SHAKER
-            </h3>
-          </a>
-        </li>
-        <li>
-          <a href="javascript:;">
-            <img width="100%;" src="../assets/index/banner-06.jpg"/>
-            <h3 class="productLog_two">
-              FOUR
-              <p>SEASONS</p>
-            </h3>
-          </a>
-        </li>
-        <li>
-          <a href="javascript:;">
-            <img width="100%;" src="../assets/index/banner-07.jpg"/>
-            <h3 class="productLog_two">
-              S&S
+              {{val.name}}
             </h3>
           </a>
         </li>
@@ -446,7 +401,9 @@ export default {
       buyerShowList:[],
       hotSaleList:[],
       couponList:[],
-      broadcastList:[]
+      broadcastList:[],
+      thisProductList:[],
+      myMar:''
     }
   },
   components:{
@@ -465,7 +422,17 @@ export default {
     .catch(function(err){
       alert(err);
     });
-
+    //首页品牌
+    axios.post('http://viphome.argu.net/api/banner',qs.stringify({position:3}))
+    .then(function(dataJson){
+      if(dataJson.data.result){
+        console.log(JSON.stringify(dataJson.data.data.data));
+        _this.thisProductList = dataJson.data.data.data;
+      }
+    })
+    .catch(function(err){
+      alert(err);
+    });
     //买家秀
     axios.post('http://viphome.argu.net/api/banner',qs.stringify({position:4}))
     .then(function(dataJson){
@@ -486,9 +453,6 @@ export default {
         for(let key in _this.hotSaleList){
           _this.hotSaleList[key]['width_'] = _this.width_;
         }
-        _this.$nextTick(function () {
-          _this.scrollImgLeft();
-        })
         //console.log(JSON.stringify(_this.hotSaleList))
       }
     })
@@ -512,36 +476,8 @@ export default {
     .catch(function(err){
       alert(err);
     });
-    //this.scrollImgLeft();
   },
   methods: {
-    scrollImgLeft(){
-      let _this = this;
-      var speed=20;
-      var scroll_begin = document.getElementById("scroll_begin");
-      var scroll_end = document.getElementById("scroll_end");
-      var scroll_div = document.getElementById("scroll_div");
-      scroll_end.innerHTML=scroll_begin.innerHTML;
-      var MyMar=setInterval(_this.marquee,speed);
-      scroll_div.onmouseover=function()
-      {
-        clearInterval(MyMar);
-      }
-      scroll_div.onmouseout=function()
-      {
-        MyMar=setInterval(_this.marquee,speed);
-      }
-    },
-    marquee(){
-        if(scroll_end.offsetWidth-scroll_div.scrollLeft<=0)
-        {
-          scroll_div.scrollLeft-=scroll_begin.offsetWidth;
-        }
-        else
-        {
-          scroll_div.scrollLeft++;
-        }
-    }
   },
 
 }
@@ -838,6 +774,7 @@ export default {
   .buyer_two img{
     width: 49%;
     float: left;
+    height: 160px;
   }
   .buyer_four img{
     display: none;
@@ -845,6 +782,7 @@ export default {
   .buyer_three img{
     width: 49%;
     float: right;
+    height: 160px;
   }
 
   .buyer_one{
@@ -866,11 +804,9 @@ export default {
   }
   .hotSale .hotSaleListWeb{
     display: block;
-    overflow: hidden;
-
     margin: 0px auto;
     white-space: nowrap;
-    overflow: hidden;
+    overflow: auto;
   }
 
 
@@ -888,17 +824,4 @@ export default {
 
 
 
-.scroll_div {
-    width:100%;
-    margin:0 0;
-    overflow: hidden;
-    white-space: nowrap;
-    background:#ffffff;
-  }
-  .scroll_div img {
-    width:50%;
-  }
-  #scroll_begin, #scroll_end, #scroll_begin div, #scroll_end div, #scroll_begin div p, #scroll_end div p{
-    display:inline;
-  }/*设置ul和li横排*/
 </style>

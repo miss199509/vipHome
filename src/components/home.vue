@@ -339,6 +339,7 @@ export default {
         }
       }
       for(let key in dataJson.data.brands){
+        console.log(JSON.stringify(dataJson.data.brands[key])+'***')
         if(dataJson.data.brands[key].id==_this.$route.query.brands){
           dataJson.data.brands[key].boll = true;
         }
@@ -380,8 +381,8 @@ export default {
         return false;
       }
       let _this = this;
-      this.scroll = document.body.scrollTop;
-      //console.log(document.body.offsetHeight,document.documentElement.clientHeight==this.scroll)
+      this.scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      console.log(this.scroll)
       if(document.body.offsetHeight-document.documentElement.clientHeight==this.scroll){
         let num = this.numWebSelect+=1;
         console.log(num);
