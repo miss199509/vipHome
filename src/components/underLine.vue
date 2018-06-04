@@ -76,8 +76,8 @@
               <span>请输入手机号码：</span>
             </p>
             <div class="selectInput">
-              <el-input size="small" v-model="input" placeholder="请输入内容" class="input-with-select"></el-input>
-              <el-button class="submission" size="small" type="primary" @click="selectEve()">提交</el-button>
+              <el-input size="small" v-model="inputPhone" placeholder="请输入内容" class="input-with-select"></el-input>
+              <el-button class="submission" size="small" type="primary" @click="selectEve(phoneText)">提交</el-button>
             </div>
             <div class="selectText">
               
@@ -86,7 +86,7 @@
                 <p>{{phoneText.name}}</p>
                 <p>地址：{{phoneText.address}}</p>
                 <p>店内电话：{{phoneText.telephone}}</p>
-                <p>交通线路：上海市浦东新区川沙新镇外环以外川沙路4825号B座二层223号展厅。</p>
+                <!-- <p>交通线路：上海市浦东新区川沙新镇外环以外川沙路4825号B座二层223号展厅。</p> -->
               </div>
 
             </div>
@@ -214,7 +214,8 @@ export default {
       typeSelectList:[],
       //发送到手机
       phoneText:{},
-      height_:0
+      height_:0,
+      inputPhone:''
 
     }
   },
@@ -230,13 +231,13 @@ export default {
       this.height_ = 'auto'
     }
     let _this = this;
-    axios.post('http://viphome.argu.net/api/malls',qs.stringify({}))
+    axios.post('http://backend.viphome.cn/api/malls',qs.stringify({}))
     .then(function(dataJson){
       if(dataJson.data.result){
         //console.log(JSON.stringify(dataJson.data.data.data))
         _this.mallsList = dataJson.data.data.data;
         
-        axios.post('http://viphome.argu.net/api/stores',qs.stringify({}))
+        axios.post('http://backend.viphome.cn/api/stores',qs.stringify({}))
         .then(function(dataJson){
           //console.log(JSON.stringify(dataJson.data))
           if(dataJson.data.result){
@@ -288,8 +289,9 @@ export default {
   methods: {
 
     phoneSend(val,key,i,j){
-      console.log(JSON.stringify(i))
+      console.log(val.address,i.address)
       i.name = val.name+'【'+i.name+'】';
+      i.address = val.address+i.address;
       this.phoneText = i;
       this.popupBackBoll = true;
       this.selectBoxBoll = true;
@@ -301,7 +303,7 @@ export default {
       this.popupBackBoll = true;
       this.makeBoll = true;
       let _this = this;
-      axios.post('http://viphome.argu.net/api/typeSelect',qs.stringify({id:i.id}))
+      axios.post('http://backend.viphome.cn/api/typeSelect',qs.stringify({id:i.id}))
       .then(function(dataJson){
         if(dataJson.data.result){
           //console.log(JSON.stringify(dataJson.data.data))
@@ -317,15 +319,23 @@ export default {
       this.selectBoxBoll = false;
       this.makeBoll = false;
     },
-    selectEve(){
+    selectEve(phoneText){
       let _this = this;
       this.$message({
         type: 'success',
         message: '门店地址等信息已发至您的手机，期待您的光临！'
       });
-      window.setTimeout(function(){
-        location.reload();
-      },3000); 
+      axios.post('http://backend.viphome.cn/api/sendsms',qs.stringify({phone:_this.inputPhone,address:phoneText.address}))
+      .then(function(dataJson){
+        console.log(JSON.stringify(dataJson.data));
+      })
+      .catch(function(err){
+        alert(err);
+      });
+
+      // window.setTimeout(function(){
+      //   location.reload();
+      // },3000); 
 
     },
     makeSub(){
@@ -348,7 +358,7 @@ export default {
       let _this = this;
       console.log(JSON.stringify(this.checkboxGroup5))
       //return false;
-      axios.post('http://viphome.argu.net/api/reservation',qs.stringify({
+      axios.post('http://backend.viphome.cn/api/reservation',qs.stringify({
         store:_this.reservationsId,
         name:_this.userName,
         gender:_this.picked,

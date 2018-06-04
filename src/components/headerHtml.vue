@@ -164,7 +164,7 @@
                 <input class="codeInput" type="" name="" placeholder="验证码"/>
               </p>
               <!-- <a href="javascript:;">*忘记密码？</a> -->
-              <el-button class="code" type="primary" size="small">获取验证码</el-button>
+              <el-button class="code" type="primary" size="small" @click="codeEve()">{{num}}</el-button>
             </li>
             <li>
               <p>
@@ -295,7 +295,9 @@ export default {
       spaceList:[{name:'品类'},{name:'空间'},{name:'风格'}],
       products:{},
       navigationBoll:false,
-      navigationClassBoll:false
+      navigationClassBoll:false,
+      num:'获取验证码',
+      codeBoll:false
     }
   },
   props:['index'],
@@ -307,7 +309,7 @@ export default {
 
     //全部商品列表
 
-    axios.post('http://viphome.argu.net/api/category_v2',qs.stringify({}))
+    axios.post('http://backend.viphome.cn/api/category_v2',qs.stringify({}))
     .then(function(dataJson){
         
         _this.products = dataJson.data;
@@ -393,7 +395,7 @@ export default {
         });
         return false;
       }
-      axios.post('http://viphome.argu.net/api/register',qs.stringify({
+      axios.post('http://backend.viphome.cn/api/register',qs.stringify({
         phone:_this.phone,
         password:_this.password
       }))
@@ -418,7 +420,22 @@ export default {
     },
     signIn(){
       let _this = this;
-      axios.post('http://viphome.argu.net/api/login',qs.stringify({phone:_this.upPhone,password:_this.upPassword}))
+      let myreg=/^[1][3,4,5,7,8][0-9]{9}$/;  
+      if (!myreg.test(this.upPhone)){
+        this.$message({
+          message: '请输入正确的手机号码！',
+          type: 'warning'
+        });
+        return false;
+      };
+      if (this.codeInput==''){
+        this.$message({
+          message: '验证码不能为空！',
+          type: 'warning'
+        });
+        return false;
+      };
+      axios.post('http://backend.viphome.cn/api/login',qs.stringify({phone:_this.upPhone,password:_this.upPassword,code:_this.codeInput}))
       .then(function(dataJson){
         console.log(dataJson.data.result)
         if(dataJson.data.result){
@@ -563,6 +580,44 @@ export default {
     },
     navigationEve(){
       console.log('出去')
+    },
+    codeEve(){
+      let _this = this;
+      if(_this.codeBoll){
+        return false;
+      };
+      let myreg=/^[1][3,4,5,7,8][0-9]{9}$/;  
+      if (!myreg.test(this.phone)){
+        this.$message({
+          message: '请输入正确的手机号码！',
+          type: 'warning'
+        });
+        return false;
+      };
+      axios.post('http://backend.viphome.cn/api/sendsms',qs.stringify({phone:_this.phone}))
+      .then(function(dataJson){
+        console.log(JSON.stringify(dataJson.data))
+        if(dataJson.data.Message=='OK'){
+          _this.num = 60;
+          _this.codeBoll = true;
+          let t1 = window.setInterval(function(){
+              _this.num-=1;
+              if(_this.num==0){
+                _this.num = '获取验证码';
+                window.clearInterval(t1);
+                _this.codeBoll = false;
+              }
+          },1000); 
+
+          _this.$message({
+            message: '验证码已发送到您的手机！',
+            type: 'warning'
+          }); 
+        }
+      })
+      .catch(function(err){
+        alert(err);
+      });
     }
   }
 
@@ -802,6 +857,7 @@ export default {
   top: 50%;
   right: 66px;
   transform: translate(0%,-50%);
+  width: 90px;
 }
 
 

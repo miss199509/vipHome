@@ -57,7 +57,7 @@
               <input class="codeInput" type="" name="" placeholder="验证码"/>
             </p>
             <!-- <a href="javascript:;">*忘记密码？</a> -->
-            <el-button class="code" type="primary" size="small">获取验证码</el-button>
+            <el-button class="code" type="primary" size="small" @click="codeEve()">{{num}}</el-button>
           </li>
           <li>
             <p>
@@ -111,6 +111,7 @@ export default {
       //登陆
       upPhone:'',
       upPassword:'',
+      num:'获取验证码'
     }
   },
   mounted(){
@@ -176,7 +177,7 @@ export default {
         });
         return false;
       }
-      axios.post('http://viphome.argu.net/api/register',qs.stringify({
+      axios.post('http://backend.viphome.cn/api/register',qs.stringify({
         phone:_this.phone,
         password:_this.password
       }))
@@ -201,7 +202,7 @@ export default {
     },
     signIn(){
       let _this = this;
-      axios.post('http://viphome.argu.net/api/login',qs.stringify({phone:_this.upPhone,password:_this.upPassword}))
+      axios.post('http://backend.viphome.cn/api/login',qs.stringify({phone:_this.upPhone,password:_this.upPassword}))
       .then(function(dataJson){
         console.log(dataJson.data.result)
         if(dataJson.data.result){
@@ -217,6 +218,44 @@ export default {
             message: '账号或密码输入错误！',
             type: 'warning'
           });
+        }
+      })
+      .catch(function(err){
+        alert(err);
+      });
+    },
+    codeEve(){
+      let _this = this;
+      if(_this.codeBoll){
+        return false;
+      };
+      let myreg=/^[1][3,4,5,7,8][0-9]{9}$/;  
+      if (!myreg.test(this.phone)){
+        this.$message({
+          message: '请输入正确的手机号码！',
+          type: 'warning'
+        });
+        return false;
+      };
+      axios.post('http://backend.viphome.cn/api/sendsms',qs.stringify({phone:_this.phone}))
+      .then(function(dataJson){
+        console.log(JSON.stringify(dataJson.data))
+        if(dataJson.data.Message=='OK'){
+          _this.num = 60;
+          _this.codeBoll = true;
+          let t1 = window.setInterval(function(){
+              _this.num-=1;
+              if(_this.num==0){
+                _this.num = '获取验证码';
+                window.clearInterval(t1);
+                _this.codeBoll = false;
+              }
+          },1000); 
+
+          _this.$message({
+            message: '验证码已发送到您的手机！',
+            type: 'warning'
+          }); 
         }
       })
       .catch(function(err){
@@ -327,6 +366,7 @@ export default {
   top: 50%;
   right: 66px;
   transform: translate(0%,-50%);
+  width: 90px;
 }
 
 

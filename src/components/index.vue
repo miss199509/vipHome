@@ -414,7 +414,7 @@ export default {
     this.width_ = document.body.clientWidth/2;
     let _this = this;
     
-    axios.post('http://viphome.argu.net/api/products',qs.stringify({}))
+    axios.post('http://backend.viphome.cn/api/products',qs.stringify({}))
     .then(function(dataJson){
       //console.log(JSON.stringify(dataJson.data))
       
@@ -423,7 +423,7 @@ export default {
       alert(err);
     });
     //首页品牌
-    axios.post('http://viphome.argu.net/api/banner',qs.stringify({position:3}))
+    axios.post('http://backend.viphome.cn/api/banner',qs.stringify({position:3}))
     .then(function(dataJson){
       if(dataJson.data.result){
         console.log(JSON.stringify(dataJson.data.data.data));
@@ -434,7 +434,7 @@ export default {
       alert(err);
     });
     //买家秀
-    axios.post('http://viphome.argu.net/api/banner',qs.stringify({position:4}))
+    axios.post('http://backend.viphome.cn/api/banner',qs.stringify({position:4}))
     .then(function(dataJson){
       if(dataJson.data.result){
         _this.buyerShowList = dataJson.data.data.data;
@@ -445,7 +445,7 @@ export default {
       alert(err);
     });
     //热销推荐
-    axios.post('http://viphome.argu.net/api/banner',qs.stringify({position:6}))
+    axios.post('http://backend.viphome.cn/api/banner',qs.stringify({position:6}))
     .then(function(dataJson){
       if(dataJson.data.result){
         _this.hotSaleList = dataJson.data.data.data;
@@ -460,7 +460,7 @@ export default {
       alert(err);
     });
     //列表
-    axios.post('http://viphome.argu.net/api/banner',qs.stringify({position:1}))
+    axios.post('http://backend.viphome.cn/api/banner',qs.stringify({position:1}))
     .then(function(dataJson){
       _this.broadcastList = dataJson.data.data.data;
     })
@@ -468,7 +468,7 @@ export default {
       alert(err);
     });
     //优惠券
-    axios.post('http://viphome.argu.net/api/coupon',qs.stringify({}))
+    axios.post('http://backend.viphome.cn/api/coupon',qs.stringify({}))
     .then(function(dataJson){
       //console.log(JSON.stringify(dataJson.data.data.data));
       _this.couponList = dataJson.data.data.data;

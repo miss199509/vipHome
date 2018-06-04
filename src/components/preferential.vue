@@ -313,7 +313,7 @@ export default {
     window.addEventListener('scroll', this.menu);
     let _this = this;
     //new
-    axios.post('http://viphome.argu.net/api/category_v2',qs.stringify({}))
+    axios.post('http://backend.viphome.cn/api/category_v2',qs.stringify({}))
     .then(function(dataJson){
       //console.log(JSON.stringify(dataJson.data))
       for(let key in dataJson.data.styles){
@@ -484,7 +484,7 @@ export default {
 
       let _this = this;
       console.log(_this.order_by_field)
-      axios.post('http://viphome.argu.net/api/products_v2',qs.stringify({
+      axios.post('http://backend.viphome.cn/api/products_v2',qs.stringify({
         //selectSearch:'',
         brand_id:_this.brandNm,
         category_id:_this.categoryNm,
@@ -515,7 +515,7 @@ export default {
 
       let _this = this;
       console.log(_this.order_by_field)
-      axios.post('http://viphome.argu.net/api/products_v2',qs.stringify({
+      axios.post('http://backend.viphome.cn/api/products_v2',qs.stringify({
         //selectSearch:'',
         brand_id:_this.brandNm,
         category_id:_this.categoryNm,

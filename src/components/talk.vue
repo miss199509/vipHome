@@ -1,66 +1,45 @@
 <template>
-  <div id="scroll_div" class="scroll_div">
-    <div id="scroll_begin">
-        <ul>
-            <li><a href="#"><img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3198611610,3108821463&fm=27&gp=0.jpg"></a></li>
-            <li><a href="#"><img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3198611610,3108821463&fm=27&gp=0.jpg"></a></li>
-            <li><a href="#"><img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3198611610,3108821463&fm=27&gp=0.jpg"></a></li>
-            <li><a href="#"><img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3198611610,3108821463&fm=27&gp=0.jpg"></a></li>
-            <li><a href="#"><img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3198611610,3108821463&fm=27&gp=0.jpg"></a></li>
-            <li><a href="#"><img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3198611610,3108821463&fm=27&gp=0.jpg"></a></li>
-            <li><a href="#"><img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3198611610,3108821463&fm=27&gp=0.jpg"></a></li>
-        </ul>
+  <div id="talk">
+   <div class="bdsharebuttonbox">
+      <a href="#" class="bds_more" data-cmd="more"></a>
+      <a href="#" class="bds_qzone" data-cmd="qzone"></a>
+      <a href="#" class="bds_tsina" data-cmd="tsina"></a>
+      <a href="#" class="bds_tqq" data-cmd="tqq"></a>
+      <a href="#" class="bds_renren" data-cmd="renren"></a>
+      <a href="#" class="bds_weixin" data-cmd="weixin"></a>
     </div>
-    <div id="scroll_end"></div>
-</div>
+  </div>
 </template>
 
 <script>
 
 
 export default {
-  name: 'home',
+  name: 'talk',
   data () {
     return {
       
     }
   },
+  props:['index'],
   mounted(){
-    
-    this.scrollImgLeft();
-
+    let _this = this;
+    console.log(JSON.stringify(this.index))
+    window._bd_share_config = {
+      common : {
+        bdText : '大时代撒旦撒旦撒',
+        bdDesc : '家是一个展现神奇的地方，生活在其中的每一个人，都能够实现自己的梦想。父亲在书房里指挥若定，母亲在餐桌上大放异彩，孩子在沙发上放飞自我……这一切，都需要借助家具来帮忙实现。', 
+        bdUrl : 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3008776979,632905106&fm=27&gp=0.jpg',  
+        bdPic : 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3198611610,3108821463&fm=27&gp=0.jpg'
+      },
+      share : [{
+        "bdSize" : 16
+      }]
+    }
   },
   methods: {
 
-    scrollImgLeft(){
-      let _this = this;
-      var speed=10;
-      var scroll_begin = document.getElementById("scroll_begin");
-      var scroll_end = document.getElementById("scroll_end");
-      var scroll_div = document.getElementById("scroll_div");
-      scroll_end.innerHTML=scroll_begin.innerHTML;
-      
-      var MyMar=setInterval(_this.Marquee,speed);
-      scroll_div.onmouseover=function()
-      {
-        clearInterval(MyMar);
-      }
-      scroll_div.onmouseout=function()
-      {
-        MyMar=setInterval(_this.Marquee,speed);
-      }
-    },
-    Marquee(){
-      if(scroll_end.offsetWidth-scroll_div.scrollLeft<=0)
-      {
-        scroll_div.scrollLeft-=scroll_begin.offsetWidth;
-      }
-      else
-      {
-        scroll_div.scrollLeft++;
-      }
-    }
-
+    
   },
 
 }
@@ -69,20 +48,5 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-.scroll_div {
-    width:100%;
-    height:400px;
-    margin:0 0;
-    overflow: hidden;
-    white-space: nowrap;
-    background:#ffffff;
-  }
-  .scroll_div img {
-    width:100%;
-    height:400px;
-  }
-  #scroll_begin, #scroll_end, #scroll_begin ul, #scroll_end ul, #scroll_begin ul li, #scroll_end ul li{
-    display:inline;
-  }/*设置ul和li横排*/
 
 </style>

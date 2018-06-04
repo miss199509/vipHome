@@ -22,7 +22,7 @@
             <ul>
               <li>
                 <label class="name">账号：</label>
-                18516360572
+                {{uesrData.phone}}
                 <!-- <a href="javascript:;" @click="modifyPasswordEve()">修改密码</a> -->
               </li>
               <li>
@@ -324,7 +324,7 @@ export default {
         return false;
       }
       let _this = this;
-      axios.post('http://viphome.argu.net/api/userupdate',qs.stringify({
+      axios.post('http://backend.viphome.cn/api/userupdate',qs.stringify({
         user_id:_this.$route.query.id,
         name:_this.userName,
         gender:_this.gender,
@@ -365,7 +365,7 @@ export default {
         return false;
       }
       let _this = this;
-      axios.post('http://viphome.argu.net/api/modifyPassword',qs.stringify({
+      axios.post('http://backend.viphome.cn/api/modifyPassword',qs.stringify({
         id:_this.$route.query.id,
         originalPassword:_this.originalPassword,
         password:_this.password
@@ -406,9 +406,9 @@ export default {
     },
     uesrDataEve(){
       let _this = this;
-      axios.post('http://viphome.argu.net/api/uesrData',qs.stringify({id:_this.$route.query.id}))
+      axios.post('http://backend.viphome.cn/api/uesrData',qs.stringify({id:_this.$route.query.id}))
       .then(function(dataJson){
-        //console.log(JSON.stringify(dataJson.data));
+        console.log(JSON.stringify(dataJson.data));
         if(dataJson.data.result){
           _this.uesrData = dataJson.data.data;
           _this.$router.push({ name: 'personal',query: {

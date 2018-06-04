@@ -53,7 +53,7 @@ export default {
   created(){
     
     let _this = this;
-    axios.post('http://viphome.argu.net/api/buyershow',qs.stringify({popularity:0}))
+    axios.post('http://backend.viphome.cn/api/buyershow',qs.stringify({popularity:0}))
     .then(function(dataJson){
       if(dataJson.data.result){
         _this.buyershowList = dataJson.data.data;

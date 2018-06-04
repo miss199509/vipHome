@@ -53,6 +53,10 @@
           <el-pagination @size-change="handleSizeJournalism" @current-change="handleaJournalism" :current-page.sync="journalismPage" :page-size="100" layout="prev, pager, next, jumper" :total="1000"></el-pagination>
         </div>
       </div>
+      
+
+      
+
 
 
       <!-- 家居新知 -->
@@ -84,14 +88,17 @@
         </p>
         <div class="" v-html="articleText.content" style="color: #7A7A7A;font-size: 14px;text-indent: 27px;line-height: 23px;"></div>
         <!-- <p>首先来看一组数据，在由商务部流通业发展司</p> -->
-        <ul class="articleSelect">
+        <ul class="articleSelect" v-if="detail.previous!=null">
           <li>
-            <a href="javascript:;">上一篇：142平米美式风格 展现出空间贵气而又不失自在与随意的风范</a>
+            <a href="javascript:;" @click="previousEve(detail.previous)">上一篇：{{detail.previous.title}}</a>
           </li>
           <li>
-            <a href="javascript:;">下一篇：阳台还可以这样贴瓷砖 超级好看，小户型也可以做！</a>
+            <a href="javascript:;" @click="nextEve(detail.next)">下一篇：{{detail.next.title}}</a>
           </li>
         </ul>
+        
+        <talk :index="articleText" v-if='showcom'></talk>
+
 
         <div class="paging" style="display: none;">
           <el-pagination @size-change="handleSizeArticle" @current-change="handleaArticle" :current-page.sync="articlePage" :page-size="100" layout="prev, pager, next, jumper" :total="1000"></el-pagination>
@@ -109,6 +116,7 @@
 <script>
 import headerHtml from '../components/headerHtml'
 import bottomHtml from '../components/bottomHtml'
+import talk from '../components/talk'
 
 
 import axios from 'axios'
@@ -125,51 +133,25 @@ export default {
       article:{},
       information:{},
       journalism:{},
-      articleText:'',
-      articleBoll:false
+      articleText:{},
+      articleBoll:false,
+      detail:{},
+      showcom:false
     }
   },
   components:{
     'headerHtml':headerHtml,
-    'bottomHtml':bottomHtml
+    'bottomHtml':bottomHtml,
+    'talk':talk
   },
   mounted(){
-
-    this.$nextTick(function(){
-    window._bd_share_config = {
-        common : {
-          bdText : '自定义分享内容', 
-          bdDesc : '自定义分享摘要', 
-          bdUrl : '自定义分享url地址',   
-          bdPic : '自定义分享图片'
-        },
-        share : [{
-          "bdSize" : 16
-        }],
-        slide : [{     
-          bdImg : 0,
-          bdPos : "right",
-          bdTop : 100
-        }],
-        image : [{
-          viewType : 'list',
-          viewPos : 'top',
-          viewColor : 'black',
-          viewSize : '16',
-          viewList : ['qzone','tsina','huaban','tqq','renren']
-        }],
-        selectShare : [{
-          "bdselectMiniList" : ['qzone','tqq','kaixin001','bdxc','tqf']
-        }]
-      }
-    })
-
+    let _this = this;
+    
     // console.log(this.$route.query.uid)
     // if(this.$route.query.uid==1){
     //   this.articeclassList[1].boll = true;
     // }
-    let _this = this;
-    axios.post('http://viphome.argu.net/api/articeclass',qs.stringify({}))
+    axios.post('http://backend.viphome.cn/api/articeclass',qs.stringify({}))
     .then(function(dataJson){
       //console.log(JSON.stringify(dataJson.data.data))
       if(dataJson.data.result){
@@ -186,7 +168,7 @@ export default {
 
 
 
-        axios.post('http://viphome.argu.net/api/artices',qs.stringify({class_id:_this.articeclassList[0].id}))
+        axios.post('http://backend.viphome.cn/api/artices',qs.stringify({class_id:_this.articeclassList[0].id}))
         .then(function(dataJson){
           if(dataJson.data.result){
             //console.log(JSON.stringify(dataJson.data.data.data))
@@ -197,7 +179,7 @@ export default {
           alert(err);
         });
         
-        axios.post('http://viphome.argu.net/api/artices',qs.stringify({class_id:_this.articeclassList[1].id}))
+        axios.post('http://backend.viphome.cn/api/artices',qs.stringify({class_id:_this.articeclassList[1].id}))
         .then(function(dataJson){
           if(dataJson.data.result){
             //console.log(JSON.stringify(dataJson.data.data.data))
@@ -209,7 +191,7 @@ export default {
         });
 
 
-        axios.post('http://viphome.argu.net/api/artices',qs.stringify({class_id:_this.articeclassList[2].id}))
+        axios.post('http://backend.viphome.cn/api/artices',qs.stringify({class_id:_this.articeclassList[2].id}))
         .then(function(dataJson){
           if(dataJson.data.result){
             //console.log(JSON.stringify(dataJson.data.data.data))
@@ -263,12 +245,50 @@ export default {
       console.log(`当前页: ${val}`);
     },
     articleEve(val,key){
-      console.log(val.id)
-      this.articleText = val;
+      let _this = this;
       this.articleBoll = true;
       for(let key in this.articeclassList){
+        if(this.articeclassList[key].boll){
+          var numId = this.articeclassList[key].id;
+        }
         this.articeclassList[key].boll = false;
       };
+      this.detailEve(val.id);
+
+
+    },
+    previousEve(val){
+      if(val.title=='暂无'){
+        return false;
+      }
+      this.detailEve(val.id)
+    },
+    nextEve(val){
+      if(val.title=='暂无'){
+        return false;
+      }
+      this.detailEve(val.id)
+    },
+    detailEve(id){
+      let _this = this;
+      axios.post('http://backend.viphome.cn/api/article/detail',qs.stringify({id:id}))
+      .then(function(dataJson){
+        _this.articleText = dataJson.data.article;
+        if(id==dataJson.data.previous.id){
+          dataJson.data.previous.title = '暂无';
+        }
+        if(id==dataJson.data.next.id){
+          dataJson.data.next.title = '暂无';
+        }
+        _this.detail = dataJson.data;
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+
+        _this.showcom = true;
+      })
+      .catch(function(err){
+        alert(err);
+      });
+
     }
   },
 

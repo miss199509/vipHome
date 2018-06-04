@@ -118,13 +118,13 @@ export default {
   },
   mounted(){
     let _this = this;
-    axios.post('http://viphome.argu.net/api/brand',qs.stringify({}))
+    axios.post('http://backend.viphome.cn/api/brand',qs.stringify({}))
     .then(function(dataJson){
       //console.log(JSON.stringify(dataJson.data.info))
       if(dataJson.data.result){
         _this.brandsList = dataJson.data.info;
         
-        axios.post('http://viphome.argu.net/api/stores/brand',qs.stringify({}))
+        axios.post('http://backend.viphome.cn/api/stores/brand',qs.stringify({}))
         .then(function(dataJson){
           _this.storesList = dataJson.data.data;
           for(let key in _this.brandsList){
