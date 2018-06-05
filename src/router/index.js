@@ -18,6 +18,8 @@ import index from '@/components/index'
 import buyer from '@/components/buyer'
 //动态资讯
 import information from '@/components/information'
+import article from '@/components/article'
+
 //线下门店
 import underLine from '@/components/underLine'
 //品牌集
@@ -78,6 +80,11 @@ export default new Router({
       path: '/information',
       name: 'information',
       component: information
+    },
+    {
+      path: '/article',
+      name: 'article',
+      component: article
     },
     {
       path: '/underLine',

@@ -83,8 +83,10 @@
             <h3><img width="15px;" src="../assets/brand/icon-01.jpg"/>线下门店地址</h3>
             <ul>
               <li v-for="(val,key) in val.list">
-                <strong>{{val.name}}</strong>
-                <span>{{val.address}}</span>
+                <p v-for="(val,key) in val.stores">
+                  <strong>{{val.address}}</strong>
+                </p>
+                <!-- <span>{{val.address}}</span> -->
               </li>
             </ul>
           </div>
@@ -124,14 +126,16 @@ export default {
       if(dataJson.data.result){
         _this.brandsList = dataJson.data.info;
         
-        axios.post('http://backend.viphome.cn/api/stores/brand',qs.stringify({}))
+        axios.post('http://backend.viphome.cn/api/brand/stores',qs.stringify({}))
         .then(function(dataJson){
-          _this.storesList = dataJson.data.data;
+          _this.storesList = dataJson.data;
           for(let key in _this.brandsList){
             _this.$set(_this.brandsList[key],'list',[]);
             for(let j in _this.storesList){
+              //console.log(_this.brandsList[key].id==_this.storesList[j].id)
               if(_this.brandsList[key].id==_this.storesList[j].id){
-                  _this.brandsList[key].list.push(_this.storesList[j]);
+                //console.log(JSON.stringify(_this.storesList[j]))
+                _this.brandsList[key].list.push(_this.storesList[j]);
               }
             }
           }
@@ -258,7 +262,8 @@ export default {
 .brandContentClass h3{
   margin: 13px 0px;
 }
-.brandContentClass li{
+
+.brandContentClass p{
   float: left;
   width: 47%;
   margin: 5px 10px;
@@ -276,7 +281,7 @@ export default {
 }
 
 @media screen and (max-width: 800px){
-  .brandContentClass li{
+  .brandContentClass p{
     width: 100%;
     margin: 7px 0px;
   }

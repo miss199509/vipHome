@@ -592,8 +592,13 @@ export default {
     },
     //价格筛选
     searchEve(){
-      this.newSpacebrandEve();
-      this.webCommodityListBoll = false;
+      if(this.pageNum<=100){
+        return false;
+      }
+      let num = this.pageNum-=100;
+      this.newSpacebrandEve(num/100);
+      console.log(num)
+      this.currentPage = num/100;
     }
 
   },

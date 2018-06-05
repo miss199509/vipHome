@@ -97,7 +97,14 @@
           </li>
         </ul>
         
-        <talk :index="articleText" v-if='showcom'></talk>
+        <div class="bdsharebuttonbox">
+          <a href="#" class="bds_more" data-cmd="more"></a>
+          <a href="#" class="bds_qzone" data-cmd="qzone"></a>
+          <a href="#" class="bds_tsina" data-cmd="tsina"></a>
+          <a href="#" class="bds_tqq" data-cmd="tqq"></a>
+          <a href="#" class="bds_renren" data-cmd="renren"></a>
+          <a href="#" class="bds_weixin" data-cmd="weixin"></a>
+        </div>
 
 
         <div class="paging" style="display: none;">
@@ -116,7 +123,6 @@
 <script>
 import headerHtml from '../components/headerHtml'
 import bottomHtml from '../components/bottomHtml'
-import talk from '../components/talk'
 
 
 import axios from 'axios'
@@ -135,18 +141,28 @@ export default {
       journalism:{},
       articleText:{},
       articleBoll:false,
-      detail:{},
-      showcom:false
+      detail:{}
     }
   },
   components:{
     'headerHtml':headerHtml,
-    'bottomHtml':bottomHtml,
-    'talk':talk
+    'bottomHtml':bottomHtml
   },
   mounted(){
     let _this = this;
-    
+    console.log(location.href)
+    window._bd_share_config = {
+      common : {
+        bdText : _this.$route.query.title,
+        bdDesc : _this.$route.query.introduction,
+        bdUrl : 'https://www.baidu.com/',
+        bdPic : _this.$route.query.image
+      },
+      share : [{
+        "bdSize" : 16
+      }]
+    }
+
     // console.log(this.$route.query.uid)
     // if(this.$route.query.uid==1){
     //   this.articeclassList[1].boll = true;
@@ -164,12 +180,17 @@ export default {
         }else{
           _this.articeclassList[_this.$route.query.uid].boll = true;
         }
-        if(_this.$route.query.key!=undefined){
-          for(let key in _this.articeclassList){
-            _this.articeclassList[key].boll = false;
-          };
-           _this.articeclassList[_this.$route.query.key].boll = true;
-        }
+
+
+        _this.articleBoll = true;
+        for(let key in _this.articeclassList){
+          if(_this.articeclassList[key].boll){
+            var numId = _this.articeclassList[key].id;
+          }
+          _this.articeclassList[key].boll = false;
+        };
+        _this.detailEve(_this.$route.query.articleId);
+
 
 
 
@@ -223,6 +244,11 @@ export default {
   },
   methods: {
     classNavEve(val,key){
+      this.$router.push({ name: 'information',query:{
+        id:this.$route.query.id,
+        userName:this.$route.query.userName,
+        key:key
+      }});
       for(let i in this.articeclassList){
         this.articeclassList[i].boll = false;
       }
@@ -251,18 +277,8 @@ export default {
       console.log(`当前页: ${val}`);
     },
     articleEve(val,key){
+      
       let _this = this;
-      //return false;
-      this.$router.push({ name: 'article',query:{
-        id:_this.$route.query.id,
-        userName:_this.$route.query.userName,
-        articleId:val.id,
-        title:val.title,
-        introduction:val.introduction,
-        image:val.image
-      }});
-      location.reload();
-
       this.articleBoll = true;
       for(let key in this.articeclassList){
         if(this.articeclassList[key].boll){
@@ -278,18 +294,38 @@ export default {
       if(val.title=='暂无'){
         return false;
       }
+      this.$router.push({ name: 'article',query:{
+        id:this.$route.query.id,
+        userName:this.$route.query.userName,
+        articleId:val.id,
+        title:val.title,
+        introduction:val.introduction,
+        image:val.image
+      }});
+      location.reload();
       this.detailEve(val.id)
     },
     nextEve(val){
       if(val.title=='暂无'){
         return false;
       }
+      this.$router.push({ name: 'article',query:{
+        id:this.$route.query.id,
+        userName:this.$route.query.userName,
+        articleId:val.id,
+        title:val.title,
+        introduction:val.introduction,
+        image:val.image
+      }});
+      location.reload();
+
       this.detailEve(val.id)
     },
     detailEve(id){
       let _this = this;
       axios.post('http://backend.viphome.cn/api/article/detail',qs.stringify({id:id}))
       .then(function(dataJson){
+        //console.log(JSON.stringify(dataJson.data.article));
         _this.articleText = dataJson.data.article;
         if(id==dataJson.data.previous.id){
           dataJson.data.previous.title = '暂无';
@@ -299,8 +335,8 @@ export default {
         }
         _this.detail = dataJson.data;
         document.body.scrollTop = document.documentElement.scrollTop = 0;
+        return dataJson.data.article;
 
-        _this.showcom = true;
       })
       .catch(function(err){
         alert(err);
