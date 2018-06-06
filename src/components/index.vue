@@ -10,13 +10,17 @@
     
     <el-carousel :interval="5000" arrow="always" class="always pcAlways" height="649px">
       <el-carousel-item v-for="(val,key) in broadcastList" :key="key">
-        <img :src="val.image"/>
+        <a :href="val.link">
+          <img :src="val.image"/>
+        </a>
       </el-carousel-item>
     </el-carousel>
 
     <el-carousel :interval="5000" arrow="always" class="always webAlways" height="300px">
       <el-carousel-item v-for="(val,key) in broadcastList" :key="key">
-        <img :src="val.image"/>
+        <a :href="val.link">
+          <img :src="val.image"/>
+        </a>
       </el-carousel-item>
     </el-carousel>
 
@@ -102,10 +106,10 @@
     <div class="thisProduct">
       <ul>
         <li>
-          <a href="javascript:;">
+          <router-link :to="{ name: 'underLine',query:{id:$route.query.id,userName:$route.query.userName}}">
             <img v-if="width_>=400" width="100%;" src="../assets/index/banner-02.jpg"/>
             <img v-else width="100%;" src="../assets/index/web_banner-02.jpg"/>
-          </a>
+          </router-link>
         </li>
         <li v-for="(val,key) in thisProductList">
           <a :href="val.link" @click="myMarEve(val)">
@@ -426,7 +430,7 @@ export default {
     axios.post('http://backend.viphome.cn/api/banner',qs.stringify({position:3}))
     .then(function(dataJson){
       if(dataJson.data.result){
-        console.log(JSON.stringify(dataJson.data.data.data));
+        //console.log(JSON.stringify(dataJson.data.data.data));
         _this.thisProductList = dataJson.data.data.data;
       }
     })
@@ -462,6 +466,7 @@ export default {
     //列表
     axios.post('http://backend.viphome.cn/api/banner',qs.stringify({position:1}))
     .then(function(dataJson){
+      console.log(JSON.stringify(dataJson.data.data.data))
       _this.broadcastList = dataJson.data.data.data;
     })
     .catch(function(err){

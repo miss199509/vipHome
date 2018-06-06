@@ -56,6 +56,40 @@
                   </p>
                 </li>
               </ul>
+              
+              <el-collapse v-model="activeName" accordion>
+                <el-collapse-item title="品牌" name="1" class="collapseNav">
+                <template slot="title" class="collapseTitle">
+                  品牌
+                </template>
+                  <ul>
+                    <li href="javascript:;" v-for="(val,key) in categoryJson.brands" @click="brandEve(val,key)">
+                      <a href="javascript:;" :class="{brandCss:val.boll}">{{val.name}}</a>
+                    </li>
+                  </ul>
+                </el-collapse-item>
+                <el-collapse-item title="品类" name="2">
+                  <ul>
+                    <li href="javascript:;" v-for="(val,key) in categoryJson.categorys" @click="categorysEve(val,key)">
+                      <a href="javascript:;" :class="{brandCss:val.boll}">{{val.name}}</a>
+                    </li>
+                  </ul>
+                </el-collapse-item>
+                <el-collapse-item title="空间" name="3">
+                  <ul>
+                    <li href="javascript:;" v-for="(val,key) in categoryJson.spaces" @click="spaceEve(val,key)">
+                      <a href="javascript:;" :class="{brandCss:val.boll}">{{val.name}}</a>
+                    </li>
+                  </ul>
+                </el-collapse-item>
+                <el-collapse-item title="风格" name="4">
+                  <ul>
+                    <li href="javascript:;" v-for="(val,key) in categoryJson.styles" @click="stylesEve(val,key)">
+                      <a href="javascript:;" :class="{brandCss:val.boll}">{{val.name}}</a>
+                    </li>
+                  </ul>
+                </el-collapse-item>
+              </el-collapse>
 
             </nav>
 
@@ -806,8 +840,9 @@ export default {
   background-color: #e2e2e2;
   font-size: 15px;
   font-weight: 100;
-  padding: 5px 0px;
   color: #060606;
+  height: 30px;
+  line-height: 30px;
 }
 #classification .selectThis{
   padding: 7px;
@@ -891,6 +926,24 @@ export default {
   width: 110px;
   font-size: 15px;
 }
+
+.collapseNav a{
+  color: #000;
+}
+.collapseNav .brandCss{
+  color: red;
+}
+
+.collapseTitle{
+  text-indent: 17px;
+  background-color: #e2e2e2;
+  font-size: 15px;
+  font-weight: 100;
+  padding: 5px 0px;
+  color: #060606;
+  height: auto;
+}
+
 @media screen and (max-width: 960px){
   .el-col-5,.commoditySearch,.classification,.category,.selectCommodity ul li:nth-child(2),.paging{
     display: none;
@@ -948,4 +1001,18 @@ export default {
 
 
 
+</style>
+<style>
+.collapseNav .el-collapse-item__header{
+  text-indent: 17px;
+  background-color: #e2e2e2;
+  font-size: 15px;
+  font-weight: 100;
+  color: #060606;
+  height: 30px;
+  line-height: 30px;
+}
+.el-collapse-item__arrow{
+  line-height: 15px;
+}
 </style>

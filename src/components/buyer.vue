@@ -51,7 +51,9 @@ export default {
     'bottomHtml':bottomHtml
   },
   created(){
-    
+    window.onload=function(){
+      _this.waterFall();
+    };
     let _this = this;
     axios.post('http://backend.viphome.cn/api/buyershow',qs.stringify({popularity:0}))
     .then(function(dataJson){

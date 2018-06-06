@@ -340,9 +340,9 @@ export default {
       let _this = this;
       console.log(JSON.stringify(val.name))
       this.$router.push({ name: val.href,query:{id:_this.$route.query.id,userName:_this.$route.query.userName}});
-      // if(val.name=='动态资讯'){
-      //   location.reload();
-      // }
+      if(val.name=='买家秀'){
+        location.reload();
+      }
     },
     //注册
     signUpEve(){

@@ -65,7 +65,7 @@
         <el-col :span="19">
           <div class="grid-content bg-purple-light">
             <p class="category">
-              <a href="javascript:;">
+              <a href="javascript:;" @click="allEve()">
                 所有宝贝
               </a>
               <i>></i>
@@ -339,6 +339,7 @@ export default {
         }
       }
       for(let key in dataJson.data.brands){
+        console.log(JSON.stringify(dataJson.data.brands[key])+'***')
         if(dataJson.data.brands[key].id==_this.$route.query.brands){
           dataJson.data.brands[key].boll = true;
         }
@@ -380,8 +381,8 @@ export default {
         return false;
       }
       let _this = this;
-      this.scroll = document.body.scrollTop;
-      //console.log(document.body.offsetHeight,document.documentElement.clientHeight==this.scroll)
+      this.scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      console.log(this.scroll)
       if(document.body.offsetHeight-document.documentElement.clientHeight==this.scroll){
         let num = this.numWebSelect+=1;
         console.log(num);
@@ -544,6 +545,30 @@ export default {
         alert(err);
       });
     },
+    allEve(){
+      for(let i in this.categoryJson.spaces){
+        this.categoryJson.spaces[i].boll = false;
+      }
+      for(let i in this.categoryJson.categorys){
+        this.categoryJson.categorys[i].boll = false;
+      }
+      for(let i in this.categoryJson.brands){
+        this.categoryJson.brands[i].boll = false;
+      }
+      for(let i in this.categoryJson.styles){
+        this.categoryJson.styles[i].boll = false;
+      }
+      this.brandNm = '';
+      this.categoryNm = '';
+      this.spaceNm = '';
+      this.styleNm
+      this.order_by_field = '';
+      this.start = '';
+      this.end = '';
+      this.keyword = '';
+      this.webNewSpacebrandEve(1);
+      this.newSpacebrandEve(1);
+    },
     lastEve(){
       if(this.spacebrandList.length<15){
         this.$message({
@@ -569,8 +594,13 @@ export default {
     },
     //价格筛选
     searchEve(){
-      this.newSpacebrandEve();
-      this.webCommodityListBoll = false;
+      if(this.pageNum<=100){
+        return false;
+      }
+      let num = this.pageNum-=100;
+      this.newSpacebrandEve(num/100);
+      console.log(num)
+      this.currentPage = num/100;
     }
 
   },
@@ -876,7 +906,6 @@ export default {
   }
   .commodityList{
     margin: 0px;
-    padding: 0px 11px;
   }
   .imgBorder{
     width: 100%;
@@ -907,6 +936,12 @@ export default {
 
   .sort p{
     margin: 0px;
+  }
+  .commodityList h3{
+    margin: 3px 0px;
+  }
+  .commodityList .describe{
+    margin-bottom: 3px;
   }
 
 }
