@@ -98,12 +98,11 @@
         </ul>
         
         <div class="bdsharebuttonbox">
-          <a href="#" class="bds_more" data-cmd="more"></a>
-          <a href="#" class="bds_qzone" data-cmd="qzone"></a>
+          <span>分享：</span>
           <a href="#" class="bds_tsina" data-cmd="tsina"></a>
-          <a href="#" class="bds_tqq" data-cmd="tqq"></a>
-          <a href="#" class="bds_renren" data-cmd="renren"></a>
+          <a href="#" data-cmd="sqq" class="qq"></a>
           <a href="#" class="bds_weixin" data-cmd="weixin"></a>
+          <a href="#" class="bds_qzone" data-cmd="qzone"></a>
         </div>
 
 
@@ -155,7 +154,7 @@ export default {
       common : {
         bdText : _this.$route.query.title,
         bdDesc : _this.$route.query.introduction,
-        bdUrl : 'https://www.baidu.com/',
+        bdUrl : location.href,
         bdPic : _this.$route.query.image
       },
       share : [{
@@ -528,5 +527,56 @@ export default {
   .informationTips{
     margin: 7px 0px;
   }
+}
+
+.bdshare-button-style0-16{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.bdshare-button-style0-16 .bds_weixin {
+  background: url(http://www.citji.com/assets/fenxi_weixin-1f56598d1c2bb6aeae659ec5b8efe15776338fc99096437e4567298d542919a7.png);
+  float: left;
+  font-size: 18px;
+  padding-left: 44px;
+  line-height: 34px;
+  height: 34px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  margin: 6px 6px 6px 0;
+}
+.bdshare-button-style0-16 .bds_qzone {
+  background: url(http://www.citji.com/assets/fenxi_kj-9a515767132a26c6a1187651f50fed9392fe980e46af26bd0af8deeed3442633.png);
+  float: left;
+  font-size: 18px;
+  padding-left: 44px;
+  line-height: 34px;
+  height: 34px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  margin: 6px 6px 6px 0;
+}
+.bdshare-button-style0-16 .bds_tsina {
+  background: url(http://www.citji.com/assets/fenxi_sina-ba1298aa26afe313378737d567ef4b0a36aa23d43e435a46ce179ca1f6c28363.png);
+  float: left;
+  font-size: 18px;
+  padding-left: 44px;
+  line-height: 34px;
+  height: 34px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  margin: 6px 6px 6px 0;
+}
+.bdshare-button-style0-16 a, .bdshare-button-style0-16 .bds_more{
+  background: url(http://www.citji.com/assets/fenxi_qq-a8bdc9e8723a97a3188af832ae9e91b989c121352586afaeb87f150dc10fdb3e.png);
+  float: left;
+  font-size: 18px;
+  padding-left: 44px;
+  line-height: 34px;
+  height: 34px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  margin: 6px 6px 6px 0;
 }
 </style>

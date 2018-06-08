@@ -104,8 +104,8 @@
               <div class="makeCenterBox">
 
                 <div class="userName">
-                  <label class="makeName">您贵姓：</label>
-                  <el-input v-model="userName" placeholder="请输入您的姓氏" size="mini"></el-input>
+                  <label class="makeName">您的姓名：</label>
+                  <el-input v-model="userName" placeholder="输入您的姓名" size="mini"></el-input>
                 </div>
                 
                 <ul class="overflowHidden">

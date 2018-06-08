@@ -19,7 +19,7 @@
           <li v-for="(val,key) in information" @click="articleEve(val,key)">
             <img width="465px" height="300px;" :src="val.image"/>
             <h2>{{val.title}}</h2>
-            <p>{{val.introdution}}</p>
+            <p>{{val.introduction}}</p>
             
             <div class="informationTips">
               <p>
@@ -40,11 +40,19 @@
         <ul>
           <li v-for="(val,key) in article" @click="articleEve(val,key)">
             <img height="150px;" width="150px" :src="val.image"/>
-            <div>
+            <div class="journalismPc">
               <h3>{{val.title}}<span>{{val.create_time}}</span></h3>
-              <p>{{val.introdution}}</p>
+              <p>{{val.introduction}}</p>
               <p class="overflowHidden">
                 <img class="floatRight" src="../assets/eye.jpg"/>
+              </p>
+            </div>
+            <div class="journalismWeb">
+              <h3>{{val.title}}</h3>
+              <p class="introductionText">{{val.introduction}}</p>
+              <p class="overflowHidden">
+                <img class="floatRight" src="../assets/eye.jpg"/>
+                <span>{{val.create_time}}</span>
               </p>
             </div>
           </li>
@@ -64,11 +72,19 @@
         <ul>
           <li v-for="(val,key) in journalism" @click="articleEve(val,key)">
             <img height="150px;" width="150px" :src="val.image"/>
-            <div>
+            <div class="journalismPc">
               <h3>{{val.title}}<span>{{val.create_time}}</span></h3>
-              <p>{{val.introdution}}</p>
+              <p>{{val.introduction}}</p>
               <p class="overflowHidden">
                 <img class="floatRight" src="../assets/eye.jpg"/>
+              </p>
+            </div>
+            <div class="journalismWeb">
+              <h3>{{val.title}}</h3>
+              <p class="introductionText">{{val.introduction}}</p>
+              <p class="overflowHidden">
+                <img class="floatRight" src="../assets/eye.jpg"/>
+                <span>{{val.create_time}}</span>
               </p>
             </div>
           </li>
@@ -188,7 +204,7 @@ export default {
         axios.post('http://backend.viphome.cn/api/artices',qs.stringify({class_id:_this.articeclassList[1].id}))
         .then(function(dataJson){
           if(dataJson.data.result){
-            //console.log(JSON.stringify(dataJson.data.data.data))
+            console.log(JSON.stringify(dataJson.data.data.data))
             _this.article =dataJson.data.data.data;
           }
         })
@@ -350,6 +366,11 @@ export default {
 .informationList p{
   font-size: 14px;
   color: #9C9C9C;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 
 
@@ -446,6 +467,9 @@ export default {
   color: #7D7D7D;
   margin-top: 9px;
 }
+.journalismWeb{
+  display: none;
+}
 @media screen and (max-width: 800px){
   .informationBox{
     width: 100%;
@@ -491,6 +515,35 @@ export default {
   }
   .informationTips{
     margin: 7px 0px;
+  }
+  .journalismWeb{
+    display: block;
+  }
+  .journalismPc{
+    display: none;
+  }
+  .journalismWeb .introductionText{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  .journalismWeb .introductionText {
+    position:relative;
+    line-height:1.4em;
+    /* 3 times the line-height to show 3 lines */
+    height:4.2em;
+    overflow:hidden;
+  }
+  .journalismWeb .introductionText::after {
+      content:"...";
+      font-weight:bold;
+      position:absolute;
+      bottom:0;
+      right:0;
+      padding:0 20px 1px 45px;
+      background:url(http://css88.b0.upaiyun.com/css88/2014/09/ellipsis_bg.png) repeat-y;
   }
 }
 </style>

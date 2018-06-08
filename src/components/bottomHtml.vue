@@ -9,14 +9,8 @@
               动态资讯
             </router-link>
           </p>
-          <p>
-            <router-link class="title" :to="{ name: 'information',query:{id:$route.query.id,userName:$route.query.userName,uid:0}}">公司动态</router-link>
-          </p>
-          <p>
-            <router-link class="title" :to="{ name: 'information',query:{id:$route.query.id,userName:$route.query.userName,uid:1}}">行业资讯</router-link>
-          </p>
-          <p>
-            <router-link class="title" :to="{ name: 'information',query:{id:$route.query.id,userName:$route.query.userName,uid:2}}">家居新知</router-link>
+          <p v-for="(val,key) in navList">
+            <a href="javascript:;" @click="refreshEve(val)">{{val.name}}</a>
           </p>
         </li>
         <li>
@@ -55,10 +49,24 @@ export default {
   name: 'bottomHtml',
   data () {
     return {
-
+      navList:[
+        {name:'公司动态'},{name:'行业资讯'},{name:'家居新知'}
+      ]
     }
   },
   methods: {
+    refreshEve(val){
+      if(val.name=='公司动态'){
+        this.$router.push({ name: 'information',query:{id:this.$route.query.id,userName:this.$route.query.userName,uid:0}});
+      }
+      if(val.name=='行业资讯'){
+        this.$router.push({ name: 'information',query:{id:this.$route.query.id,userName:this.$route.query.userName,uid:1}});
+      }
+      if(val.name=='家居新知'){
+        this.$router.push({ name: 'information',query:{id:this.$route.query.id,userName:this.$route.query.userName,uid:2}});
+      }
+      location.reload();
+    }
   },
 
 }

@@ -77,7 +77,7 @@ export default {
       var items = box.children;
       console.log(items)
       // 定义每一列之间的间隙 为10像素
-      var gap = 70;
+      var gap = 30;
       var gapHeight = 60;
 
       // 1- 确定列数  = 页面的宽度 / 图片的宽度
@@ -168,6 +168,7 @@ export default {
 #box{
   height: -webkit-fill-available;
   width: 1000px;
+  margin: 30px auto;
 }
 .item img {
   width: 100%;
@@ -177,10 +178,10 @@ export default {
   position: relative;
 }
 .item {
-  box-shadow: 2px 2px 2px #999;
+  box-shadow: 0px 2px 14px 2px #999;
   position: absolute;
-  width:260px;
-  padding: 3px 11px;
+  width: 260px;
+  padding: 25px;
 }
 .item h2{
   font-size: 16px;
@@ -206,6 +207,7 @@ export default {
   #box{
     padding: 0px 11px;
     margin: 0px;
+    width: auto;
   }
   .item p{
     padding: 0px 5px;

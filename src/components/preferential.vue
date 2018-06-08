@@ -56,6 +56,40 @@
                   </p>
                 </li>
               </ul>
+              
+              <el-collapse v-model="activeName" accordion>
+                <el-collapse-item title="品牌" name="1" class="collapseNav">
+                <template slot="title" class="collapseTitle">
+                  品牌
+                </template>
+                  <ul class="collapseUl">
+                    <li href="javascript:;" v-for="(val,key) in categoryJson.brands" @click="brandEve(val,key)">
+                      <a href="javascript:;" :class="{brandCss:val.boll}">{{val.name}}</a>
+                    </li>
+                  </ul>
+                </el-collapse-item>
+                <el-collapse-item title="品类" name="2" class="collapseNav">
+                  <ul class="collapseUl">
+                    <li href="javascript:;" v-for="(val,key) in categoryJson.categorys" @click="categorysEve(val,key)">
+                      <a href="javascript:;" :class="{brandCss:val.boll}">{{val.name}}</a>
+                    </li>
+                  </ul>
+                </el-collapse-item>
+                <el-collapse-item title="空间" name="3" class="collapseNav">
+                  <ul class="collapseUl">
+                    <li href="javascript:;" v-for="(val,key) in categoryJson.spaces" @click="spaceEve(val,key)">
+                      <a href="javascript:;" :class="{brandCss:val.boll}">{{val.name}}</a>
+                    </li>
+                  </ul>
+                </el-collapse-item>
+                <el-collapse-item title="风格" name="4" class="collapseNav">
+                  <ul class="collapseUl">
+                    <li href="javascript:;" v-for="(val,key) in categoryJson.styles" @click="stylesEve(val,key)">
+                      <a href="javascript:;" :class="{brandCss:val.boll}">{{val.name}}</a>
+                    </li>
+                  </ul>
+                </el-collapse-item>
+              </el-collapse>
 
             </nav>
 
@@ -212,9 +246,9 @@
                       </p>
 
                       <h3>
-                        <strong>￥{{val.price}}</strong>
+                        <strong>￥{{val.discount_price}}</strong>
                         <i>
-                          ￥{{val.discount_price}}
+                          ￥{{val.price}}
                         </i>
                       </h3>
                       <p class="describe">
@@ -465,18 +499,37 @@ export default {
         this.sortList[i].boll = false;
       }
       let _this = this;
-      val.boll = true;
       if(val.name=='价格'){
-        this.order_by_field = 'price';
+        if(this.order_by_field=='price'){
+          this.order_by_field = '';
+        }else{
+          this.order_by_field='price';
+          val.boll = true;
+        }
       }
-      if(val.nam=='人气'){
-        this.order_by_field = 'popularity';
+      if(val.name=='人气'){
+        if(this.order_by_field=='popularity'){
+          this.order_by_field = '';
+        }else{
+          this.order_by_field='popularity';
+          val.boll = true;
+        }
       }
-      if(val.nam=='销量'){ 
-        this.order_by_field = 'sales';
+      if(val.name=='销量'){ 
+        if(this.order_by_field=='sales'){
+          this.order_by_field = '';
+        }else{
+          this.order_by_field='sales';
+          val.boll = true;
+        }
       }
-      if(val.nam=='新品'){ 
-        this.order_by_field = 'create_time';
+      if(val.name=='新品'){
+        if(this.order_by_field=='create_time'){
+          this.order_by_field = '';
+        }else{
+          this.order_by_field='create_time';
+          val.boll = true;
+        }
       }
       this.newSpacebrandEve();
 
@@ -808,8 +861,9 @@ export default {
   background-color: #e2e2e2;
   font-size: 15px;
   font-weight: 100;
-  padding: 5px 0px;
   color: #060606;
+  height: 30px;
+  line-height: 30px;
 }
 #classification .selectThis{
   padding: 7px;
@@ -893,6 +947,30 @@ export default {
   width: 110px;
   font-size: 15px;
 }
+
+.collapseNav a{
+  color: #000;
+}
+.collapseNav .brandCss{
+  color: red;
+}
+
+.collapseTitle{
+  text-indent: 17px;
+  background-color: #e2e2e2;
+  font-size: 15px;
+  font-weight: 100;
+  padding: 5px 0px;
+  color: #060606;
+  height: auto;
+}
+.collapseUl li{
+  color: #525252;
+  font-size: 15px;
+  text-indent: 11px;
+  margin: 7px 0px;
+}
+
 @media screen and (max-width: 960px){
   .el-col-5,.commoditySearch,.classification,.category,.selectCommodity ul li:nth-child(2),.paging{
     display: none;
@@ -950,4 +1028,21 @@ export default {
 
 
 
+</style>
+<style>
+.collapseNav .el-collapse-item__arrow{
+  line-height: 30px;
+}
+.collapseNav .is-active{
+  line-height: 15px;
+}
+.collapseNav .el-collapse-item__header{
+  text-indent: 17px;
+  background-color: #e2e2e2;
+  font-size: 15px;
+  font-weight: 100;
+  color: #060606;
+  height: 30px;
+  line-height: 30px;
+}
 </style>

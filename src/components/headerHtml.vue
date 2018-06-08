@@ -31,14 +31,13 @@
 
         <div class="searchBox maxWidth">
           <p class="floatLeft">
-            <img width="170px;" src="../assets/logo-01.jpg"/>
-            <img width="170px;" src="../assets/logo-02.jpg"/>
+            <img width="370px;" src="../assets/logo-01.jpg"/>
           </p>
           
           <div class="searchInput">
             <p>
               <input v-model="search" type="" name="" placeholder="列如：脚蹬 真皮沙发"/>
-              <img width="17px;" class="cursor" src="../assets/index/search.png"/>
+              <img @click="searchEve()" width="17px;" class="cursor" src="../assets/index/search.png"/>
             </p>
             <!-- <p>
               <span>油蜡皮</span>
@@ -161,7 +160,7 @@
             <li class="passwordBox">
               <p>
               <label>验证码：</label>
-                <input class="codeInput" type="" name="" placeholder="验证码"/>
+                <input class="codeInput" v-model="codeInput" type="" name="" placeholder="验证码"/>
               </p>
               <!-- <a href="javascript:;">*忘记密码？</a> -->
               <el-button class="code" type="primary" size="small" @click="codeEve()">{{num}}</el-button>
@@ -200,11 +199,8 @@
 
     <div class="webHeader">
       <header>
-        <p class="logImg">
-          <img width="270px;" src="../assets/logo-01.jpg"/>
-        </p>
-        <p class="logImg">
-          <img width="230px;" src="../assets/logo-02.jpg"/>
+        <p class="logImg webLogImg">
+            <img width="70%;" src="../assets/webLogo.png"/>
         </p>
       </header>
       <nav>
@@ -297,7 +293,8 @@ export default {
       navigationBoll:false,
       navigationClassBoll:false,
       num:'获取验证码',
-      codeBoll:false
+      codeBoll:false,
+      codeInput:''
     }
   },
   props:['index'],
@@ -387,17 +384,25 @@ export default {
           type: 'warning'
         });
         return false;
-      }
+      };
       if(!this.checked){
         this.$message({
           message: '请阅读勾选注册协议！',
           type: 'warning'
         });
         return false;
-      }
+      };
+      if (this.codeInput==''){
+        this.$message({
+          message: '验证码不能为空！',
+          type: 'warning'
+        });
+        return false;
+      };
       axios.post('http://backend.viphome.cn/api/register',qs.stringify({
         phone:_this.phone,
-        password:_this.password
+        password:_this.password,
+        code:_this.codeInput
       }))
       .then(function(dataJson){
         //console.log(JSON.stringify(dataJson.data));
@@ -428,16 +433,9 @@ export default {
         });
         return false;
       };
-      if (this.codeInput==''){
-        this.$message({
-          message: '验证码不能为空！',
-          type: 'warning'
-        });
-        return false;
-      };
-      axios.post('http://backend.viphome.cn/api/login',qs.stringify({phone:_this.upPhone,password:_this.upPassword,code:_this.codeInput}))
+      axios.post('http://backend.viphome.cn/api/login',qs.stringify({phone:_this.upPhone,password:_this.upPassword}))
       .then(function(dataJson){
-        console.log(dataJson.data.result)
+        console.log(dataJson.data);
         if(dataJson.data.result){
           console.log(JSON.stringify(dataJson.data.data.name));
           _this.$router.push({ name: _this.navigation[_this.index].href,query: {
@@ -618,6 +616,11 @@ export default {
       .catch(function(err){
         alert(err);
       });
+    },
+    searchEve(){
+      if(this.search.length>1){
+        this.$router.push({ name: 'home',query:{id:this.$route.query.id,userName:this.$route.query.userName,search:this.search}});
+      }
     }
   }
 
@@ -671,7 +674,7 @@ export default {
   align-items: center;
 }
 .searchBox .floatLeft img:last-child{
-  margin-left: 23px;
+ 
 }
 
 .searchInput p{
@@ -952,7 +955,7 @@ export default {
 
 .logImg{
   text-align: center;
-  margin: 11px 0px;
+  margin: 30px 0px;
 }
 
 
@@ -1003,7 +1006,6 @@ export default {
   color: #000;
   font-size: 17px;
 }
-
 @media screen and (max-width: 800px){
   .pcHeader{
     display: none;

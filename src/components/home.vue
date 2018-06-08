@@ -62,28 +62,28 @@
                 <template slot="title" class="collapseTitle">
                   品牌
                 </template>
-                  <ul>
+                  <ul class="collapseUl">
                     <li href="javascript:;" v-for="(val,key) in categoryJson.brands" @click="brandEve(val,key)">
                       <a href="javascript:;" :class="{brandCss:val.boll}">{{val.name}}</a>
                     </li>
                   </ul>
                 </el-collapse-item>
-                <el-collapse-item title="品类" name="2">
-                  <ul>
+                <el-collapse-item title="品类" name="2" class="collapseNav">
+                  <ul class="collapseUl">
                     <li href="javascript:;" v-for="(val,key) in categoryJson.categorys" @click="categorysEve(val,key)">
                       <a href="javascript:;" :class="{brandCss:val.boll}">{{val.name}}</a>
                     </li>
                   </ul>
                 </el-collapse-item>
-                <el-collapse-item title="空间" name="3">
-                  <ul>
+                <el-collapse-item title="空间" name="3" class="collapseNav">
+                  <ul class="collapseUl">
                     <li href="javascript:;" v-for="(val,key) in categoryJson.spaces" @click="spaceEve(val,key)">
                       <a href="javascript:;" :class="{brandCss:val.boll}">{{val.name}}</a>
                     </li>
                   </ul>
                 </el-collapse-item>
-                <el-collapse-item title="风格" name="4">
-                  <ul>
+                <el-collapse-item title="风格" name="4" class="collapseNav">
+                  <ul class="collapseUl">
                     <li href="javascript:;" v-for="(val,key) in categoryJson.styles" @click="stylesEve(val,key)">
                       <a href="javascript:;" :class="{brandCss:val.boll}">{{val.name}}</a>
                     </li>
@@ -246,9 +246,9 @@
                       </p>
 
                       <h3>
-                        <strong>￥{{val.price}}</strong>
+                        <strong>￥{{val.discount_price}}</strong>
                         <i>
-                          ￥{{val.discount_price}}
+                          ￥{{val.price}}
                         </i>
                       </h3>
                       <p class="describe">
@@ -308,6 +308,7 @@ export default {
       styleNm:'',
       spaceNm:'',
       order_by_field:'popularity',
+      order_by_sort:'',
       sortList:[
         {name:'人气',boll:true},
         {name:'销量',boll:false},
@@ -366,7 +367,7 @@ export default {
       _this.brandNm = _this.$route.query.brands;
       _this.categoryNm = _this.$route.query.categorys;
       _this.spaceNm = _this.$route.query.spaces;
-      
+      _this.keyword = _this.$route.query.search;
       for(let key in dataJson.data.styles){
         if(dataJson.data.styles[key].id==_this.$route.query.styles){
           dataJson.data.styles[key].boll = true;
@@ -499,18 +500,39 @@ export default {
         this.sortList[i].boll = false;
       }
       let _this = this;
-      val.boll = true;
       if(val.name=='价格'){
-        this.order_by_field = 'price';
+        if(this.order_by_field=='price'){
+          this.order_by_field = '';
+          this.order_by_sort = 'asc'
+        }else{
+          this.order_by_field='price';
+          val.boll = true;
+          this.order_by_sort = 'desc'; 
+        }
       }
-      if(val.nam=='人气'){
-        this.order_by_field = 'popularity';
+      if(val.name=='人气'){
+        if(this.order_by_field=='popularity'){
+          this.order_by_field = '';
+        }else{
+          this.order_by_field='popularity';
+          val.boll = true;
+        }
       }
-      if(val.nam=='销量'){ 
-        this.order_by_field = 'sales';
+      if(val.name=='销量'){ 
+        if(this.order_by_field=='sales'){
+          this.order_by_field = '';
+        }else{
+          this.order_by_field='sales';
+          val.boll = true;
+        }
       }
-      if(val.nam=='新品'){ 
-        this.order_by_field = 'create_time';
+      if(val.name=='新品'){
+        if(this.order_by_field=='create_time'){
+          this.order_by_field = '';
+        }else{
+          this.order_by_field='create_time';
+          val.boll = true;
+        }
       }
       this.newSpacebrandEve();
 
@@ -529,7 +551,8 @@ export default {
         page:pag,
         start_price:_this.start,
         end_price:_this.end,
-        keyword:_this.keyword
+        keyword:_this.keyword,
+        order_by_sort:_this.order_by_sort
       }))
       .then(function(dataJson){
         console.log(JSON.stringify(dataJson.data.data.last_page))
@@ -559,7 +582,8 @@ export default {
         page:pag,
         start_price:_this.start,
         end_price:_this.end,
-        keyword:_this.keyword
+        keyword:_this.keyword,
+        order_by_sort:_this.order_by_sort
       }))
       .then(function(dataJson){
         console.log(JSON.stringify(dataJson.data.data.data))
@@ -943,6 +967,12 @@ export default {
   color: #060606;
   height: auto;
 }
+.collapseUl li{
+  color: #525252;
+  font-size: 15px;
+  text-indent: 11px;
+  margin: 7px 0px;
+}
 
 @media screen and (max-width: 960px){
   .el-col-5,.commoditySearch,.classification,.category,.selectCommodity ul li:nth-child(2),.paging{
@@ -1003,6 +1033,12 @@ export default {
 
 </style>
 <style>
+.collapseNav .el-collapse-item__arrow{
+  line-height: 30px;
+}
+.collapseNav .is-active{
+  line-height: 15px;
+}
 .collapseNav .el-collapse-item__header{
   text-indent: 17px;
   background-color: #e2e2e2;
@@ -1011,8 +1047,5 @@ export default {
   color: #060606;
   height: 30px;
   line-height: 30px;
-}
-.el-collapse-item__arrow{
-  line-height: 15px;
 }
 </style>
