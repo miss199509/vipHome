@@ -17,7 +17,7 @@
 
         <div class="item" v-for="(val,key) in buyershowList">
           <a :href="val.link">
-            <img :src="val.image" alt="">
+            <img :src="val.image" alt="图片加载失败" :title="val.title">
             <h2>{{val.buyer_name}}</h2>
             <h2><span>{{val.product_name}}：</span>{{val.product_no}}</h2>
             <p>
@@ -28,7 +28,7 @@
     </div>
 
     
-    <!-- <bottomHtml></bottomHtml> -->
+    <bottomHtml></bottomHtml>
 
   </div>
 </template>
@@ -59,7 +59,7 @@ export default {
     .then(function(dataJson){
       if(dataJson.data.result){
         _this.buyershowList = dataJson.data.data;
-        //console.log(JSON.stringify(_this.buyershowList))
+        console.log(JSON.stringify(_this.buyershowList))
         _this.$nextTick(function () {
           _this.waterFall();
         })
@@ -167,7 +167,7 @@ export default {
 /*热销产品*/
 #box{
   height: -webkit-fill-available;
-  width: 1000px;
+  width: 990px;
   margin: 30px auto;
 }
 .item img {

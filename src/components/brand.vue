@@ -49,7 +49,7 @@
             <img src="../assets/brand/icon-005.jpg"/>
             <p>
               <strong>量身定制为爱造家</strong>
-              <span>00名专业导购帮你选择适合的风格、合适的家具</span>
+              <span>300名专业导购帮你选择适合的风格、合适的家具</span>
             </p>
           </div>
         </li>
@@ -69,10 +69,10 @@
     <div class="brandContent">
       <ul>
         <li class="brandContentClass" v-for="(val,key) in brandsList">
-          <img class="banner" width="100%;" :src="val.banner"/>
+          <img class="banner" width="100%;" :src="val.banner" :title="val.title"/>
           <div class="brandIntroduce newBrandIntroduce" v-show="false">
-            <img width="100%;" :src="val.log"/>
-            <img class="slogan" width="113px;" src="../assets/brand/slogan-01.jpg"/>
+            <img width="100%;" :src="val.log" :title="val.title"/>
+            <img class="slogan" width="113px;" :title="val.title" src="../assets/brand/slogan-01.jpg"/>
             <h3>{{val.name}}</h3>
             <p>
               {{val.introduction}}

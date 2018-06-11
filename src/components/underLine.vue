@@ -67,7 +67,7 @@
       <div class="popupBack" v-show="popupBackBoll">
         <div class="popupBox" :style="{height:height_}">
           <header>
-            <img width="130px;" src="../assets/logo-01.jpg"/>
+            <img width="300px;" src="../assets/logo-01.jpg"/>
             <i class="el-icon-close cursor" @click="removePopupEve()"></i>
           </header>
           <!-- 发送短信 -->
@@ -77,15 +77,15 @@
             </p>
             <div class="selectInput">
               <el-input size="small" v-model="inputPhone" placeholder="请输入内容" class="input-with-select"></el-input>
-              <el-button class="submission" size="small" type="primary" @click="selectEve(phoneText)">提交</el-button>
+              <el-button class="submission" size="small" type="primary" @click="selectEve(phoneName,phoneText,phoneTelephone)">提交</el-button>
             </div>
             <div class="selectText">
               
               <h3>以下信息将发送到你的手机：</h3>
               <div class="">
-                <p>{{phoneText.name}}</p>
-                <p>地址：{{phoneText.address}}</p>
-                <p>店内电话：{{phoneText.telephone}}</p>
+                <p>{{phoneName}}</p>
+                <p>地址：{{phoneText}}</p>
+                <p>店内电话：{{phoneTelephone}}</p>
                 <!-- <p>交通线路：上海市浦东新区川沙新镇外环以外川沙路4825号B座二层223号展厅。</p> -->
               </div>
 
@@ -126,9 +126,20 @@
 
               <div class="selectData">
                 <label>您预计：</label>
-                <el-input v-model="month" placeholder="" size="mini"></el-input>
+                <!-- <el-input v-model="month" placeholder="" size="mini"></el-input> -->
+                
+                <el-select v-model="month" clearable placeholder="月" size="mini" style="width: 80px;" @change="monthEve(month)">
+                  <el-option v-for="item in 12" :key="item" :label="item" :value="item">
+                  </el-option>
+                </el-select>
+
                 <span>月</span>
-                <el-input v-model="day" placeholder="" size="mini"></el-input>
+                <!-- <el-input v-model="day" placeholder="" size="mini"></el-input> -->
+                <el-select v-model="day" clearable placeholder="日" size="mini" style="width: 80px;">
+                  <el-option v-for="item in dayNum" :key="item" :label="item" :value="item">
+                  </el-option>
+                </el-select>
+
                 <span>日</span>
 
                 <div class="select">
@@ -161,8 +172,7 @@
 
 
           <div class="selectTips">
-            <p>温馨提示：欢邸国际家居携旗下18品牌，48家线下实体店，欢迎您到各门店品鉴家居</p>
-            <p>您也可以拨打7X24小时热线：400-186-0055 与我们取得联系！</p>
+            <p>{{offline.value}}</p>
           </div>
         
         </div>
@@ -202,6 +212,7 @@ export default {
           label: '下午'
         }
       ],
+      dayNum:0,
       optionsVal: '上午',
       checkboxGroup5:[],
       popupBackBoll:false,
@@ -214,8 +225,11 @@ export default {
       typeSelectList:[],
       //发送到手机
       phoneText:{},
+      phoneName:'',
+      phoneTelephone:'',
       height_:0,
-      inputPhone:''
+      inputPhone:'',
+      offline:''
 
     }
   },
@@ -231,6 +245,7 @@ export default {
       this.height_ = 'auto'
     }
     let _this = this;
+
     axios.post('http://backend.viphome.cn/api/malls',qs.stringify({}))
     .then(function(dataJson){
       if(dataJson.data.result){
@@ -289,12 +304,28 @@ export default {
   methods: {
 
     phoneSend(val,key,i,j){
-      console.log(val.address,i.address)
-      i.name = val.name+'【'+i.name+'】';
-      i.address = val.address+i.address;
-      this.phoneText = i;
+      console.log(JSON.stringify(i))
+      // i.name = val.name+'【'+i.name+'】';
+      //let text = val.address+i.address;
+      this.phoneText = val.address+i.address;
+      this.phoneName = val.name+'【'+i.name+'】';
+      this.phoneTelephone = i.telephone;
       this.popupBackBoll = true;
       this.selectBoxBoll = true;
+      let _this = this;
+      //线下地址发送
+      axios.post('http://backend.viphome.cn/api/system/const',qs.stringify({
+        key:'OFFLINE_SEND_ADDRESS'
+      }))
+      .then(function(dataJson){
+        if(dataJson.data.result){
+          _this.offline = dataJson.data.data;
+        }
+      })
+      .catch(function(err){
+        alert(err);
+      });
+
     },
     reservations(val,key,i,j){
       console.log(val.id,i.id);
@@ -313,19 +344,30 @@ export default {
       .catch(function(err){
         alert(err);
       });
+      axios.post('http://backend.viphome.cn/api/system/const',qs.stringify({
+        key:'OFFLINE_APPOINTMENT'
+      }))
+      .then(function(dataJson){
+        if(dataJson.data.result){
+          _this.offline = dataJson.data.data;
+        }
+      })
+      .catch(function(err){
+        alert(err);
+      });
     },
     removePopupEve(){
       this.popupBackBoll = false;
       this.selectBoxBoll = false;
       this.makeBoll = false;
     },
-    selectEve(phoneText){
+    selectEve(phoneName,phoneText,phoneTelephone){
       let _this = this;
       this.$message({
         type: 'success',
         message: '门店地址等信息已发至您的手机，期待您的光临！'
       });
-      axios.post('http://backend.viphome.cn/api/sendsms',qs.stringify({phone:_this.inputPhone,address:phoneText.address}))
+      axios.post('http://backend.viphome.cn/api/sendsms',qs.stringify({phone:_this.inputPhone,address:phoneName+phoneText+phoneTelephone}))
       .then(function(dataJson){
         console.log(JSON.stringify(dataJson.data));
       })
@@ -385,6 +427,11 @@ export default {
 
       // this.popupBackBoll = false;
       // this.makeBoll = false;
+    },
+    monthEve(item){
+      var myDate = new Date();
+      var d = new Date(myDate.getFullYear(), item, 0);
+      this.dayNum = d.getDate();
     }
 
 
@@ -508,9 +555,6 @@ export default {
   border-bottom: 1px solid #F0F0F0;
   position: relative;
   margin: 17px 0px;
-}
-.popupBox header img{
-  width: 230px;
 }
 
 .selectBox{
@@ -699,7 +743,7 @@ export default {
     padding: 11px 15px;
   }
   .popupBox header img{
-    width: 130px;
+    width: 300px;
   }
   .el-icon-close{
     right: 11px;

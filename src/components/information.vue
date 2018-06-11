@@ -17,9 +17,9 @@
       <div class="" v-show="articeclassList[0].boll" v-if="articeclassList[0]!=null">
         <ul class="informationList">
           <li v-for="(val,key) in information" @click="articleEve(val,key)">
-            <img width="465px" height="300px;" :src="val.image"/>
-            <h2>{{val.title}}</h2>
-            <p>{{val.introduction}}</p>
+            <img width="465px" height="300px;" :src="val.image" :title="val.title"/>
+            <h2 :title="val.seo_title">{{val.seo_title}}</h2>
+            <p :title="val.seo_description">{{val.seo_description}}</p>
             
             <div class="informationTips">
               <p>
@@ -39,17 +39,17 @@
       <div class="journalism" v-show="articeclassList[1].boll" v-if="articeclassList[1]!=null">
         <ul>
           <li v-for="(val,key) in article" @click="articleEve(val,key)">
-            <img height="150px;" width="150px" :src="val.image"/>
+            <img :title="val.title" height="150px;" width="150px" :src="val.image"/>
             <div class="journalismPc">
-              <h3>{{val.title}}<span>{{val.create_time}}</span></h3>
-              <p>{{val.introduction}}</p>
+              <h3 :title="val.seo_title">{{val.seo_title}}<span>{{val.create_time}}</span></h3>
+              <p :title="val.seo_description">{{val.seo_description}}</p>
               <p class="overflowHidden">
                 <img class="floatRight" src="../assets/eye.jpg"/>
               </p>
             </div>
             <div class="journalismWeb">
               <h3>{{val.title}}</h3>
-              <p class="introductionText">{{val.introduction}}</p>
+              <p :title="val.seo_description" class="introductionText">{{val.seo_description}}</p>
               <p class="overflowHidden">
                 <img class="floatRight" src="../assets/eye.jpg"/>
                 <span>{{val.create_time}}</span>
@@ -71,17 +71,17 @@
       <div class="journalism" v-show="articeclassList[2].boll" v-if="articeclassList[2]!=null">
         <ul>
           <li v-for="(val,key) in journalism" @click="articleEve(val,key)">
-            <img height="150px;" width="150px" :src="val.image"/>
+            <img :title="val.title" height="150px;" width="150px" :src="val.image"/>
             <div class="journalismPc">
-              <h3>{{val.title}}<span>{{val.create_time}}</span></h3>
-              <p>{{val.introduction}}</p>
+              <h3 :title="val.seo_title">{{val.seo_title}}<span>{{val.create_time}}</span></h3>
+              <p :title="val.seo_description">{{val.seo_description}}</p>
               <p class="overflowHidden">
                 <img class="floatRight" src="../assets/eye.jpg"/>
               </p>
             </div>
             <div class="journalismWeb">
               <h3>{{val.title}}</h3>
-              <p class="introductionText">{{val.introduction}}</p>
+              <p :title="val.seo_description" class="introductionText">{{val.seo_description}}</p>
               <p class="overflowHidden">
                 <img class="floatRight" src="../assets/eye.jpg"/>
                 <span>{{val.create_time}}</span>
@@ -268,6 +268,12 @@ export default {
     },
     articleEve(val,key){
       let _this = this;
+      let num = 0;
+      for(let i in this.articeclassList){
+        if(this.articeclassList[i].boll){
+          num = this.articeclassList[i].id
+        }
+      }
       //return false;
       this.$router.push({ name: 'article',query:{
         id:_this.$route.query.id,
@@ -275,7 +281,8 @@ export default {
         articleId:val.id,
         title:val.title,
         introduction:val.introduction,
-        image:val.image
+        image:val.image,
+        classId:num
       }});
       location.reload();
 

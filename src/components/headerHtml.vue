@@ -102,7 +102,7 @@
       <div class="popupBack" v-show="singInBoll">
         <div class="singIn">
           <p class="singTitle">
-            <img width="200px;" src="../assets/logo-01.jpg"/>
+            <img width="300px;" src="../assets/logo-01.jpg"/>
             <i class="el-icon-close cursor" @click="singInBoll = !singInBoll"></i>
           </p>
           <ul class="singInput">
@@ -130,10 +130,7 @@
           </ul>
           <div class="singTips">
             <p>
-              温馨提示：欢邸国际家居携旗下18品牌，48家线下实体店，欢迎您到各门店品鉴家居
-            </p>
-            <p>
-              您也可以拨打7X24小时热线：400-800-8956 与我们取得联系！
+              {{loginTips.value}}
             </p>
           </div>
         </div>
@@ -143,7 +140,7 @@
       <div class="popupBack" v-show="signUpBoll">
         <div class="singIn signUp">
           <p class="singTitle">
-            <img width="200px;" src="../assets/logo-01.jpg"/>
+            <img width="300px;" src="../assets/logo-01.jpg"/>
             <i class="el-icon-close cursor" @click="signUpBoll = !signUpBoll"></i>
           </p>
           <ul class="singInput">
@@ -187,10 +184,7 @@
           </ul>
           <div class="singTips">
             <p>
-              温馨提示：欢邸国际家居携旗下18品牌，48家线下实体店，欢迎您到各门店品鉴家居
-            </p>
-            <p>
-              您也可以拨打7X24小时热线：400-800-8956 与我们取得联系！
+              {{regisrerTips.value}}
             </p>
           </div>
         </div>
@@ -294,7 +288,9 @@ export default {
       navigationClassBoll:false,
       num:'获取验证码',
       codeBoll:false,
-      codeInput:''
+      codeInput:'',
+      regisrerTips:'',
+      loginTips:''
     }
   },
   props:['index'],
@@ -303,9 +299,32 @@ export default {
     let _this = this;
 
 
+    //注册提示
+    axios.post('http://backend.viphome.cn/api/system/const',qs.stringify({
+      key:'REGISTER_WARM_PROMPT'
+    }))
+    .then(function(dataJson){
+        //console.log(JSON.stringify(dataJson.data));
+        _this.regisrerTips = dataJson.data.data;
+
+    })
+    .catch(function(err){
+      alert(err);
+    });
+    //登陆提示
+    axios.post('http://backend.viphome.cn/api/system/const',qs.stringify({
+      key:'LOGIN_WARM_PROMPT'
+    }))
+    .then(function(dataJson){
+        console.log(JSON.stringify(dataJson.data));
+        _this.loginTips = dataJson.data.data;
+
+    })
+    .catch(function(err){
+      alert(err);
+    });
 
     //全部商品列表
-
     axios.post('http://backend.viphome.cn/api/category_v2',qs.stringify({}))
     .then(function(dataJson){
         
@@ -620,7 +639,8 @@ export default {
     searchEve(){
       if(this.search.length>1){
         this.$router.push({ name: 'home',query:{id:this.$route.query.id,userName:this.$route.query.userName,search:this.search}});
-      }
+        location.reload();
+      };
     }
   }
 

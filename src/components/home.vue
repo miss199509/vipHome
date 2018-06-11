@@ -31,7 +31,7 @@
 
             <nav class="classificationList">
               <ul>
-                <li>
+                <!-- <li>
                   <h3>
                     查看所有宝贝
                   </h3>
@@ -40,19 +40,13 @@
                     <a href="javascript:;">按新品</a>
                     <a href="javascript:;">按价格</a>
                   </p>
-                </li>
+                </li> -->
                 <li>
                   <h3>
                     新品上架
                   </h3>
-                  <p class="commodityData">
-                    3月21日
-                  </p>
-                  <p class="commodityData">
-                    3月21日
-                  </p>
-                  <p class="commodityData">
-                    3月21日
+                  <p class="commodityData cursor" v-for="(val,key) in dates" @click="datesEve(val,key)" :class="{brandCss:val.boll}">
+                    {{val.year}}年{{val.month}}月{{val.day}}日
                   </p>
                 </li>
               </ul>
@@ -241,7 +235,7 @@
                   <div>
                     <a :href="val.taobao">
                       <p class="imgBorder">
-                        <img width="300px" :src="val.image" alt="图片加载失败"/>
+                        <img width="300px" :src="val.image" alt="图片加载失败" :title="val.title"/>
                         <img v-show="val.hot" class="logo" src="../assets/icon-1.jpg"/>
                       </p>
 
@@ -336,7 +330,10 @@ export default {
       //web
       numWebSelect:1,
       numWebSelectBoll:false,
-      webTipsList:false
+      webTipsList:false,
+      dates:[],
+      start_time:'',
+      end_time:''
     }
   },
   components:{
@@ -347,6 +344,19 @@ export default {
     this.height_ = document.documentElement.clientHeight;
     window.addEventListener('scroll', this.menu);
     let _this = this;
+    //时间
+    axios.post('http://backend.viphome.cn//api/product/dates',qs.stringify({
+    }))
+    .then(function(dataJson){
+      console.log(JSON.stringify(dataJson.data.data));
+      for(let key in dataJson.data.data){
+        dataJson.data.data[key]['boll'] = false;
+      }
+      _this.dates = dataJson.data.data;
+    })
+    .catch(function(err){
+      alert(err);
+    });
     //new
     axios.post('http://backend.viphome.cn/api/category_v2',qs.stringify({}))
     .then(function(dataJson){
@@ -552,10 +562,12 @@ export default {
         start_price:_this.start,
         end_price:_this.end,
         keyword:_this.keyword,
-        order_by_sort:_this.order_by_sort
+        order_by_sort:_this.order_by_sort,
+        start_time:_this.start_time,
+        end_time:_this.end_time
       }))
       .then(function(dataJson){
-        console.log(JSON.stringify(dataJson.data.data.last_page))
+        //console.log(JSON.stringify(dataJson.data.data))
         _this.lastPage = dataJson.data.data.last_page*100;
         _this.total = dataJson.data.data.total;
         //console.log(JSON.stringify(_this.spacebrandList))
@@ -650,13 +662,28 @@ export default {
     },
     //价格筛选
     searchEve(){
-      if(this.pageNum<=100){
+      this.newSpacebrandEve();
+    },
+    //日期筛选
+    datesEve(val,key){
+      if(val.boll){
+        for(let i in this.dates){
+          this.dates[i].boll = false;
+        };
+        this.end_time = '';
+        this.start_time = '';
+        this.newSpacebrandEve(1,'','');
         return false;
-      }
-      let num = this.pageNum-=100;
-      this.newSpacebrandEve(num/100);
-      console.log(num)
-      this.currentPage = num/100;
+      }else{
+        for(let i in this.dates){
+          this.dates[i].boll = false;
+        };
+        val.boll = true;
+      };
+      this.end_time = val.year+'-'+val.month+'-'+val.day+' 23:59:59';
+      this.start_time = val.year+'-'+val.month+'-'+val.day+' 00:00:00';
+
+      this.newSpacebrandEve(1);
     }
 
   },
@@ -972,6 +999,10 @@ export default {
   font-size: 15px;
   text-indent: 11px;
   margin: 7px 0px;
+}
+
+.classificationList li p.brandCss{
+  color: red;
 }
 
 @media screen and (max-width: 960px){

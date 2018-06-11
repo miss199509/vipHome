@@ -84,7 +84,9 @@
         <h1>{{articleText.title}}</h1>
         <p class="title">
           <span>{{articleText.create_time}}</span>
-          <span>行业资讯</span>
+          <span v-show="$route.query.classId==1">公司动态</span>
+          <span v-show="$route.query.classId==2">行业动态</span>
+          <span v-show="$route.query.classId==3">家居新知</span>
         </p>
         <div class="" v-html="articleText.content" style="color: #7A7A7A;font-size: 14px;text-indent: 27px;line-height: 23px;"></div>
         <!-- <p>首先来看一组数据，在由商务部流通业发展司</p> -->
@@ -536,7 +538,7 @@ export default {
 }
 
 .bdshare-button-style0-16 .bds_weixin {
-  background: url(http://www.citji.com/assets/fenxi_weixin-1f56598d1c2bb6aeae659ec5b8efe15776338fc99096437e4567298d542919a7.png);
+  background: url('http://viphome.cn/image/193725918797896593.png');
   float: left;
   font-size: 18px;
   padding-left: 44px;
@@ -545,9 +547,10 @@ export default {
   background-repeat: no-repeat;
   cursor: pointer;
   margin: 6px 6px 6px 0;
+  background-size: 33px;
 }
 .bdshare-button-style0-16 .bds_qzone {
-  background: url(http://www.citji.com/assets/fenxi_kj-9a515767132a26c6a1187651f50fed9392fe980e46af26bd0af8deeed3442633.png);
+  background: url('http://viphome.cn/image/255556313963327013.png');
   float: left;
   font-size: 18px;
   padding-left: 44px;
@@ -556,9 +559,10 @@ export default {
   background-repeat: no-repeat;
   cursor: pointer;
   margin: 6px 6px 6px 0;
+  background-size: 33px;
 }
 .bdshare-button-style0-16 .bds_tsina {
-  background: url(http://www.citji.com/assets/fenxi_sina-ba1298aa26afe313378737d567ef4b0a36aa23d43e435a46ce179ca1f6c28363.png);
+  background: url('http://viphome.cn/image/733657352218061406.png');
   float: left;
   font-size: 18px;
   padding-left: 44px;
@@ -567,9 +571,10 @@ export default {
   background-repeat: no-repeat;
   cursor: pointer;
   margin: 6px 6px 6px 0;
+  background-size: 33px;
 }
 .bdshare-button-style0-16 a, .bdshare-button-style0-16 .bds_more{
-  background: url(http://www.citji.com/assets/fenxi_qq-a8bdc9e8723a97a3188af832ae9e91b989c121352586afaeb87f150dc10fdb3e.png);
+  background: url('http://viphome.cn/image/391779438277780947.png');
   float: left;
   font-size: 18px;
   padding-left: 44px;
@@ -578,5 +583,6 @@ export default {
   background-repeat: no-repeat;
   cursor: pointer;
   margin: 6px 6px 6px 0;
+  background-size: 33px;
 }
 </style>

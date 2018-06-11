@@ -8,10 +8,10 @@
       <img width="100%" src="../assets/banner.jpg"/>
     </p> -->
     
-    <el-carousel :interval="5000" arrow="always" class="always pcAlways" height="649px">
+    <el-carousel :interval="5000" arrow="always" class="always pcAlways">
       <el-carousel-item v-for="(val,key) in broadcastList" :key="key">
         <a :href="val.link">
-          <img :src="val.image"/>
+          <img height="100%" width="100%" :title="val.title" :src="val.image"/>
         </a>
       </el-carousel-item>
     </el-carousel>
@@ -39,7 +39,7 @@
             <li v-for="(val,key) in hotSaleList" :style="{width:val.width_+'px'}">
               
               <a :href="val.link">
-                <img :src="val.image"/>
+                <img :title="val.title" :src="val.image"/>
                 <div class="titleBox" v-show="false">
                   <p>
                     <span>
@@ -113,7 +113,7 @@
         </li>
         <li v-for="(val,key) in thisProductList">
           <a :href="val.link" @click="myMarEve(val)">
-            <img width="100%;" :src="val.image"/>
+            <img width="100%;" :src="val.image" :title="val.title" :alt="val.title"/>
             <h3 class="productLog_two">
               {{val.name}}
             </h3>
@@ -131,27 +131,27 @@
         <ul class="buyerShow" v-if="buyerShowList[0]!=null">
           <li class="buyer_one">
             <a :href="buyerShowList[0].link">
-              <img :src="buyerShowList[0].image"/>
+              <img :src="buyerShowList[0].image" :title="buyerShowList[0].title" :alt="buyerShowList[0].title"/>
               <span class="buyerTitle">评论标题</span>
             </a>
           </li>
           <li class="overflowHidden">
             <p class="buyer_two">
               <a :href="buyerShowList[1].link">
-                <img :src="buyerShowList[1].image"/>
+                <img :src="buyerShowList[1].image" :title="buyerShowList[1].title" :alt="buyerShowList[1].title"/>
                 <span class="buyerTitle">评论标题</span>
               </a>
             </p>
             <div class="buyerShow">
               <p class="buyer_three">
                 <a :href="buyerShowList[2].link">
-                  <img :src="buyerShowList[2].image"/>
+                  <img :src="buyerShowList[2].image" :title="buyerShowList[2].title" :alt="buyerShowList[2].title"/>
                   <span class="buyerTitle">评论标题</span>
                 </a>
               </p>
               <p class="buyer_four">
                 <a :href="buyerShowList[3].link">
-                  <img :src="buyerShowList[3].image"/>
+                  <img :src="buyerShowList[3].image" :title="buyerShowList[3].title" :alt="buyerShowList[3].title"/>
                   <span class="buyerTitle">评论标题</span>
                 </a>
               </p>
@@ -829,4 +829,16 @@ export default {
 
 
 
+</style>
+
+
+<style>
+  .el-carousel__container{
+    height: 600px;
+  }
+  @media screen and (max-width: 1300px){
+    .el-carousel__container{
+      height: 400px;
+    }
+  }
 </style>

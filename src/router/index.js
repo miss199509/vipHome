@@ -39,27 +39,42 @@ export default new Router({
     {
       path: '/',
       name: 'index',
-      component: index
+      component: index,
+      meta:{
+        title:'首页'
+      }
     },
     {
       path: '/home',
       name: 'home',
-      component: home
+      component: home,
+      meta:{
+        title:'全部商品'
+      }
     },
     {
       path: '/newProduct',
       name: 'newProduct',
-      component: newProduct
+      component: newProduct,
+      meta:{
+        title:'新品上架'
+      }
     },
     {
       path: '/preferential',
       name: 'preferential',
-      component: preferential
+      component: preferential,
+      meta:{
+        title:'特惠频道'
+      }
     },
     {
       path: '/sofaArea',
       name: 'sofaArea',
-      component: sofaArea
+      component: sofaArea,
+      meta:{
+        title:'沙发专区'
+      }
     },
     {
       path: '/headerHtml',
@@ -74,37 +89,58 @@ export default new Router({
     {
       path: '/buyer',
       name: 'buyer',
-      component: buyer
+      component: buyer,
+      meta:{
+        title:'买家秀'
+      }
     },
     {
       path: '/information',
       name: 'information',
-      component: information
+      component: information,
+      meta:{
+        title:'动态资讯'
+      }
     },
     {
       path: '/article',
       name: 'article',
-      component: article
+      component: article,
+      meta:{
+        title:'文章详情'
+      }
     },
     {
       path: '/underLine',
       name: 'underLine',
-      component: underLine
+      component: underLine,
+      meta:{
+        title:'线下门店'
+      }
     },
     {
       path: '/brand',
       name: 'brand',
-      component: brand
+      component: brand,
+      meta:{
+        title:'品牌集'
+      }
     },
     {
       path: '/about',
       name: 'about',
-      component: about
+      component: about,
+      meta:{
+        title:'关于我们'
+      }
     },
     {
       path: '/personal',
       name: 'personal',
-      component: personal
+      component: personal,
+      meta:{
+        title:'个人中心'
+      }
     },
     {
       path: '/singIn',
@@ -114,7 +150,14 @@ export default new Router({
     {
       path: '/talk',
       name: 'talk',
-      component: talk
+      component: talk,
+      meta:{
+        title:'全部商品'
+      }
+    },
+    {
+      path: "*",
+      redirect: "/"
     }
   ]
 })
