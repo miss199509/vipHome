@@ -11,13 +11,13 @@
     </p>
       
 
-    <div id="box" style="position: relative;" class="maxWidth">
+    <div id="box" style="position: sticky;" class="maxWidth">
         
         
 
-        <div class="item" v-for="(val,key) in buyershowList">
-          <a :href="val.link">
-            <img :src="val.image" alt="图片加载失败" :title="val.title">
+        <div class="item" v-for="(val,key) in buyershowList" v-show="buyerBoll">
+          <a :href="val.link" :title="val.title">
+            <img :src="val.image" :alt="val.title" :title="val.title">
             <h2>{{val.buyer_name}}</h2>
             <h2><span>{{val.product_name}}：</span>{{val.product_no}}</h2>
             <p>
@@ -43,7 +43,8 @@ export default {
   name: 'index',
   data () {
     return {
-      buyershowList:[]
+      buyershowList:[],
+      buyerBoll:false
     }
   },
   components:{
@@ -51,16 +52,18 @@ export default {
     'bottomHtml':bottomHtml
   },
   created(){
+    let _this = this;
     window.onload=function(){
+      _this.buyerBoll = true;
       _this.waterFall();
     };
-    let _this = this;
     axios.post('http://backend.viphome.cn/api/buyershow',qs.stringify({popularity:0}))
     .then(function(dataJson){
       if(dataJson.data.result){
         _this.buyershowList = dataJson.data.data;
         console.log(JSON.stringify(_this.buyershowList))
         _this.$nextTick(function () {
+          _this.buyerBoll = true;
           _this.waterFall();
         })
       }
@@ -208,6 +211,7 @@ export default {
     padding: 0px 11px;
     margin: 0px;
     width: auto;
+    height: auto;
   }
   .item p{
     padding: 0px 5px;

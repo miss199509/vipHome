@@ -69,9 +69,9 @@
     <div class="brandContent">
       <ul>
         <li class="brandContentClass" v-for="(val,key) in brandsList">
-          <img class="banner" width="100%;" :src="val.banner" :title="val.title"/>
+          <img class="banner" width="100%;" :src="val.banner" :alt="val.title" :title="val.title"/>
           <div class="brandIntroduce newBrandIntroduce" v-show="false">
-            <img width="100%;" :src="val.log" :title="val.title"/>
+            <img width="100%;" :src="val.log" :title="val.title" :alt="val.title"/>
             <img class="slogan" width="113px;" :title="val.title" src="../assets/brand/slogan-01.jpg"/>
             <h3>{{val.name}}</h3>
             <p>

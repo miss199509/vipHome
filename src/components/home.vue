@@ -8,6 +8,13 @@
       
 
     </div>
+    
+    <div class="webSearch">
+      <p>
+        <input v-model="searchCommodity" type="" name="" placeholder="列如：脚蹬 真皮沙发"/>
+        <i @click="searchEve()" class="el-icon-search" style="font-size: 20px;"></i>
+      </p>
+    </div>
 
 
 
@@ -222,7 +229,7 @@
                   </p>
                 </li>
               </ul>
-              <el-button @click="searchEve()" class="webPrimary" type="primary" size="small">
+              <el-button @click="searchEve(webCommodityListBoll=!webCommodityListBoll)" class="webPrimary" type="primary" size="small">
                 确定
               </el-button>
             </div>
@@ -333,7 +340,8 @@ export default {
       webTipsList:false,
       dates:[],
       start_time:'',
-      end_time:''
+      end_time:'',
+      searchCommodity:''
     }
   },
   components:{
@@ -341,6 +349,7 @@ export default {
     'bottomHtml':bottomHtml
   },
   mounted(){
+    this.searchCommodity = this.$route.query.search;
     this.height_ = document.documentElement.clientHeight;
     window.addEventListener('scroll', this.menu);
     let _this = this;
@@ -595,7 +604,9 @@ export default {
         start_price:_this.start,
         end_price:_this.end,
         keyword:_this.keyword,
-        order_by_sort:_this.order_by_sort
+        order_by_sort:_this.order_by_sort,
+        start_time:_this.start_time,
+        end_time:_this.end_time
       }))
       .then(function(dataJson){
         console.log(JSON.stringify(dataJson.data.data.data))
@@ -662,7 +673,10 @@ export default {
     },
     //价格筛选
     searchEve(){
+      //alert(0)
+      this.keyword = this.searchCommodity;
       this.newSpacebrandEve();
+
     },
     //日期筛选
     datesEve(val,key){
@@ -832,6 +846,7 @@ export default {
 }
 .commodityList .imgBorder img{
   display: block;
+  min-height: 300px;
 }
 .commodityList .imgBorder .logo{
   width: 45px;
@@ -1005,6 +1020,31 @@ export default {
   color: red;
 }
 
+.webSearch{
+  padding: 0px 11px;
+  margin-top: 11px;
+}
+.webSearch p{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.webSearch input{
+  width: 100%;
+  border-radius: 32px;
+  border: 1px solid;
+  height: 28px;
+  line-height: 28px;
+  outline: none;
+  text-indent: 13px;
+  color: #4e3e3e;
+  margin-right: 7px;
+  font-size: 14px;
+}
+.webSearch{
+  display: none;
+}
 @media screen and (max-width: 960px){
   .el-col-5,.commoditySearch,.classification,.category,.selectCommodity ul li:nth-child(2),.paging{
     display: none;
@@ -1024,6 +1064,7 @@ export default {
   }
   .commodityList .imgBorder img{
     width: 100%;
+    min-height: 156px;
   }
   .productBox div:nth-child(1){
     padding: 0px 11px;
@@ -1034,7 +1075,7 @@ export default {
     padding: 0px 11px;
   }
 
-  .sort a{
+  .sort a,.webSearch{
     display: block;
   }
   .sort strong{

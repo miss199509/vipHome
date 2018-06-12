@@ -99,12 +99,23 @@
           </li>
         </ul>
         
-        <div class="bdsharebuttonbox">
-          <span>分享：</span>
-          <a href="#" class="bds_tsina" data-cmd="tsina"></a>
-          <a href="#" data-cmd="sqq" class="qq"></a>
-          <a href="#" class="bds_weixin" data-cmd="weixin"></a>
-          <a href="#" class="bds_qzone" data-cmd="qzone"></a>
+        <div class="bdsharebuttonboxPc">
+          <div class="bdsharebuttonbox">
+            <span>分享：</span>
+            <a href="#" class="bds_tsina" data-cmd="tsina"></a>
+            <a href="#" data-cmd="sqq" class="qq"></a>
+            <a href="#" class="bds_weixin" data-cmd="weixin"></a>
+            <a href="#" class="bds_qzone" data-cmd="qzone"></a>
+          </div>
+        </div>
+        <div class="bdsharebuttonboxWeb">
+          <div class="bdsharebuttonbox">
+            <span>分享：</span>
+            <a href="javascript:;" class="bds_tsina" @click="bdshareEve()"></a>
+            <a href="javascript:;" class="qq" @click="bdshareEve()"></a>
+            <a href="javascript:;" class="bds_weixin" @click="bdshareEve()"></a>
+            <a href="javascript:;" class="bds_qzone" @click="bdshareEve()"></a>
+          </div>
         </div>
 
 
@@ -343,6 +354,9 @@ export default {
         alert(err);
       });
 
+    },
+    bdshareEve(){
+      this.$message('请使用浏览器的分享功能，把文章分享给朋友！');
     }
   },
 
@@ -483,6 +497,10 @@ export default {
   color: #7D7D7D;
   margin-top: 9px;
 }
+
+.bdsharebuttonboxWeb{
+  display: none;
+}
 @media screen and (max-width: 800px){
   .informationBox{
     width: 100%;
@@ -528,6 +546,12 @@ export default {
   }
   .informationTips{
     margin: 7px 0px;
+  }
+  .bdsharebuttonboxPc{
+    display: none;
+  }
+  .bdsharebuttonboxWeb{
+    display: block;
   }
 }
 
@@ -584,5 +608,16 @@ export default {
   cursor: pointer;
   margin: 6px 6px 6px 0;
   background-size: 33px;
+}
+</style>
+
+
+<style>
+@media screen and (max-width: 800px){
+  .articleList img{
+    width: 100%;
+    text-indent: 0px;
+    margin-left: -28px;
+  }
 }
 </style>

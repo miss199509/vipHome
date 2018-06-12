@@ -39,9 +39,20 @@
               <li>
                 <label class="name">地址：</label>
                 <div class="">
-                  <input class="province nameInput" v-model="province" type="" name=""/>
+                  <!-- <input class="province nameInput" v-model="province" type="" name=""/> -->
+
+                  <el-select v-model="provinceInput" placeholder="请选择" size="mini" @change="provinceEve" class="province nameInput">
+                    <el-option v-for="item in cityList" :key="item.id" :label="item.name" :value="item.name">
+                    </el-option>
+                  </el-select>
+                  
                   <span>省/市</span>
-                  <input class="town nameInput" v-model="town" type="" name=""/>
+                  <!-- <input class="town nameInput" v-model="town" type="" name=""/> -->
+                  <el-select v-model="town" placeholder="请选择" size="mini" v-if="cityList[townNum]!=undefined" class="town nameInput">
+                    <el-option v-for="item in cityList[townNum].province" :key="item.id" :label="item.name" :value="item.name">
+                    </el-option>
+                  </el-select>
+
                   <span>区/镇</span>
                 </div>
               </li>
@@ -75,8 +86,9 @@
               <li>
                 <label class="name">预购品类：</label>
                 <div class="">
-                  <el-checkbox v-model="purchase_category1" label="床" border size="mini"></el-checkbox>
-                  <el-checkbox v-model="purchase_category2" label="衣柜" border size="mini"></el-checkbox>
+                  <el-checkbox-group v-model="checkboxGroup5" size="small">
+                    <el-checkbox class="typeSelectClass" v-for="(val,key) in typeSelectList" :label="val.name" border></el-checkbox>
+                  </el-checkbox-group>
                 </div>
               </li>
             </ul>
@@ -135,12 +147,18 @@
             <p class="submission">
               <el-button type="primary" size="mini" @click="modifyPersonalEve()">修改资料</el-button>
             </p>
-            <p class="newSubmission cursor">
-              <span>去淘宝看看</span>
-            </p>
-            <p class="newSubmission cursor">
-              <span>预约到店</span>
-            </p>
+            <a href="https://shop187548024.taobao.com/?spm=a230r.7195193.1997079397.2.UebIfp">
+              <p class="newSubmission cursor">
+                <span>去淘宝看看</span>
+              </p>
+            </a>
+            <router-link :to="{ name: 'underLine',query:{id:$route.query.id,userName:$route.query.userName}}">
+              <p class="newSubmission cursor">
+                <span>
+                    预约到店
+                </span>
+              </p>
+            </router-link>
           </div>
         </div>
 
@@ -257,9 +275,9 @@ export default {
     return {
       gender:'0',
       userName:'',
-      province:'',
+      provinceInput:'北京',
       address:'',
-      town:'',
+      town:'北京',
       purchase_plan:'1',
       purchase_time:'0',
       purchaseList:[
@@ -269,8 +287,7 @@ export default {
         {name:'3个月内'},
         {name:'3个月以上'}
       ],
-      purchase_category1:false,
-      purchase_category2:false,
+      checkboxGroup5:[],
       radio: '0',
       checked3:true,
       checked4:true,
@@ -298,7 +315,10 @@ export default {
       uesrData:{},
       originalPassword:'',
       password:'',
-      newPassword:''
+      newPassword:'',
+      cityList:[],
+      townNum:0,
+      typeSelectList:[]
     }
   },
   components:{
@@ -306,6 +326,28 @@ export default {
     'bottomHtml':bottomHtml
   },
   mounted(){
+
+    let _this = this;
+    axios.post('http://backend.viphome.cn/api/city',qs.stringify({
+    }))
+    .then(function(dataJson){
+      _this.cityList = dataJson.data.data;
+    })
+    .catch(function(err){
+      alert(err);
+    });
+    axios.post('http://backend.viphome.cn/api/typeSelect',qs.stringify({
+    }))
+    .then(function(dataJson){
+      _this.typeSelectList = dataJson.data.data;
+    })
+    .catch(function(err){
+      alert(err);
+    });
+
+    
+
+
     this.uesrDataEve();
   },
   methods: {
@@ -316,22 +358,22 @@ export default {
     personalEve(){
       // console.log(this.gender,this.userName,this.purchase_time);
       // return false;
-      if(this.userName=='' || this.province=='' || this.address=='' || this.town==''){
+      let _this = this;
+      if(this.userName=='' || this.provinceInput=='' || this.address=='' || this.town==''){
         this.$message({
           message: '填写内容不能为空！',
           type: 'warning'
         });
         return false;
       }
-      let _this = this;
       axios.post('http://backend.viphome.cn/api/userupdate',qs.stringify({
         user_id:_this.$route.query.id,
         name:_this.userName,
         gender:_this.gender,
         purchase_plan:_this.purchase_plan,
-        city:_this.province+_this.address+_this.town,
+        city:_this.provinceInput+_this.town+_this.address,
         purchase_time:_this.purchaseList[_this.purchase_time].name,
-        purchase_category:'床，衣柜'
+        purchase_category:JSON.stringify(_this.checkboxGroup5)
       }))
       .then(function(dataJson){
         console.log(JSON.stringify(dataJson.data));
@@ -420,6 +462,17 @@ export default {
       .catch(function(err){
         alert(err);
       });
+    },
+    provinceEve(item){
+      console.log(item)
+      for(let i in this.cityList){
+        if(this.cityList[i].name==item){
+          this.townNum = i;
+          this.town = this.cityList[i].province[0].name;
+        }
+      }
+      // this.provinceInput = item.name;
+      // this.townNum = item.id;
     }
   }
 
@@ -474,19 +527,12 @@ export default {
   margin-right: 11px;
   width: 40px;
 }
-.personalBox .nameInput{
-  height: 23px;
-  line-height: 23px;
-  width: 190px;
-  text-indent: 9px;
-}
-
 
 .personalBox span{
   color: #313131;
 }
 .personalBox .province,.personalBox .town{
-  width: 90px;
+  width: 106px;
 }
 
 
@@ -539,7 +585,9 @@ export default {
   height: 25px;
   margin: 0px auto 15px auto;
 }
-
+.newSubmission{
+  color: #000;
+}
 
 /*修改密码*/
 .modifyPassword label.name{

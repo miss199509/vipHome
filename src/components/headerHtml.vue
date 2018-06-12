@@ -121,7 +121,7 @@
               <label>密码：</label>
                 <input v-model="upPassword" type="password" name="" placeholder="输入密码"/>
               </p>
-              <router-link :to="{ name: 'personal'}">*忘记密码？</router-link>
+              <a href="javascript:;" @click="forgetEve()">*忘记密码？</a>
             </li>
             <li>
               <label></label>
@@ -135,7 +135,55 @@
           </div>
         </div>
       </div>
-    
+      
+      <!-- 忘记密码 -->
+      <div class="popupBack" v-show="forgetBoll">
+        <div class="singIn signUp">
+          <p class="singTitle">
+            <img width="300px;" src="../assets/logo-01.jpg"/>
+            <i class="el-icon-close cursor" @click="forgetBoll = !forgetBoll"></i>
+          </p>
+          <ul class="singInput">
+            <li v-show="false">
+            </li>
+            <li>
+              <p>
+              <label>手机号码：</label>
+                <input v-model="modifyPhone" type="" name="" placeholder="输入手机号码"/>
+              </p>
+            </li>
+            <li class="passwordBox">
+              <p>
+              <label>验证码：</label>
+                <input class="codeInput" v-model="modifyInput" type="" name="" placeholder="验证码"/>
+              </p>
+              <el-button class="code" type="primary" size="small" @click="codeEve()">{{num}}</el-button>
+            </li>
+            <li>
+              <p>
+              <label>新密码：</label>
+                <input v-model="modifyPassword" type="password" name="" placeholder="请输入您的新密码"/>
+              </p>
+            </li>
+            <li>
+              <p>
+              <label>确认密码：</label>
+                <input v-model="modifyNewPassword" type="password" name="" placeholder="请再次输入您的密码"/>
+              </p>
+            </li>
+            <li>
+              <label></label>
+              <el-button type="primary" size="mini" class="loginBottom" @click="forgetUp()">确认</el-button>
+            </li>
+          </ul>
+          <div class="singTips">
+            <p>
+              {{regisrerTips.value}}
+            </p>
+          </div>
+        </div>
+      </div>
+
       <!-- 注册 -->
       <div class="popupBack" v-show="signUpBoll">
         <div class="singIn signUp">
@@ -227,8 +275,12 @@
         <div class="navigationClass" v-show="navigationClassBoll">
           <ul>
             <li>
-              <el-input class="searchCommodity" placeholder="搜索商品" size="medium" suffix-icon="el-icon-search" v-model="searchCommodity">
-              </el-input>
+              <!-- <el-input class="searchCommodity" placeholder="搜索商品" size="medium" suffix-icon="el-icon-search" v-model="searchCommodity">
+              </el-input> -->
+              <p class="webSearch">
+                <input v-model="searchCommodity" type="" name="" placeholder="列如：脚蹬 真皮沙发"/>
+                <i @click="searchEve()" class="el-icon-search" style="font-size: 20px;"></i>
+              </p>
             </li>
             <li v-for="(val,key) in navigation" :class="{nvaActive:val.boll}" >
               <p @click="nvaEve(val,key)">{{val.name}}</p>
@@ -290,7 +342,12 @@ export default {
       codeBoll:false,
       codeInput:'',
       regisrerTips:'',
-      loginTips:''
+      loginTips:'',
+      forgetBoll:false,
+      modifyPhone:'',
+      modifyInput:'',
+      modifyPassword:'',
+      modifyNewPassword:''
     }
   },
   props:['index'],
@@ -641,6 +698,18 @@ export default {
         this.$router.push({ name: 'home',query:{id:this.$route.query.id,userName:this.$route.query.userName,search:this.search}});
         location.reload();
       };
+      if(this.searchCommodity.length>1){
+        this.$router.push({ name: 'home',query:{id:this.$route.query.id,userName:this.$route.query.userName,search:this.searchCommodity}});
+        location.reload();
+      }
+    },
+    forgetEve(){
+      this.forgetBoll = true;
+      this.singInBoll = false;
+      this.signUpBoll = false;
+    },
+    forgetUp(){
+
     }
   }
 
@@ -1025,6 +1094,25 @@ export default {
 .webFunction a:nth-child(4){
   color: #000;
   font-size: 17px;
+}
+
+.webSearch{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.webSearch input{
+  width: 100%;
+  border-radius: 32px;
+  border: 1px solid;
+  height: 28px;
+  line-height: 28px;
+  outline: none;
+  text-indent: 13px;
+  color: #4e3e3e;
+  margin-right: 7px;
+  font-size: 14px;
 }
 @media screen and (max-width: 800px){
   .pcHeader{

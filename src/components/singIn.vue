@@ -8,7 +8,7 @@
     <div v-show="singInBoll">
       <div class="singIn">
         <p class="singTitle">
-          <img width="200px;" src="../assets/logo-01.jpg"/>
+          <img width="300px;" src="../assets/logo-01.jpg"/>
         </p>
         <ul class="singInput">
           <li>
@@ -22,7 +22,7 @@
             </p>
             <p class="singInFuntion">
               <a href="javascript:;" @click="signUpJump()">免费注册</a>
-              <router-link :to="{ name: 'personal'}">*忘记密码？</router-link>
+              <a href="javascript:;" @click="forgetEve()">*忘记密码？</a>
             </p>
           </li>
           <li class="loginBottomBox">
@@ -31,20 +31,60 @@
         </ul>
         <div class="singTips">
           <p>
-            温馨提示：欢邸国际家居携旗下18品牌，48家线下实体店，欢迎您到各门店品鉴家居
-          </p>
-          <p>
-            您也可以拨打7X24小时热线：400-800-8956 与我们取得联系！
+            {{loginTips.value}}
           </p>
         </div>
       </div>
     </div>
+
+
+    <!-- 忘记密码 -->
+    <div v-show="forgetBoll">
+      <div class="singIn signUp">
+        <p class="singTitle">
+          <img width="300px;" src="../assets/logo-01.jpg"/>
+        </p>
+        <ul class="singInput">
+          <li>
+            <p>
+              <input v-model="modifyPhone" type="" name="" placeholder="输入手机号码"/>
+            </p>
+          </li>
+          <li class="passwordBox">
+            <p>
+              <input v-model="modifyInput" class="codeInput" type="" name="" placeholder="验证码"/>
+            </p>
+            <!-- <a href="javascript:;">*忘记密码？</a> -->
+            <el-button class="code" type="primary" size="small" @click="codeEve()">{{num}}</el-button>
+          </li>
+          <li>
+            <p>
+              <input v-model="modifyPassword" type="password" name="" placeholder="请输入您的密码"/>
+            </p>
+          </li>
+          <li>
+            <p>
+              <input v-model="modifyNewPassword" type="password" name="" placeholder="请再次输入您的密码"/>
+            </p>
+          </li>
+          <li class="loginBottomBox">
+            <el-button type="primary" size="mini" class="loginBottom" @click="forgetUp()">提交</el-button>
+          </li>
+        </ul>
+        <div class="singTips">
+          <p>
+            {{regisrerTips.value}}
+          </p>
+        </div>
+      </div>
+    </div>
+
   
     <!-- 注册 -->
     <div v-show="signUpBoll">
       <div class="singIn signUp">
         <p class="singTitle">
-          <img width="200px;" src="../assets/logo-01.jpg"/>
+          <img width="300px;" src="../assets/logo-01.jpg"/>
         </p>
         <ul class="singInput">
           <li>
@@ -78,10 +118,7 @@
         </ul>
         <div class="singTips">
           <p>
-            温馨提示：欢邸国际家居携旗下18品牌，48家线下实体店，欢迎您到各门店品鉴家居
-          </p>
-          <p>
-            您也可以拨打7X24小时热线：400-800-8956 与我们取得联系！
+            {{regisrerTips.value}}
           </p>
         </div>
       </div>
@@ -111,10 +148,44 @@ export default {
       //登陆
       upPhone:'',
       upPassword:'',
-      num:'获取验证码'
+      num:'获取验证码',
+      regisrerTips:'',
+      loginTips:'',
+      forgetBoll:false,
+      modifyPhone:'',
+      modifyInput:'',
+      modifyPassword:'',
+      modifyNewPassword:''
     }
   },
   mounted(){
+    let _this = this;
+    //注册提示
+    axios.post('http://backend.viphome.cn/api/system/const',qs.stringify({
+      key:'REGISTER_WARM_PROMPT'
+    }))
+    .then(function(dataJson){
+        //console.log(JSON.stringify(dataJson.data));
+        _this.regisrerTips = dataJson.data.data;
+
+    })
+    .catch(function(err){
+      alert(err);
+    });
+    //登陆提示
+    axios.post('http://backend.viphome.cn/api/system/const',qs.stringify({
+      key:'LOGIN_WARM_PROMPT'
+    }))
+    .then(function(dataJson){
+        console.log(JSON.stringify(dataJson.data));
+        _this.loginTips = dataJson.data.data;
+
+    })
+    .catch(function(err){
+      alert(err);
+    });
+
+
     console.log(this.$route.query.sing)
     if(parseInt(this.$route.query.sing)){
       this.signUpBoll = true;
@@ -261,6 +332,14 @@ export default {
       .catch(function(err){
         alert(err);
       });
+    },
+    forgetEve(){
+      this.forgetBoll = true;
+      this.singInBoll = false;
+      this.signUpBoll = false;
+    },
+    forgetUp(){
+
     }
   }
 

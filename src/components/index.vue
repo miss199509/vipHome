@@ -829,11 +829,12 @@ export default {
 
 
 
+
 </style>
 
 
 <style>
-  .el-carousel__container{
+  .pcAlways .el-carousel__container{
     height: 600px;
   }
   @media screen and (max-width: 1300px){
