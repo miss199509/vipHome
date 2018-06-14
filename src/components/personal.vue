@@ -108,7 +108,7 @@
               <li>
                 <label class="name">账号：</label>
                 {{uesrData.phone}}
-                <a href="javascript:;" @click="modifyPasswordEve()">修改密码</a>
+                <!-- <a href="javascript:;" @click="modifyPasswordEve()">修改密码</a> -->
               </li>
               <li>
                 <label class="name">姓名：</label>

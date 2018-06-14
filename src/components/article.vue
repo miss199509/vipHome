@@ -163,6 +163,7 @@ export default {
   mounted(){
     let _this = this;
     console.log(location.href)
+    document.title = this.$route.query.seo_title;
     window._bd_share_config = {
       common : {
         bdText : _this.$route.query.title,

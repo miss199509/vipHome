@@ -167,6 +167,18 @@ export default {
     // if(this.$route.query.uid==1){
     //   this.articeclassList[1].boll = true;
     // }
+    
+    axios.post('http://backend.viphome.cn/api/seo',qs.stringify({webpage:'news'}))
+    .then(function(dataJson){
+      document.title = dataJson.data.title;
+      var meta = document.getElementsByTagName('meta');
+      meta['Description'].setAttribute('content',dataJson.data.description);
+      meta['Keywords'].setAttribute('content',dataJson.data.keyword);
+    })
+    .catch(function(err){
+      alert(err);
+    });
+
     axios.post('http://backend.viphome.cn/api/articeclass',qs.stringify({}))
     .then(function(dataJson){
       //console.log(JSON.stringify(dataJson.data.data))
@@ -282,7 +294,8 @@ export default {
         title:val.title,
         introduction:val.introduction,
         image:val.image,
-        classId:num
+        classId:num,
+        seo_title:val.seo_title
       }});
       location.reload();
 

@@ -91,7 +91,8 @@
 <script>
 import headerHtml from '../components/headerHtml'
 import bottomHtml from '../components/bottomHtml'
-
+import axios from 'axios'
+import qs from 'qs'
 
 export default {
   name: 'index',
@@ -103,7 +104,22 @@ export default {
     'headerHtml':headerHtml,
     'bottomHtml':bottomHtml
   },
+  mounted(){
+
+    let _this = this;
+    axios.post('http://backend.viphome.cn/api/seo',qs.stringify({webpage:'about'}))
+    .then(function(dataJson){
+      document.title = dataJson.data.title;
+      var meta = document.getElementsByTagName('meta');
+      meta['Description'].setAttribute('content',dataJson.data.description);
+      meta['Keywords'].setAttribute('content',dataJson.data.keyword);
+    })
+    .catch(function(err){
+      alert(err);
+    });
+  },
   methods: {
+
   },
 
 }

@@ -25,14 +25,9 @@
         <el-col :span="5">
           <div class="grid-content bg-purple" id="classification">
 
-            <p class="borderImg">
-              <a href="javascript:;">
-                <img src="../assets/banner-01.jpg"/>
-              </a>
-            </p>
-            <p class="borderImg">
-              <a href="javascript:;">
-                <img src="../assets/banner-02.jpg"/>
+            <p class="borderImg" v-for="(val,key) in advertisement" :title="val.title">
+              <a :href="val.link">
+                <img :src="val.image"/>
               </a>
             </p>
 
@@ -341,7 +336,8 @@ export default {
       dates:[],
       start_time:'',
       end_time:'',
-      searchCommodity:''
+      searchCommodity:'',
+      advertisement:''
     }
   },
   components:{
@@ -349,15 +345,39 @@ export default {
     'bottomHtml':bottomHtml
   },
   mounted(){
+    axios.post('http://backend.viphome.cn/api/seo',qs.stringify({webpage:'product'}))
+    .then(function(dataJson){
+      document.title = dataJson.data.title;
+      var meta = document.getElementsByTagName('meta');
+      meta['Description'].setAttribute('content',dataJson.data.description);
+      meta['Keywords'].setAttribute('content',dataJson.data.keyword);
+    })
+    .catch(function(err){
+      alert(err);
+    });
+
     this.searchCommodity = this.$route.query.search;
     this.height_ = document.documentElement.clientHeight;
     window.addEventListener('scroll', this.menu);
     let _this = this;
+    //
+    axios.post('http://backend.viphome.cn/api/banner',qs.stringify({position:21}))
+    .then(function(dataJson){
+      console.log(JSON.stringify(dataJson.data))
+      if(dataJson.data.result){
+        _this.advertisement = dataJson.data.data.data;
+        console.log(JSON.stringify(_this.advertisement))
+      }
+    })
+    .catch(function(err){
+      alert(err);
+    });
+
     //时间
     axios.post('http://backend.viphome.cn//api/product/dates',qs.stringify({
     }))
     .then(function(dataJson){
-      console.log(JSON.stringify(dataJson.data.data));
+      //console.log(JSON.stringify(dataJson.data.data));
       for(let key in dataJson.data.data){
         dataJson.data.data[key]['boll'] = false;
       }
@@ -393,7 +413,7 @@ export default {
         }
       }
       for(let key in dataJson.data.brands){
-        console.log(JSON.stringify(dataJson.data.brands[key])+'***')
+        //console.log(JSON.stringify(dataJson.data.brands[key])+'***')
         if(dataJson.data.brands[key].id==_this.$route.query.brands){
           dataJson.data.brands[key].boll = true;
         }
@@ -853,6 +873,7 @@ export default {
   position: absolute;
   top: 0px;
   right: 13px;
+  min-height: auto;
 }
 .commodityList h3{
   margin: 9px 0px;

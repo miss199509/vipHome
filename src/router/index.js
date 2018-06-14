@@ -31,6 +31,9 @@ import personal from '@/components/personal'
 //web登录
 import singIn from '@/components/singIn'
 import talk from '@/components/talk'
+//重定向页面
+import redirect from '@/components/redirect'
+
 
 Vue.use(Router)
 
@@ -156,8 +159,16 @@ export default new Router({
       }
     },
     {
+      path: '/redirect',
+      name: 'redirect',
+      component: redirect,
+      meta:{
+        title:'404'
+      }
+    },
+    {
       path: "*",
-      redirect: "/"
+      redirect: "/redirect"
     }
   ]
 })

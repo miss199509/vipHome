@@ -11,7 +11,7 @@
     <el-carousel :interval="5000" arrow="always" class="always pcAlways">
       <el-carousel-item v-for="(val,key) in broadcastList" :key="key">
         <a :href="val.link">
-          <img height="100%" width="100%" :title="val.title" :src="val.image"/>
+          <img height="100%" width="100%" :title="val.image_title" :alt="val.image_alt" :src="val.image"/>
         </a>
       </el-carousel-item>
     </el-carousel>
@@ -19,7 +19,7 @@
     <el-carousel :interval="5000" arrow="always" class="always webAlways" height="300px">
       <el-carousel-item v-for="(val,key) in broadcastList" :key="key">
         <a :href="val.link">
-          <img :src="val.image"/>
+          <img :title="val.image_title" :alt="val.image_alt" :src="val.image"/>
         </a>
       </el-carousel-item>
     </el-carousel>
@@ -131,27 +131,27 @@
         <ul class="buyerShow" v-if="buyerShowList[0]!=null">
           <li class="buyer_one">
             <a :href="buyerShowList[0].link">
-              <img :src="buyerShowList[0].image" :title="buyerShowList[0].title" :alt="buyerShowList[0].title"/>
+              <img :src="buyerShowList[0].image" :title="buyerShowList[0].title" :alt="buyerShowList[0].image_alt"/>
               <span class="buyerTitle">评论标题</span>
             </a>
           </li>
           <li class="overflowHidden">
             <p class="buyer_two">
               <a :href="buyerShowList[1].link">
-                <img :src="buyerShowList[1].image" :title="buyerShowList[1].title" :alt="buyerShowList[1].title"/>
+                <img :src="buyerShowList[1].image" :title="buyerShowList[1].title" :alt="buyerShowList[1].image_alt"/>
                 <span class="buyerTitle">评论标题</span>
               </a>
             </p>
             <div class="buyerShow">
               <p class="buyer_three">
                 <a :href="buyerShowList[2].link">
-                  <img :src="buyerShowList[2].image" :title="buyerShowList[2].title" :alt="buyerShowList[2].title"/>
+                  <img :src="buyerShowList[2].image" :title="buyerShowList[2].title" :alt="buyerShowList[2].image_alt"/>
                   <span class="buyerTitle">评论标题</span>
                 </a>
               </p>
               <p class="buyer_four">
                 <a :href="buyerShowList[3].link">
-                  <img :src="buyerShowList[3].image" :title="buyerShowList[3].title" :alt="buyerShowList[3].title"/>
+                  <img :src="buyerShowList[3].image" :title="buyerShowList[3].title" :alt="buyerShowList[3].image_alt"/>
                   <span class="buyerTitle">评论标题</span>
                 </a>
               </p>
@@ -418,6 +418,17 @@ export default {
     this.width_ = document.body.clientWidth/2;
     let _this = this;
     
+    axios.post('http://backend.viphome.cn/api/seo',qs.stringify({webpage:'home'}))
+    .then(function(dataJson){
+      document.title = dataJson.data.title;
+      var meta = document.getElementsByTagName('meta');
+      meta['Description'].setAttribute('content',dataJson.data.description);
+      meta['Keywords'].setAttribute('content',dataJson.data.keyword);
+    })
+    .catch(function(err){
+      alert(err);
+    });
+
     axios.post('http://backend.viphome.cn/api/products',qs.stringify({}))
     .then(function(dataJson){
       //console.log(JSON.stringify(dataJson.data))
@@ -442,7 +453,7 @@ export default {
     .then(function(dataJson){
       if(dataJson.data.result){
         _this.buyerShowList = dataJson.data.data.data;
-        //console.log(JSON.stringify(_this.buyerShowList))
+        console.log(JSON.stringify(_this.buyerShowList))
       }
     })
     .catch(function(err){

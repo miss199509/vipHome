@@ -11,11 +11,11 @@
     </p>
       
 
-    <div id="box" style="position: sticky;" class="maxWidth">
+    <div id="box" class="maxWidth" :style="{height:height_+265+'px'}">
         
         
 
-        <div class="item" v-for="(val,key) in buyershowList" v-show="buyerBoll">
+        <div class="item" v-for="(val,key) in buyershowList">
           <a :href="val.link" :title="val.title">
             <img :src="val.image" :alt="val.title" :title="val.title">
             <h2>{{val.buyer_name}}</h2>
@@ -28,7 +28,7 @@
     </div>
 
     
-    <bottomHtml></bottomHtml>
+    <bottomHtml v-show="buyerBoll"></bottomHtml>
 
   </div>
 </template>
@@ -44,7 +44,8 @@ export default {
   data () {
     return {
       buyershowList:[],
-      buyerBoll:false
+      buyerBoll:false,
+      height_:0
     }
   },
   components:{
@@ -54,16 +55,37 @@ export default {
   created(){
     let _this = this;
     window.onload=function(){
-      _this.buyerBoll = true;
       _this.waterFall();
+      if(document.body.clientWidth>960){
+        let t = setInterval(function(){
+          _this.height_ = document.body.clientHeight;
+          if(_this.height_!=0){
+            clearInterval(t);
+            _this.buyerBoll = true;
+          };
+        },1000)
+
+      }
     };
+    if(document.body.clientWidth<960){
+      this.height_ = 'auto';
+    }
+    axios.post('http://backend.viphome.cn/api/seo',qs.stringify({webpage:'buyer_show'}))
+    .then(function(dataJson){
+      document.title = dataJson.data.title;
+      var meta = document.getElementsByTagName('meta');
+      meta['Description'].setAttribute('content',dataJson.data.description);
+      meta['Keywords'].setAttribute('content',dataJson.data.keyword);
+    })
+    .catch(function(err){
+      alert(err);
+    });
     axios.post('http://backend.viphome.cn/api/buyershow',qs.stringify({popularity:0}))
     .then(function(dataJson){
       if(dataJson.data.result){
         _this.buyershowList = dataJson.data.data;
-        console.log(JSON.stringify(_this.buyershowList))
+        //console.log(JSON.stringify(_this.buyershowList))
         _this.$nextTick(function () {
-          _this.buyerBoll = true;
           _this.waterFall();
         })
       }
@@ -169,17 +191,16 @@ export default {
 }
 /*热销产品*/
 #box{
-  height: -webkit-fill-available;
+  /*height: -webkit-fill-available;*/
   width: 990px;
   margin: 30px auto;
+  position: relative;
 }
 .item img {
   width: 100%;
   display: block;
 }
-.box{
-  position: relative;
-}
+
 .item {
   box-shadow: 0px 2px 14px 2px #999;
   position: absolute;

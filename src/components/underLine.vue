@@ -245,6 +245,16 @@ export default {
       this.height_ = 'auto'
     }
     let _this = this;
+    axios.post('http://backend.viphome.cn/api/seo',qs.stringify({webpage:'offline'}))
+    .then(function(dataJson){
+      document.title = dataJson.data.title;
+      var meta = document.getElementsByTagName('meta');
+      meta['Description'].setAttribute('content',dataJson.data.description);
+      meta['Keywords'].setAttribute('content',dataJson.data.keyword);
+    })
+    .catch(function(err){
+      alert(err);
+    });
 
     axios.post('http://backend.viphome.cn/api/malls',qs.stringify({}))
     .then(function(dataJson){

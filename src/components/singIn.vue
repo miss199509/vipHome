@@ -38,6 +38,7 @@
     </div>
 
 
+    
     <!-- 忘记密码 -->
     <div v-show="forgetBoll">
       <div class="singIn signUp">
@@ -45,6 +46,8 @@
           <img width="300px;" src="../assets/logo-01.jpg"/>
         </p>
         <ul class="singInput">
+          <li v-show="false">
+          </li>
           <li>
             <p>
               <input v-model="modifyPhone" type="" name="" placeholder="输入手机号码"/>
@@ -52,14 +55,13 @@
           </li>
           <li class="passwordBox">
             <p>
-              <input v-model="modifyInput" class="codeInput" type="" name="" placeholder="验证码"/>
+              <input class="codeInput" v-model="modifyInput" type="" name="" placeholder="验证码"/>
             </p>
-            <!-- <a href="javascript:;">*忘记密码？</a> -->
-            <el-button class="code" type="primary" size="small" @click="codeEve()">{{num}}</el-button>
+            <el-button class="code" type="primary" size="small" @click="modifyCodeEve()">{{modifyNum}}</el-button>
           </li>
           <li>
             <p>
-              <input v-model="modifyPassword" type="password" name="" placeholder="请输入您的密码"/>
+              <input v-model="modifyPassword" type="password" name="" placeholder="请输入您的新密码"/>
             </p>
           </li>
           <li>
@@ -68,7 +70,8 @@
             </p>
           </li>
           <li class="loginBottomBox">
-            <el-button type="primary" size="mini" class="loginBottom" @click="forgetUp()">提交</el-button>
+            <label></label>
+            <el-button type="primary" size="mini" class="loginBottom" @click="forgetUp()">确认</el-button>
           </li>
         </ul>
         <div class="singTips">
@@ -155,7 +158,8 @@ export default {
       modifyPhone:'',
       modifyInput:'',
       modifyPassword:'',
-      modifyNewPassword:''
+      modifyNewPassword:'',
+      modifyNum:'获取验证码'
     }
   },
   mounted(){
@@ -333,12 +337,73 @@ export default {
         alert(err);
       });
     },
+    modifyCodeEve(){
+      let _this = this;
+      if(_this.codeBoll){
+        return false;
+      };
+      let myreg=/^[1][3,4,5,7,8][0-9]{9}$/;  
+      if (!myreg.test(this.modifyPhone)){
+        this.$message({
+          message: '请输入正确的手机号码！',
+          type: 'warning'
+        });
+        return false;
+      };
+      axios.post('http://backend.viphome.cn/api/sendsms',qs.stringify({phone:_this.modifyPhone}))
+      .then(function(dataJson){
+        console.log(JSON.stringify(dataJson.data))
+        if(dataJson.data.Message=='OK'){
+          _this.modifyNum = 60;
+          _this.codeBoll = true;
+          let t1 = window.setInterval(function(){
+              _this.modifyNum-=1;
+              if(_this.modifyNum==0){
+                _this.modifyNum = '获取验证码';
+                window.clearInterval(t1);
+                _this.codeBoll = false;
+              }
+          },1000); 
+
+          _this.$message({
+            message: '验证码已发送到您的手机！',
+            type: 'warning'
+          }); 
+        }
+      })
+      .catch(function(err){
+        alert(err);
+      });
+    },
     forgetEve(){
       this.forgetBoll = true;
       this.singInBoll = false;
       this.signUpBoll = false;
     },
     forgetUp(){
+      let _this = this;
+      axios.post('http://backend.viphome.cn/api/modifyPassword',qs.stringify({
+        phone:_this.modifyPhone,
+        code:_this.modifyInput,
+        password:_this.modifyPassword
+      }))
+      .then(function(dataJson){
+          console.log(JSON.stringify(dataJson.data));
+          if(dataJson.data.result){
+
+            _this.$message({
+              message: '密码修改成功！',
+              type: 'warning',
+              onClose(picker) {
+                location.reload();
+              }
+
+            }); 
+          }
+      })
+      .catch(function(err){
+        alert(err);
+      });
 
     }
   }
