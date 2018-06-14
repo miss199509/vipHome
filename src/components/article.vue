@@ -164,6 +164,9 @@ export default {
     let _this = this;
     console.log(location.href)
     document.title = this.$route.query.seo_title;
+    var meta = document.getElementsByTagName('meta');
+    meta['Description'].setAttribute('content',this.$route.query.seo_description);
+    meta['Keywords'].setAttribute('content',this.$route.query.seo_keyword);
     window._bd_share_config = {
       common : {
         bdText : _this.$route.query.title,
@@ -307,13 +310,17 @@ export default {
       if(val.title=='暂无'){
         return false;
       }
+      let _this = this;
       this.$router.push({ name: 'article',query:{
-        id:this.$route.query.id,
-        userName:this.$route.query.userName,
+        id:_this.$route.query.id,
+        userName:_this.$route.query.userName,
         articleId:val.id,
         title:val.title,
         introduction:val.introduction,
-        image:val.image
+        image:val.image,
+        seo_title:val.seo_title,
+        seo_keyword:val.seo_keyword,
+        seo_description:val.seo_description
       }});
       location.reload();
       this.detailEve(val.id)
@@ -322,13 +329,17 @@ export default {
       if(val.title=='暂无'){
         return false;
       }
+      let _this = this;
       this.$router.push({ name: 'article',query:{
-        id:this.$route.query.id,
-        userName:this.$route.query.userName,
+        id:_this.$route.query.id,
+        userName:_this.$route.query.userName,
         articleId:val.id,
         title:val.title,
         introduction:val.introduction,
-        image:val.image
+        image:val.image,
+        seo_title:val.seo_title,
+        seo_keyword:val.seo_keyword,
+        seo_description:val.seo_description
       }});
       location.reload();
 
@@ -610,10 +621,14 @@ export default {
   margin: 6px 6px 6px 0;
   background-size: 33px;
 }
+
 </style>
 
 
 <style>
+.articleList img{
+  max-width: 100%;
+}
 @media screen and (max-width: 800px){
   .articleList img{
     width: 100%;

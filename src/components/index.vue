@@ -39,7 +39,7 @@
             <li v-for="(val,key) in hotSaleList" :style="{width:val.width_+'px'}">
               
               <a :href="val.link">
-                <img :title="val.title" :src="val.image"/>
+                <img :title="val.image_title" :alt="val.image_alt" :src="val.image"/>
                 <div class="titleBox" v-show="false">
                   <p>
                     <span>
@@ -59,7 +59,7 @@
           <li v-for="(val,key) in hotSaleList">
             
             <a :href="val.link">
-              <img :src="val.image"/>
+              <img :title="val.image_title" :alt="val.image_alt" :src="val.image"/>
               <div class="titleBox" v-show="false">
                 <p>
                   <span>
@@ -113,7 +113,7 @@
         </li>
         <li v-for="(val,key) in thisProductList">
           <a :href="val.link" @click="myMarEve(val)">
-            <img width="100%;" :src="val.image" :title="val.title" :alt="val.title"/>
+            <img width="100%;" :src="val.image" :title="val.image_title" :alt="val.image_alt"/>
             <h3 class="productLog_two">
               {{val.name}}
             </h3>
@@ -131,27 +131,27 @@
         <ul class="buyerShow" v-if="buyerShowList[0]!=null">
           <li class="buyer_one">
             <a :href="buyerShowList[0].link">
-              <img :src="buyerShowList[0].image" :title="buyerShowList[0].title" :alt="buyerShowList[0].image_alt"/>
+              <img :src="buyerShowList[0].image" :title="buyerShowList[0].image_title" :alt="buyerShowList[0].image_alt"/>
               <span class="buyerTitle">评论标题</span>
             </a>
           </li>
           <li class="overflowHidden">
             <p class="buyer_two">
               <a :href="buyerShowList[1].link">
-                <img :src="buyerShowList[1].image" :title="buyerShowList[1].title" :alt="buyerShowList[1].image_alt"/>
+                <img :src="buyerShowList[1].image" :title="buyerShowList[1].image_title" :alt="buyerShowList[1].image_alt"/>
                 <span class="buyerTitle">评论标题</span>
               </a>
             </p>
             <div class="buyerShow">
               <p class="buyer_three">
                 <a :href="buyerShowList[2].link">
-                  <img :src="buyerShowList[2].image" :title="buyerShowList[2].title" :alt="buyerShowList[2].image_alt"/>
+                  <img :src="buyerShowList[2].image" :title="buyerShowList[2].image_title" :alt="buyerShowList[2].image_alt"/>
                   <span class="buyerTitle">评论标题</span>
                 </a>
               </p>
               <p class="buyer_four">
                 <a :href="buyerShowList[3].link">
-                  <img :src="buyerShowList[3].image" :title="buyerShowList[3].title" :alt="buyerShowList[3].image_alt"/>
+                  <img :src="buyerShowList[3].image" :title="buyerShowList[3].image_title" :alt="buyerShowList[3].image_alt"/>
                   <span class="buyerTitle">评论标题</span>
                 </a>
               </p>
@@ -441,7 +441,7 @@ export default {
     axios.post('http://backend.viphome.cn/api/banner',qs.stringify({position:3}))
     .then(function(dataJson){
       if(dataJson.data.result){
-        //console.log(JSON.stringify(dataJson.data.data.data));
+        console.log(JSON.stringify(dataJson.data.data.data));
         _this.thisProductList = dataJson.data.data.data;
       }
     })
@@ -453,7 +453,7 @@ export default {
     .then(function(dataJson){
       if(dataJson.data.result){
         _this.buyerShowList = dataJson.data.data.data;
-        console.log(JSON.stringify(_this.buyerShowList))
+        //console.log(JSON.stringify(_this.buyerShowList))
       }
     })
     .catch(function(err){
@@ -477,7 +477,7 @@ export default {
     //列表
     axios.post('http://backend.viphome.cn/api/banner',qs.stringify({position:1}))
     .then(function(dataJson){
-      console.log(JSON.stringify(dataJson.data.data.data))
+      //console.log(JSON.stringify(dataJson.data.data.data))
       _this.broadcastList = dataJson.data.data.data;
     })
     .catch(function(err){
@@ -596,7 +596,6 @@ export default {
 .coupon h4{
   float: left;
   font-size: 45px;
-  overflow: hidden;
   font-weight: 100;
   color: #2A2A2A;
 }
@@ -751,9 +750,6 @@ export default {
   .coupon li{
     padding: 0px 11px;
     border: none;
-  }
-  .coupon h4{
-    overflow: inherit;
   }
   .coupon li:last-child{
     border: none;

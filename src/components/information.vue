@@ -295,7 +295,9 @@ export default {
         introduction:val.introduction,
         image:val.image,
         classId:num,
-        seo_title:val.seo_title
+        seo_title:val.seo_title,
+        seo_keyword:val.seo_keyword,
+        seo_description:val.seo_description
       }});
       location.reload();
 

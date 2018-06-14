@@ -237,7 +237,7 @@
                   <div>
                     <a :href="val.taobao">
                       <p class="imgBorder">
-                        <img width="300px" :src="val.image" alt="图片加载失败" :title="val.title"/>
+                        <img width="300px" :src="val.image" :alt="image_alt" :title="val.image_title"/>
                         <img v-show="val.hot" class="logo" src="../assets/icon-1.jpg"/>
                       </p>
 
@@ -363,7 +363,7 @@ export default {
     //
     axios.post('http://backend.viphome.cn/api/banner',qs.stringify({position:21}))
     .then(function(dataJson){
-      console.log(JSON.stringify(dataJson.data))
+      //console.log(JSON.stringify(dataJson.data))
       if(dataJson.data.result){
         _this.advertisement = dataJson.data.data.data;
         console.log(JSON.stringify(_this.advertisement))
@@ -596,7 +596,7 @@ export default {
         end_time:_this.end_time
       }))
       .then(function(dataJson){
-        //console.log(JSON.stringify(dataJson.data.data))
+        console.log(JSON.stringify(dataJson.data.data))
         _this.lastPage = dataJson.data.data.last_page*100;
         _this.total = dataJson.data.data.total;
         //console.log(JSON.stringify(_this.spacebrandList))

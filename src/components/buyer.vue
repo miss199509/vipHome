@@ -59,8 +59,10 @@ export default {
       if(document.body.clientWidth>960){
         let t = setInterval(function(){
           _this.height_ = document.body.clientHeight;
-          if(_this.height_!=0){
+          console.log('ppp')
+          if(_this.height_!=0 && !_this.buyerBoll){
             clearInterval(t);
+            _this.waterFall();
             _this.buyerBoll = true;
           };
         },1000)
@@ -84,7 +86,7 @@ export default {
     .then(function(dataJson){
       if(dataJson.data.result){
         _this.buyershowList = dataJson.data.data;
-        //console.log(JSON.stringify(_this.buyershowList))
+        console.log(JSON.stringify(_this.buyershowList))
         _this.$nextTick(function () {
           _this.waterFall();
         })
