@@ -24,10 +24,9 @@
         
         <el-col :span="5">
           <div class="grid-content bg-purple" id="classification">
-
-            <p class="borderImg" v-for="(val,key) in advertisement" :title="val.title">
+            <p class="borderImg" v-for="(val,key) in advertisement">
               <a :href="val.link">
-                <img :src="val.image"/>
+                <img :src="val.image" :title="val.image_title" :alt="val.image_alt"/>
               </a>
             </p>
 
@@ -237,7 +236,7 @@
                   <div>
                     <a :href="val.taobao">
                       <p class="imgBorder">
-                        <img width="300px" :src="val.image" :alt="image_alt" :title="val.image_title"/>
+                        <img width="300px" :src="val.image" :alt="val.image_alt" :title="val.image_title"/>
                         <img v-show="val.hot" class="logo" src="../assets/icon-1.jpg"/>
                       </p>
 

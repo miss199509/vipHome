@@ -375,9 +375,17 @@ export default {
       let _this = this;
       this.$message({
         type: 'success',
-        message: '门店地址等信息已发至您的手机，期待您的光临！'
+        message: '门店地址等信息已发至您的手机，期待您的光临！',
+        onClose(){
+          location.reload();
+        }
       });
-      axios.post('http://backend.viphome.cn/api/sendsms',qs.stringify({phone:_this.inputPhone,address:phoneName+phoneText+phoneTelephone}))
+      axios.post('http://backend.viphome.cn/api/sendsms',qs.stringify({
+        phone:_this.inputPhone,
+        address:phoneText,
+        name:phoneName,
+        hotel_phone:phoneTelephone
+      }))
       .then(function(dataJson){
         console.log(JSON.stringify(dataJson.data));
       })

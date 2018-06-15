@@ -165,222 +165,26 @@
           合作品牌
         </h3>
         <div class="brandBoxWeb">
-          
-          <el-row>
-            <el-col :span="8">
+          <ul class="overflowHidden">
+            <li v-for="(val,key) in brandBoxPcList" class="floatLeft">
               <p class="brand">
-                <img src="../assets/brand/logo-01.jpg"/>
+                <img :src="val.image" :title="val.image_title" :alt="val.image_alt"/>
               </p>
-            </el-col>
-            <el-col :span="8">
-              <p class="brand">
-                <img src="../assets/brand/logo-02.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="8">
-              <p class="brand">
-                <img src="../assets/brand/logo-03.jpg"/>
-              </p>
-            </el-col>
-          </el-row>
-
-          <el-row>
-            <el-col :span="8">
-              <p class="brand">
-                <img src="../assets/brand/logo-04.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="8">
-              <p class="brand">
-                <img src="../assets/brand/logo-05.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="8">
-              <p class="brand">
-                <img src="../assets/brand/logo-06.jpg"/>
-              </p>
-            </el-col>
-          </el-row>
-
-          <el-row>
-            <el-col :span="8">
-              <p class="brand">
-                <img src="../assets/brand/logo-07.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="8">
-              <p class="brand">
-                <img src="../assets/brand/logo-08.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="8">
-              <p class="brand">
-                <img src="../assets/brand/logo-09.jpg"/>
-              </p>
-            </el-col>
-          </el-row>
-
-          <el-row>
-            <el-col :span="8">
-              <p class="brand">
-                <img src="../assets/brand/logo-10.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="8">
-              <p class="brand">
-                <img src="../assets/brand/logo-11.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="8">
-              <p class="brand">
-                <img src="../assets/brand/logo-12.jpg"/>
-              </p>
-            </el-col>
-          </el-row>
-
-          <el-row>
-            <el-col :span="8">
-              <p class="brand">
-                <img src="../assets/brand/logo-13.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="8">
-              <p class="brand">
-                <img src="../assets/brand/logo-14.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="8">
-              <p class="brand">
-                <img src="../assets/brand/logo-15.jpg"/>
-              </p>
-            </el-col>
-          </el-row>
-          <el-row>
-            
-            <el-col :span="8">
-              <p class="brand">
-                <img src="../assets/brand/logo-16.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="8">
-              <p class="brand">
-                <img src="../assets/brand/logo-17.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="8">
-              <p class="brand">
-                <img src="../assets/brand/logo-18.jpg"/>
-              </p>
-            </el-col>
-
-          </el-row>
-
-
-
+            </li>
+          </ul>
         </div>
-
+        
         <div class="brandBoxPc">
-          
-          <el-row>
-            <el-col :span="4">
+          <ul class="overflowHidden">
+            <li v-for="(val,key) in brandBoxPcList" class="floatLeft">
               <p class="brand">
-                <img src="../assets/brand/logo-01.jpg"/>
+                <img :src="val.image" :title="val.image_title" :alt="val.image_alt"/>
               </p>
-            </el-col>
-            <el-col :span="4">
-              <p class="brand">
-                <img src="../assets/brand/logo-02.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="4">
-              <p class="brand">
-                <img src="../assets/brand/logo-03.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="4">
-              <p class="brand">
-                <img src="../assets/brand/logo-04.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="4">
-              <p class="brand">
-                <img src="../assets/brand/logo-05.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="4">
-              <p class="brand">
-                <img src="../assets/brand/logo-06.jpg"/>
-              </p>
-            </el-col>
-          </el-row>
-
-          <el-row>
-            <el-col :span="4">
-              <p class="brand">
-                <img src="../assets/brand/logo-07.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="4">
-              <p class="brand">
-                <img src="../assets/brand/logo-08.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="4">
-              <p class="brand">
-                <img src="../assets/brand/logo-09.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="4">
-              <p class="brand">
-                <img src="../assets/brand/logo-10.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="4">
-              <p class="brand">
-                <img src="../assets/brand/logo-11.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="4">
-              <p class="brand">
-                <img src="../assets/brand/logo-12.jpg"/>
-              </p>
-            </el-col>
-          </el-row>
-
-          <el-row>
-            <el-col :span="4">
-              <p class="brand">
-                <img src="../assets/brand/logo-13.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="4">
-              <p class="brand">
-                <img src="../assets/brand/logo-14.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="4">
-              <p class="brand">
-                <img src="../assets/brand/logo-15.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="4">
-              <p class="brand">
-                <img src="../assets/brand/logo-16.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="4">
-              <p class="brand">
-                <img src="../assets/brand/logo-17.jpg"/>
-              </p>
-            </el-col>
-            <el-col :span="4">
-              <p class="brand">
-                <img src="../assets/brand/logo-18.jpg"/>
-              </p>
-            </el-col>
-          </el-row>
-
+            </li>
+          </ul>
         </div>
+
+        
       </div>
     </div>
     
@@ -407,7 +211,8 @@ export default {
       couponList:[],
       broadcastList:[],
       thisProductList:[],
-      myMar:''
+      myMar:'',
+      brandBoxPcList:[]
     }
   },
   components:{
@@ -441,7 +246,7 @@ export default {
     axios.post('http://backend.viphome.cn/api/banner',qs.stringify({position:3}))
     .then(function(dataJson){
       if(dataJson.data.result){
-        console.log(JSON.stringify(dataJson.data.data.data));
+        //console.log(JSON.stringify(dataJson.data.data.data));
         _this.thisProductList = dataJson.data.data.data;
       }
     })
@@ -459,6 +264,18 @@ export default {
     .catch(function(err){
       alert(err);
     });
+    //合作品牌
+    axios.post('http://backend.viphome.cn/api/banner',qs.stringify({position:5}))
+    .then(function(dataJson){
+      if(dataJson.data.result){
+        console.log(JSON.stringify(dataJson.data.data.data))
+        _this.brandBoxPcList = dataJson.data.data.data;
+      }
+    })
+    .catch(function(err){
+      alert(err);
+    });
+
     //热销推荐
     axios.post('http://backend.viphome.cn/api/banner',qs.stringify({position:6}))
     .then(function(dataJson){
@@ -700,14 +517,8 @@ export default {
   align-items: center;
   margin: 23px 0px;
 }
-.brandBox .el-col-4{
-  margin: 0px 3px;
-}
-.brandBox .brand{
-  width: 99%;
-  height: 100%;
-  border-right: 1px solid #B9B9B9;
-}
+
+
 .brandBox .el-col-4:last-child .brand,.brandBox .el-col-8:last-child .brand {
   border: none;
 }
@@ -715,8 +526,8 @@ export default {
   border: none;
 }
 .brand img{
-  width: 100%;
-  display: block;
+  /*width: 100%;
+  display: block;*/
 }
 
 
@@ -731,6 +542,12 @@ export default {
 
 .brandBoxWeb{
   display: none;
+}
+.brandBoxWeb li{
+  width: 33%;
+}
+.brandBoxWeb img{
+  width: 100%;
 }
 
 @media screen and (max-width: 800px){

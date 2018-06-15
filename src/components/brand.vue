@@ -14,7 +14,7 @@
             <img src="../assets/brand/icon-001.jpg"/>
             <p>
               <strong>实体门店现场品鉴</strong>
-              <span>覆盖全上海45家实体门店，体验真实品质</span>
+              <span>覆盖全上海50家实体门店，体验真实品质</span>
             </p>
           </div>
         </li>
@@ -23,7 +23,7 @@
             <img src="../assets/brand/icon-002.jpg"/>
             <p>
               <strong>甄选国际风格家居</strong>
-              <span>15个国际品牌，8种经典风格荟萃世界各地不同国家和不同时期的家居风格</span>
+              <span>20个国际品牌，8种经典风格荟萃世界各地不同国家和不同时期的家居风格</span>
             </p>
           </div>
           <div class="brandHeader">

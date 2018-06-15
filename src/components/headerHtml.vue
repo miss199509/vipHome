@@ -59,7 +59,7 @@
           
 
 
-          <div class="maxWidth navigationBox" v-show="navigationBoll" v-if="products.brands!=null" @mouseout="navigationEve()">
+          <div class="maxWidth navigationBox" v-show="navigationBoll" v-if="products.brands!=null" @mouseleave.prevent="navigationEve()">
             <header>
               <strong>所有品牌</strong>
               <strong v-for="(val,key) in spaceList">{{val.name}}</strong>
@@ -67,24 +67,24 @@
             <nav>
               <ul>
                 <li>
-                  <p v-for="(val,key) in products.brands" class="cursor" :class="{brandsClass:val.boll}" @mouseover.stop="mouseoverEveBrands(val,key)" @click="hrefHome(val,key)">
+                  <p v-for="(val,key) in products.brands" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveBrands(val,key)" @click="hrefHome(val,key)">
                     <a href="javascript:;">{{val.name}}</a>
                   </p>
                 </li>
               </ul>
               <ul>
                 <li>
-                  <p v-for="(val,key) in products.categorys" class="cursor" :class="{brandsClass:val.boll}" @mouseover.stop="mouseoverEveCategorys(val,key)" @click="hrefHome(val,key)">
+                  <p v-for="(val,key) in products.categorys" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveCategorys(val,key)" @click="hrefHome(val,key)">
                     <a href="javascript:;">{{val.name}}</a>
                   </p>
                 </li>
                 <li>
-                  <p v-for="(val,key) in products.spaces" class="cursor" :class="{brandsClass:val.boll}" @mouseover.stop="mouseoverEveSpaces(val,key)" @click="hrefHome(val,key)">
+                  <p v-for="(val,key) in products.spaces" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveSpaces(val,key)" @click="hrefHome(val,key)">
                     <a href="javascript:;">{{val.name}}</a>
                   </p>
                 </li>
                 <li>
-                  <p v-for="(val,key) in products.styles" class="cursor" :class="{brandsClass:val.boll}" @mouseover.stop="mouseoverEveStyles(val,key)" @click="hrefHome(val,key)">
+                  <p v-for="(val,key) in products.styles" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveStyles(val,key)" @click="hrefHome(val,key)">
                     <a href="javascript:;">{{val.name}}</a>
                   </p>
                 </li>
@@ -549,6 +549,7 @@ export default {
       val.boll = true;
     },
     mouseoutEve(val,key){
+      
       for(let key in this.navigation){
         this.navigation[key].boll = false;
       }
@@ -655,6 +656,12 @@ export default {
     },
     navigationEve(){
       console.log('出去')
+      this.navigationBoll = false;
+      for(let key in this.navigation){
+        this.navigation[key].boll = false;
+      };
+      this.navigation[this.index].boll = true;
+
     },
     codeEve(){
       let _this = this;

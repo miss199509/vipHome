@@ -40,7 +40,7 @@
         </li>
       </ul>
     </div>
-    <p class="Keep_onRecord">Copyright © 2018 欢邸家居. All Rights Reserved 沪ICP备 1707727号</p>
+    <p class="Keep_onRecord">Copyright © 2018 欢邸家居. All Rights Reserved <a href="http://www.miitbeian.gov.cn/">沪ICP备17040727号</a></p>
   </div>
 </template>
 

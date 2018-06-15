@@ -166,9 +166,9 @@ export default new Router({
         title:'404'
       }
     },
-    {
-      path: "*",
-      redirect: "/redirect"
-    }
+    // {
+    //   path: "*",
+    //   redirect: "/redirect"
+    // }
   ]
 })

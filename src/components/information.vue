@@ -39,7 +39,7 @@
       <div class="journalism" v-show="articeclassList[1].boll" v-if="articeclassList[1]!=null">
         <ul>
           <li v-for="(val,key) in article" @click="articleEve(val,key)">
-            <img :title="val.title" height="150px;" width="150px" :src="val.image"/>
+            <img :title="val.title" height="150px;" width="150px" :src="val.image" style="width: 150px;height: 150px;" />
             <div class="journalismPc">
               <h3 :title="val.seo_title">{{val.seo_title}}<span>{{val.create_time}}</span></h3>
               <p :title="val.seo_description">{{val.seo_description}}</p>
@@ -71,7 +71,7 @@
       <div class="journalism" v-show="articeclassList[2].boll" v-if="articeclassList[2]!=null">
         <ul>
           <li v-for="(val,key) in journalism" @click="articleEve(val,key)">
-            <img :title="val.title" height="150px;" width="150px" :src="val.image"/>
+            <img :title="val.title" height="150px;" width="150px" :src="val.image" style="width: 150px;height: 150px;"/>
             <div class="journalismPc">
               <h3 :title="val.seo_title">{{val.seo_title}}<span>{{val.create_time}}</span></h3>
               <p :title="val.seo_description">{{val.seo_description}}</p>
@@ -291,14 +291,15 @@ export default {
         id:_this.$route.query.id,
         userName:_this.$route.query.userName,
         articleId:val.id,
-        title:val.title,
-        introduction:val.introduction,
-        image:val.image,
-        classId:num,
-        seo_title:val.seo_title,
-        seo_keyword:val.seo_keyword,
-        seo_description:val.seo_description
+        // title:val.title,
+        // introduction:val.introduction,
+        // image:val.image,
+        // classId:num,
+        // seo_title:val.seo_title,
+        // seo_keyword:val.seo_keyword,
+        // seo_description:val.seo_description
       }});
+
       location.reload();
 
       this.articleBoll = true;

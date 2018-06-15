@@ -162,27 +162,7 @@ export default {
   },
   mounted(){
     let _this = this;
-    console.log(location.href)
-    document.title = this.$route.query.seo_title;
-    var meta = document.getElementsByTagName('meta');
-    meta['Description'].setAttribute('content',this.$route.query.seo_description);
-    meta['Keywords'].setAttribute('content',this.$route.query.seo_keyword);
-    window._bd_share_config = {
-      common : {
-        bdText : _this.$route.query.title,
-        bdDesc : _this.$route.query.introduction,
-        bdUrl : location.href,
-        bdPic : _this.$route.query.image
-      },
-      share : [{
-        "bdSize" : 16
-      }]
-    }
 
-    // console.log(this.$route.query.uid)
-    // if(this.$route.query.uid==1){
-    //   this.articeclassList[1].boll = true;
-    // }
     axios.post('http://backend.viphome.cn/api/articeclass',qs.stringify({}))
     .then(function(dataJson){
       //console.log(JSON.stringify(dataJson.data.data))
@@ -310,17 +290,10 @@ export default {
       if(val.title=='暂无'){
         return false;
       }
-      let _this = this;
       this.$router.push({ name: 'article',query:{
-        id:_this.$route.query.id,
-        userName:_this.$route.query.userName,
-        articleId:val.id,
-        title:val.title,
-        introduction:val.introduction,
-        image:val.image,
-        seo_title:val.seo_title,
-        seo_keyword:val.seo_keyword,
-        seo_description:val.seo_description
+        id:this.$route.query.id,
+        userName:this.$route.query.userName,
+        articleId:val.id
       }});
       location.reload();
       this.detailEve(val.id)
@@ -329,17 +302,10 @@ export default {
       if(val.title=='暂无'){
         return false;
       }
-      let _this = this;
       this.$router.push({ name: 'article',query:{
-        id:_this.$route.query.id,
-        userName:_this.$route.query.userName,
-        articleId:val.id,
-        title:val.title,
-        introduction:val.introduction,
-        image:val.image,
-        seo_title:val.seo_title,
-        seo_keyword:val.seo_keyword,
-        seo_description:val.seo_description
+        id:this.$route.query.id,
+        userName:this.$route.query.userName,
+        articleId:val.id
       }});
       location.reload();
 
@@ -359,6 +325,38 @@ export default {
         }
         _this.detail = dataJson.data;
         document.body.scrollTop = document.documentElement.scrollTop = 0;
+        console.log(dataJson.data.article.title,dataJson.data.article.introduction,location.href,dataJson.data.article.image);
+
+        document.title = dataJson.data.article.seo_title;
+        var meta = document.getElementsByTagName('meta');
+        meta['Description'].setAttribute('content',dataJson.data.article.seo_description);
+        meta['Keywords'].setAttribute('content',dataJson.data.article.seo_keyword);
+
+
+        window._bd_share_config = {
+          common : {
+            bdText : dataJson.data.article.title,
+            bdDesc : dataJson.data.article.introduction,
+            bdUrl : location.href,
+            bdPic : dataJson.data.article.image,
+            "onBeforeClick": function(cmd, cfg) {
+              var l = location.href;
+              if (cmd == "weixin") {
+              cfg.bdUrl = l.indexOf("?") !== -1 ? l + "&wx" : l + "?wx";
+              }
+              return cfg;
+              }
+
+          },
+          share : [{
+            "bdSize" : 16
+          }]
+        }
+
+        window._bd_share_main.init();
+
+
+
         return dataJson.data.article;
 
       })
@@ -621,19 +619,16 @@ export default {
   margin: 6px 6px 6px 0;
   background-size: 33px;
 }
-
 </style>
 
 
 <style>
-.articleList img{
-  max-width: 100%;
-}
 @media screen and (max-width: 800px){
   .articleList img{
     width: 100%;
     text-indent: 0px;
     margin-left: -28px;
+    height: auto;
   }
 }
 </style>

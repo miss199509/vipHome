@@ -17,7 +17,7 @@
 
         <div class="item" v-for="(val,key) in buyershowList">
           <a :href="val.link" :title="val.title">
-            <img :src="val.image" :alt="val.title" :title="val.title">
+            <img :src="val.image" :alt="val.image_alt" :title="val.image_title">
             <h2>{{val.buyer_name}}</h2>
             <h2><span>{{val.product_name}}：</span>{{val.product_no}}</h2>
             <p>
@@ -59,11 +59,12 @@ export default {
       if(document.body.clientWidth>960){
         let t = setInterval(function(){
           _this.height_ = document.body.clientHeight;
-          console.log('ppp')
-          if(_this.height_!=0 && !_this.buyerBoll){
-            clearInterval(t);
-            _this.waterFall();
+          console.log(_this.height_);
+          console.log(_this.buyerBoll);
+          if(_this.height_>0){
             _this.buyerBoll = true;
+            _this.waterFall();
+            clearInterval(t);
           };
         },1000)
 
@@ -71,6 +72,7 @@ export default {
     };
     if(document.body.clientWidth<960){
       this.height_ = 'auto';
+      this.buyerBoll = true;
     }
     axios.post('http://backend.viphome.cn/api/seo',qs.stringify({webpage:'buyer_show'}))
     .then(function(dataJson){
