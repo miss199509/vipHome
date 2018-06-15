@@ -104,7 +104,8 @@
             <span>分享：</span>
             <a href="#" class="bds_tsina" data-cmd="tsina"></a>
             <a href="#" data-cmd="sqq" class="qq"></a>
-            <a href="#" class="bds_weixin" data-cmd="weixin"></a>
+            <!-- <a href="#" class="bds_weixin" data-cmd="weixin"></a> -->
+            <a @click="weixinEve()" href="javascript:;" class="bds_weixin"></a>
             <a href="#" class="bds_qzone" data-cmd="qzone"></a>
           </div>
         </div>
@@ -127,6 +128,14 @@
       
     </div>
     
+    <div class="shareWeixin" v-show="shareWeixinBoll">
+      <h3>分享至微信朋友圈<a href="javascript:;" @click="removeShareWeixin()">x</a></h3>
+      <canvas id="canvas"></canvas>
+      <p>打开微信，点击底部的“发现”，</p>
+      <p>使用“扫一扫”即可将网页分享至朋友圈。</p>
+    </div>
+
+    
     <bottomHtml></bottomHtml>
 
   </div>
@@ -139,6 +148,7 @@ import bottomHtml from '../components/bottomHtml'
 
 import axios from 'axios'
 import qs from 'qs'
+import QRCode from 'qrcode'
 
 export default {
   name: 'information',
@@ -153,7 +163,8 @@ export default {
       journalism:{},
       articleText:{},
       articleBoll:false,
-      detail:{}
+      detail:{},
+      shareWeixinBoll:false
     }
   },
   components:{
@@ -162,7 +173,6 @@ export default {
   },
   mounted(){
     let _this = this;
-
     axios.post('http://backend.viphome.cn/api/articeclass',qs.stringify({}))
     .then(function(dataJson){
       //console.log(JSON.stringify(dataJson.data.data))
@@ -239,6 +249,23 @@ export default {
 
   },
   methods: {
+    weixinEve(){
+      this.shareWeixinBoll = true;
+      this.useqrcode();
+    },
+    removeShareWeixin(){
+      this.shareWeixinBoll = false;
+    },
+    useqrcode(){ 
+      //生成的二维码内容，可以添加变量
+　　　　this.QueryDetail = location.href;
+        var canvas = document.getElementById('canvas')
+        QRCode.toCanvas(canvas, this.QueryDetail, function (error) {
+        if (error) console.error(error)
+          console.log('success!');
+        })
+    },
+
     classNavEve(val,key){
       this.$router.push({ name: 'information',query:{
         id:this.$route.query.id,
@@ -339,13 +366,11 @@ export default {
             bdDesc : dataJson.data.article.introduction,
             bdUrl : location.href,
             bdPic : dataJson.data.article.image,
-            "onBeforeClick": function(cmd, cfg) {
-              var l = location.href;
+            onBeforeClick: function(cmd, cfg) {
               if (cmd == "weixin") {
-              cfg.bdUrl = l.indexOf("?") !== -1 ? l + "&wx" : l + "?wx";
+                return false;
               }
-              return cfg;
-              }
+            }
 
           },
           share : [{
@@ -618,6 +643,47 @@ export default {
   cursor: pointer;
   margin: 6px 6px 6px 0;
   background-size: 33px;
+}
+
+.shareWeixin{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background-color: #fff;
+  width: 240px;
+  padding: 10px;
+  border: solid 1px #d8d8d8;
+}
+.shareWeixin h3{
+  font-size: 12px;
+  font-weight: bold;
+  text-align: left;
+  line-height: 16px;
+  height: 16px;
+  position: relative;
+  color: #000;
+}
+.shareWeixin a{
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #999;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 100;
+}
+#canvas{
+    width: 100%!important;
+    height: auto!important;
+}
+.shareWeixin p{
+      font-size: 12px;
+    text-align: left;
+    line-height: 22px;
+    color: #666;
 }
 </style>
 

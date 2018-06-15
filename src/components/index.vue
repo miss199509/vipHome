@@ -528,6 +528,7 @@ export default {
 .brand img{
   /*width: 100%;
   display: block;*/
+  width: 160px;
 }
 
 
@@ -545,9 +546,22 @@ export default {
 }
 .brandBoxWeb li{
   width: 33%;
+  border-right: 1px solid #ccc;
+  margin: 7px 0px;
 }
 .brandBoxWeb img{
-  width: 100%;
+  width: 90%;
+}
+
+
+.brandBoxPc li{
+  border-right: 1px solid #ccc;
+  margin: 10px 0px;
+  width: 195px;
+  text-align: center;
+}
+.brandBoxPc li:last-child,.brandBoxPc li:nth-child(6),.brandBoxPc li:nth-child(12),.brandBoxPc li:nth-child(18),.brandBoxWeb li:nth-child(3),.brandBoxWeb li:nth-child(6),.brandBoxWeb li:nth-child(9),.brandBoxWeb li:nth-child(12),.brandBoxWeb li:nth-child(15),.brandBoxWeb li:nth-child(18){
+  border: none;
 }
 
 @media screen and (max-width: 800px){

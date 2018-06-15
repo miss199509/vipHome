@@ -77,4 +77,10 @@ export default {
   height: 33px; 
   background-size: 100% 100%;
 }
+@media screen and (max-width: 800px){
+  .redirectBox,.redirectBox img{
+    width: 100%;
+  }
+
+}
 </style>
