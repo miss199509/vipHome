@@ -11,7 +11,7 @@
     </p>
       
 
-    <div id="box" class="maxWidth" :style="{height:height_+265+'px'}">
+    <div id="box" class="maxWidth" :style="{height:height_+265+'px',left:leftHe+'px'}">
         
         
 
@@ -45,7 +45,8 @@ export default {
     return {
       buyershowList:[],
       buyerBoll:false,
-      height_:0
+      height_:0,
+      leftHe:10000
     }
   },
   components:{
@@ -63,6 +64,7 @@ export default {
           console.log(_this.buyerBoll);
           if(_this.height_>0){
             _this.buyerBoll = true;
+            _this.leftHe = 0;
             _this.waterFall();
             clearInterval(t);
           };
@@ -88,7 +90,6 @@ export default {
     .then(function(dataJson){
       if(dataJson.data.result){
         _this.buyershowList = dataJson.data.data;
-        console.log(JSON.stringify(_this.buyershowList))
         _this.$nextTick(function () {
           _this.waterFall();
         })
@@ -104,7 +105,6 @@ export default {
       
       var box = document.getElementById('box');
       var items = box.children;
-      console.log(items)
       // 定义每一列之间的间隙 为10像素
       var gap = 30;
       var gapHeight = 60;
@@ -119,7 +119,7 @@ export default {
           // 2- 确定第一行
           items[i].style.top = 0;
           items[i].style.left = (itemWidth + gap) * i + 'px';
-          console.log(items[i].offsetHeight);
+          //console.log(items[i].offsetHeight);
           arr.push(items[i].offsetHeight);
 
         } else {

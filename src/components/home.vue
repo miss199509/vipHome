@@ -380,6 +380,7 @@ export default {
       for(let key in dataJson.data.data){
         dataJson.data.data[key]['boll'] = false;
       }
+      //_this.dates = dataJson.data.data.slice(0,2);
       _this.dates = dataJson.data.data;
     })
     .catch(function(err){

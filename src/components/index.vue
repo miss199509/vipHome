@@ -265,11 +265,11 @@ export default {
       alert(err);
     });
     //合作品牌
-    axios.post('http://backend.viphome.cn/api/banner',qs.stringify({position:5}))
+    axios.post('http://backend.viphome.cn/api/banner',qs.stringify({position:5,paginate:0}))
     .then(function(dataJson){
       if(dataJson.data.result){
-        console.log(JSON.stringify(dataJson.data.data.data))
-        _this.brandBoxPcList = dataJson.data.data.data;
+        //console.log(JSON.stringify(dataJson.data.data));
+        _this.brandBoxPcList = dataJson.data.data;
       }
     })
     .catch(function(err){
