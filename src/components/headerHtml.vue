@@ -59,12 +59,14 @@
           
 
 
-          <div class="maxWidth navigationBox" v-show="navigationBoll" v-if="products.brands!=null" @mouseleave.prevent="navigationEve()">
+          <div class="maxWidth navigationBox" v-show="navigationBoll" @mouseleave.prevent="navigationEve()">
             <header>
               <strong>所有品牌</strong>
-              <strong v-for="(val,key) in spaceList">{{val.name}}</strong>
+              <strong v-for="(val,key) in products.categorys">{{val.name}}</strong>
+              <strong>风格</strong>
             </header>
             <nav>
+              
               <ul>
                 <li>
                   <p v-for="(val,key) in products.brands" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveBrands(val,key)" @click="hrefHome(val,key)">
@@ -72,23 +74,23 @@
                   </p>
                 </li>
               </ul>
+
               <ul>
-                <li>
-                  <p v-for="(val,key) in products.categorys" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveCategorys(val,key)" @click="hrefHome(val,key)">
-                    <a href="javascript:;">{{val.name}}</a>
-                  </p>
-                </li>
-                <li>
-                  <p v-for="(val,key) in products.spaces" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveSpaces(val,key)" @click="hrefHome(val,key)">
-                    <a href="javascript:;">{{val.name}}</a>
-                  </p>
-                </li>
-                <li>
-                  <p v-for="(val,key) in products.styles" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveStyles(val,key)" @click="hrefHome(val,key)">
+                <li v-for="(val,key) in products.categorys">
+                  <p v-for="(val,key) in val.subs" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveBrands(val,key)" @click="hrefHome(val,key)">
                     <a href="javascript:;">{{val.name}}</a>
                   </p>
                 </li>
               </ul>
+
+              <ul style="border: none;">
+                <li>
+                  <p v-for="(val,key) in products.styles" class="cursor" :class="{brandsClass:val.boll}" @mouseover="mouseoverEveBrands(val,key)" @click="hrefHome(val,key)">
+                    <a href="javascript:;">{{val.name}}</a>
+                  </p>
+                </li>
+              </ul>
+
             </nav>
           </div>
 
@@ -374,7 +376,7 @@ export default {
       key:'LOGIN_WARM_PROMPT'
     }))
     .then(function(dataJson){
-        console.log(JSON.stringify(dataJson.data));
+        //console.log(JSON.stringify(dataJson.data));
         _this.loginTips = dataJson.data.data;
 
     })
@@ -383,23 +385,21 @@ export default {
     });
 
     //全部商品列表
-    axios.post('http://backend.viphome.cn/api/category_v2',qs.stringify({}))
+
+    axios.post('http://backend.viphome.cn/api/category_v3',qs.stringify({}))
     .then(function(dataJson){
         
+        for(let i in dataJson.data.categorys){
+          for(let key in dataJson.data.categorys[i].subs){
+            dataJson.data.categorys[i].subs[key]['boll'] = false;
+          }
+        }
+        
+        for(let i in dataJson.data.brands){
+          dataJson.data.brands[i]['boll'] = false;
+        }
+
         _this.products = dataJson.data;
-        for(let i in _this.products.brands){
-          _this.$set(_this.products.brands[i],'boll',false);
-        }
-        for(let i in _this.products.categorys){
-          _this.$set(_this.products.categorys[i],'boll',false);
-        }
-        for(let i in _this.products.spaces){
-          _this.$set(_this.products.spaces[i],'boll',false);
-        }
-        for(let i in _this.products.styles){
-          _this.$set(_this.products.styles[i],'boll',false);
-        }
-        //console.log(JSON.stringify(dataJson.data));
 
     })
     .catch(function(err){
@@ -564,62 +564,17 @@ export default {
     //滑近
     mouseoverEveBrands(val,key){
       for(let i in this.products.categorys){
-        this.products.categorys[i].boll = false;
-      }
-      for(let i in this.products.spaces){
-        this.products.spaces[i].boll = false;
-      }
-      for(let i in this.products.styles){
-          this.products.styles[i].boll = false;
+        for(let j in this.products.categorys[i].subs){
+          this.products.categorys[i].subs[j].boll = false;
+        }
       }
       for(let i in this.products.brands){
         this.products.brands[i].boll = false;
       }
-      val.boll = true;
-    },
-    mouseoverEveCategorys(val,key){
-      for(let i in this.products.categorys){
-        this.products.categorys[i].boll = false;
-      }
-      for(let i in this.products.spaces){
-        this.products.spaces[i].boll = false;
-      }
       for(let i in this.products.styles){
-          this.products.styles[i].boll = false;
+        this.products.styles[i].boll = false;
       }
-      for(let i in this.products.brands){
-        this.products.brands[i].boll = false;
-      }
-      val.boll = true;
-    },
-    mouseoverEveSpaces(val,key){
-      for(let i in this.products.categorys){
-        this.products.categorys[i].boll = false;
-      }
-      for(let i in this.products.spaces){
-        this.products.spaces[i].boll = false;
-      }
-      for(let i in this.products.styles){
-          this.products.styles[i].boll = false;
-      }
-      for(let i in this.products.brands){
-        this.products.brands[i].boll = false;
-      }
-      val.boll = true;
-    },
-    mouseoverEveStyles(val,key){
-      for(let i in this.products.categorys){
-        this.products.categorys[i].boll = false;
-      }
-      for(let i in this.products.spaces){
-        this.products.spaces[i].boll = false;
-      }
-      for(let i in this.products.styles){
-          this.products.styles[i].boll = false;
-      }
-      for(let i in this.products.brands){
-        this.products.brands[i].boll = false;
-      }
+      
       val.boll = true;
     },
     //点击跳转
@@ -630,20 +585,20 @@ export default {
           brands = this.products.brands[i].id;
         }
       }
-      for(let i in this.products.categorys){
-        if(this.products.categorys[i].boll){
-          categorys = this.products.categorys[i].id;
-        }
-      }
-      for(let i in this.products.spaces){
-        if(this.products.spaces[i].boll){
-          spaces = this.products.spaces[i].id;
-        }
-      }
       for(let i in this.products.styles){
         if(this.products.styles[i].boll){
           styles = this.products.styles[i].id;
         }
+      }
+      for(let i in this.products.categorys){
+        for(let j in this.products.categorys[i].subs){
+          if(this.products.categorys[i].subs[j].boll){
+            categorys = this.products.categorys[i].subs[j].id;
+          }
+        }
+        // if(this.products.categorys[i].boll){
+        //   categorys = this.products.categorys[i].id;
+        // }
       }
       console.log(brands,categorys,spaces,styles);
       this.$router.push({ name:'home',query: {
@@ -1063,7 +1018,7 @@ export default {
   overflow: hidden;
 }
 .navigationBox strong{
-  width: 160px;
+  width: 170px;
   text-align: center;
   color: #878787;
   float: left;
@@ -1092,10 +1047,9 @@ export default {
 .navigationBox li{
   font-size: 15px;
   float: left;
-  width: 160px;
+  width: 170px;
 }
 .navigationBox li p{
-  width: 160px;
   text-align: center;
   height: 33px;
   line-height: 33px;
