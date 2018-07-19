@@ -18,7 +18,7 @@
         <ul class="informationList">
           <li v-for="(val,key) in information" @click="articleEve(val,key)">
             <img width="465px" height="300px;" :src="val.image" :title="val.title"/>
-            <h2 :title="val.seo_title">{{val.seo_title}}</h2>
+            <h2 :title="val.title">{{val.title}}</h2>
             <p :title="val.seo_description">{{val.seo_description}}</p>
             
             <div class="informationTips">
@@ -39,9 +39,9 @@
       <div class="journalism" v-show="articeclassList[1].boll" v-if="articeclassList[1]!=null">
         <ul>
           <li v-for="(val,key) in article" @click="articleEve(val,key)">
-            <img :title="val.title" height="150px;" width="150px" :src="val.image" style="width: 150px;height: 150px;" />
+            <img :title="val.title" height="150px;" width="150px" :src="val.image" style="min-width: 150px;height: 150px;" />
             <div class="journalismPc">
-              <h3 :title="val.seo_title">{{val.seo_title}}<span>{{val.create_time}}</span></h3>
+              <h3 :title="val.title">{{val.title}}<span>{{val.create_time}}</span></h3>
               <p :title="val.seo_description">{{val.seo_description}}</p>
               <p class="overflowHidden">
                 <img class="floatRight" src="../assets/eye.jpg"/>
@@ -71,9 +71,9 @@
       <div class="journalism" v-show="articeclassList[2].boll" v-if="articeclassList[2]!=null">
         <ul>
           <li v-for="(val,key) in journalism" @click="articleEve(val,key)">
-            <img :title="val.title" height="150px;" width="150px" :src="val.image" style="width: 150px;height: 150px;"/>
+            <img :title="val.title" height="150px;" width="150px" :src="val.image" style="min-width: 150px;height: 150px;"/>
             <div class="journalismPc">
-              <h3 :title="val.seo_title">{{val.seo_title}}<span>{{val.create_time}}</span></h3>
+              <h3 :title="val.title">{{val.title}}<span>{{val.create_time}}</span></h3>
               <p :title="val.seo_description">{{val.seo_description}}</p>
               <p class="overflowHidden">
                 <img class="floatRight" src="../assets/eye.jpg"/>
@@ -95,7 +95,7 @@
       </div>
 
       <!-- 文章结构呈现 -->
-      <div class="articleList" v-show="articleBoll">
+      <div class="articleList" v-if="articleBoll">
         <!-- <img :src="articleText.image"/> -->
         <h1>{{articleText.title}}</h1>
         <p class="title">
@@ -206,13 +206,13 @@ export default {
         .then(function(dataJson){
           if(dataJson.data.result){
             //console.log(JSON.stringify(dataJson.data.data.data))
-            _this.information =dataJson.data.data.data;
+            _this.information =dataJson.data.data.data.reverse();
           }
         })
         .catch(function(err){
           alert(err);
         });
-        
+        /*
         axios.post('http://backend.viphome.cn/api/artices',qs.stringify({class_id:_this.articeclassList[1].id}))
         .then(function(dataJson){
           if(dataJson.data.result){
@@ -235,7 +235,7 @@ export default {
         .catch(function(err){
           alert(err);
         });
-
+		*/
 
 
       }
@@ -251,9 +251,35 @@ export default {
   },
   methods: {
     classNavEve(val,key){
+	  let _this = this;
       for(let i in this.articeclassList){
         this.articeclassList[i].boll = false;
       }
+	  console.log(val.name);
+	  if(val.name=='行业资讯'){
+		axios.post('http://backend.viphome.cn/api/artices',qs.stringify({class_id:val.id}))
+        .then(function(dataJson){
+          if(dataJson.data.result){
+            console.log(JSON.stringify(dataJson.data.data.data))
+            _this.article =dataJson.data.data.data.reverse();
+          }
+        })
+        .catch(function(err){
+          alert(err);
+        });
+	  }
+	  if(val.name=='家居新知'){
+		axios.post('http://backend.viphome.cn/api/artices',qs.stringify({class_id:val.id}))
+        .then(function(dataJson){
+          if(dataJson.data.result){
+            console.log(JSON.stringify(dataJson.data.data.data))
+            _this.journalism =dataJson.data.data.data.reverse();
+          }
+        })
+        .catch(function(err){
+          alert(err);
+        });
+	  }
       val.boll = true;
       this.articleBoll = false;
     },

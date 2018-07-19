@@ -398,6 +398,10 @@ export default {
         for(let i in dataJson.data.brands){
           dataJson.data.brands[i]['boll'] = false;
         }
+		
+		for(let i in dataJson.data.styles){
+          dataJson.data.styles[i]['boll'] = false;
+        }
 
         _this.products = dataJson.data;
 
@@ -563,6 +567,7 @@ export default {
     },
     //滑近
     mouseoverEveBrands(val,key){
+		console.log(JSON.stringify(val))
       for(let i in this.products.categorys){
         for(let j in this.products.categorys[i].subs){
           this.products.categorys[i].subs[j].boll = false;
